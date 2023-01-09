@@ -40,8 +40,3 @@
 #
 #       - arguments.py  Se encuentran todas las funciones que se encargan de verificar
 #                       que todos los argumentos pasados por el jugador sean correctos.
-#
-#
-#
-#
-#

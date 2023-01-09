@@ -50,6 +50,8 @@ def verificarColorJugador(colorJugador):
     que sea un color correcto.
     """
     
+    colorJugador = colorJugador.upper()
+
     if colorJugador != 'B' and colorJugador != 'N':
         
         print("ERROR: El color pasado como argumento es incorrecto.")

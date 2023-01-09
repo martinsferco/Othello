@@ -85,7 +85,7 @@ def dobleSalto(listaJugadas):
     jugadas han sido salto de turno.
     """
 
-    return listaJugadas[-1] == listaJugadas[-2]
+    return listaJugadas[-1] == (-1,-1) and listaJugadas[-2] == (-1,-1)
 
 
 
@@ -169,15 +169,15 @@ def jugadaJugadorVerifica(jugadaJugador, fichasJugadas, colorJugador, tamTablero
 def realizarJugadaMaquina(colorMaquina, nivelDificultad, fichasJugadas, tamTablero):
 
     """
-    realizarJugadaMaquina :: str str dict(str:set((int,int))) int -> (int,int)
+    realizarJugadaMaquina :: str str dict(str:set((int,int))) int -> (int,int) set((int,int))
 
     Esta funcion toma el color de ficha de la maquina y el nivel
     de dificultad que se eligio, y se encarga de devolver la jugada
-    realizada por la maquina.
+    realizada por la maquina y las fichas que afecta.
     """
 
     print("TURNO DE LA MAQUINA...")
-    print("Eligiendo jugada maximizadora...")    
+
     # Vemos todas las jugadas posibles
     posicionesPosibles = posicionesPermitidas(colorMaquina, fichasJugadas, tamTablero)
 
@@ -185,18 +185,20 @@ def realizarJugadaMaquina(colorMaquina, nivelDificultad, fichasJugadas, tamTable
     if posicionesPosibles == {}:
         return (-1,-1), set()
 
+    # Ahora analizamos segun el nivel de dificultad
     if nivelDificultad == '0':
 
         coordenadas = list(posicionesPosibles.keys())
 
     else:
-        # Tomamos solo las posiciones que maximizan cantidad fichas
 
+        # Tomamos solo las posiciones que maximizan cantidad fichas
         coordenadas = jugadasMaximizadoras(posicionesPosibles)
         
     # Elegimos una al azar
     jugadaElegida = coordenadas[randrange(0,len(coordenadas))]
 
+    # Devuelvo la jugada y las fichas que modifica
     return jugadaElegida, posicionesPosibles[jugadaElegida]
 
 
