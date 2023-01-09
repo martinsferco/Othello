@@ -5,25 +5,8 @@
 # Alumno: Sferco Martin
 # ________________________________________________________________________
 #
-# 
-# - EJECUCION DEL PROGRAMA:
-#   
-#       Para realizar la ejecucion del programa en python tenemos que tener
-#   las siguientes consideraciones:
-#        
-#       - Debemos colocar los archivo de juego en la carpeta
-#       - Para ejecutar el programa tenemos que ejecutar el siguiente programa
-#
-#           $ python3 main.py nombreArchivo turnoJugador nivelDificultad
-#
-#       Para ejecutar los test del programa, se tiene que ejecutar el siguiente
-#   comado:
-#
-#           $ python3 -m pytest test.py
-#
-#
 # - DIVISION DE ARCHIVOS:
-#                        Dividimos la totalidad del programa en varios archivo
+#                        Dividimos la totalidad del programa en varios archivos
 #   para facilitar el trabajo y la lectura del mismo en un futuro:
 #
 #       - main.py       Aqui agrupamos todas las funciones y es donde ejecutaremos
@@ -40,3 +23,29 @@
 #
 #       - arguments.py  Se encuentran todas las funciones que se encargan de verificar
 #                       que todos los argumentos pasados por el jugador sean correctos.
+# 
+#  
+# - EJECUCION DEL PROGRAMA:
+#                           Para ejecutar el programa, primero tenemos que colocar el 
+#   archivo que queremos abrir en la misma carpeta que main.py. Luego debemos abrir la
+#   terminal en la misma carpeta y ejecutar el siguiente comando:
+#   
+#           $ python3 main.py nombreArchivo colorJugador nivelDificultad
+#           
+#   en donde todos los argumentos deben estar separados por un espacio. Cada uno 
+#   de los argumentos nombreArchivo, turnoJugador y nivelDificultad los debera elegir el
+#   usuario y pueden tomar los siguientes valores:
+#
+#       - nombreArchivo       Es el nombre del archivo del cual vamos a empezar la partida.
+#                             Tiene que incluir la terminacion .txt
+#   
+#       - colorJugador        Es el color del jugador, y puede ser B o N. 
+#
+#       - nivelDificultad     Es el nivel de dificultad de la maquina y puede ser 0 o 1.
+#
+# - EJECUCION DE TESTS:
+#                       Para ejecutar los tests de las funciones del programa, debemos abrir
+#   una terminal en la misma carpeta donde se encuentra el archivo test.py y ejecutar el 
+#   siguiente comando:
+#
+#           $ python3 -m pytest test.py
