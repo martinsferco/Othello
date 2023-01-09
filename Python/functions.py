@@ -1,17 +1,62 @@
-from random import randrange# Randint nos devuelve un random en todo el rango
-from mensajes import errorJugada
-from varios import convertirCoordenadas
-from varios import normalizarLectura
-from varios import turnoOpuesto
+from show import errorJugada
+from random import randrange
+
+
+
+def lecturaArchivoJuego(nombreArchivoJuego):
+    
+    """
+    lecturaArchivoJuego :: str -> dict(str: set(int,int)) str
+
+    Dado el nombre de un archivo de juego, abre el archivo correspondiente
+    y nos devuelve una estructura de datos con la informacion de las fichas
+    jugadas de cada uno de los colores y el color de a quien le toca jugar
+    en la siguiente jugada.
+    """
+
+    print("Abriendo el archivo de juego...")
+    archivoJuego = open(nombreArchivoJuego, 'r')
+
+    # Inicializamos la estructura donde guardaremos las fichas jugadas
+    fichasJugadas = {'B': set(), 'N': set()}
+
+    coordenadaFila = 0 
+
+    while coordenadaFila < 8:
+
+        linea = archivoJuego.readline().upper()
+
+        coordenadaColumna = 0
+
+        while coordenadaColumna < 8:
+
+            if linea[coordenadaColumna] == 'B':
+                fichasJugadas['B'].update({(coordenadaColumna,coordenadaFila)})
+
+            if linea[coordenadaColumna] == 'N':
+                fichasJugadas['N'].update({(coordenadaColumna,coordenadaFila)})
+
+            coordenadaColumna += 1
+
+        coordenadaFila += 1
+
+    # Leemos la ultima linea del archivo
+    colorJugador = archivoJuego.read(1).upper()
+
+    archivoJuego.close() 
+
+    return fichasJugadas,colorJugador
+
 
 
 
 def partidaTerminada(cantidadFichasJugadas,fichasJugadas,listaJugadas):
+    
     """
     partidaTerminada :: int dict(str:set((int,int))) -> bool
 
-    Dada las fichas jugadas y la cantidad de las mismas, determina si
-    la partida ha terminado o si es posible continuar.
+    Dada las fichas jugadas, la cantidad de las mismas y la lista de jugadas,
+    determina si la partida ha terminado o si es posible continuar.
     """
 
     if cantidadFichasJugadas == 64:
@@ -30,7 +75,9 @@ def partidaTerminada(cantidadFichasJugadas,fichasJugadas,listaJugadas):
 
 
 
+
 def dobleSalto(listaJugadas):
+    
     """
     dobleSalto :: list((int,int)) -> bool
 
@@ -42,54 +89,50 @@ def dobleSalto(listaJugadas):
 
 
 
-def pedirJugadaJugador(colorJugador, fichasJugadas, tamTablero):
-    """
-    pedirJugadaJugador :: str -> (int,int)
 
-    Esta funcion toma el color de ficha del jugador y 
-    se encarga de obtener una jugada valida de parte del jugador.
+def pedirJugadaJugador(colorJugador, fichasJugadas, tamTablero):
+    
+    """
+    pedirJugadaJugador :: str dict(str:set((int,int))) int -> (int,int) set((int,int))
+
+    Esta funcion toma el color del jugador, las fichas jugadas y el tamanio
+    del tablero, y se encarga de devolvernos una jugada valida por parte del
+    jugador.
     """
     
     print("TURNO DEL JUGADOR...")
 
-    jugadaJugador = normalizarLectura(input("Ingrese la jugada que quiere realizar: "))
-
-    # Si ingresa una jugada, debemos verificar lo siguiente:
-        # Dentro de rango
-        # Formato
-        # Ocupada
-        # Si genera cambios
-
-    # Si saltea la jugada (toca enter directamente), debemos ver si existen no existen 
-    # jugadas posibles a realizar.
-
+    jugadaJugador = input("Ingrese la jugada que quiere realizar: ").upper()
     
     while not jugadaJugadorVerifica(jugadaJugador,fichasJugadas, colorJugador, tamTablero):
 
-        jugadaJugador = normalizarLectura(input("Ingrese nuevamente la jugada que quiere realizar: "))
+        jugadaJugador = input("Ingrese nuevamente la jugada que quiere realizar: ").upper()
         
         
     # Si la jugada verifica, la convertimos a la tupla de coordenadas y la retornamos
-    
     jugadaJugador = convertirCoordenadas(jugadaJugador)
     
-    # Devolvemos la fichas jugadas y las posiciones
+    # Devolvemos la fichas jugadas y las posiciones que modifica
     return jugadaJugador, fichasVolteadasJugada(fichasJugadas, jugadaJugador, colorJugador, tamTablero)
 
 
 
+
 def jugadaJugadorVerifica(jugadaJugador, fichasJugadas, colorJugador, tamTablero):
+
     """
-    jugadaJugadorVerifica :: str -> bool
+    jugadaJugadorVerifica :: str dict(str:set((int,int))) str int -> bool
 
     Esta funcion toma la jugada que nos proporciona el jugador, y nos devuelve un
     booleano de acuerdo si la jugada es o no valida.
     """
 
-    if jugadaJugador == '': # Cuando la jugada es un Salto de turno
+    # Cuando la jugada es un Salto de turno
+    if jugadaJugador == '': 
         
         # Verificamos que sea correcto saltar el turno
         if posicionesPermitidas(colorJugador, fichasJugadas, tamTablero) != {}:
+            
             errorJugada("salteo")
             return False
 
@@ -122,7 +165,9 @@ def jugadaJugadorVerifica(jugadaJugador, fichasJugadas, colorJugador, tamTablero
 
 
 
+
 def realizarJugadaMaquina(colorMaquina, nivelDificultad, fichasJugadas, tamTablero):
+
     """
     realizarJugadaMaquina :: str str dict(str:set((int,int))) int -> (int,int)
 
@@ -156,7 +201,9 @@ def realizarJugadaMaquina(colorMaquina, nivelDificultad, fichasJugadas, tamTable
 
 
 
+
 def jugadasMaximizadoras(posicionesPosibles):
+    
     """
     jugadasMaximizadoras :: dict((int,int):set((int,int))) -> list((int,int))
 
@@ -186,56 +233,14 @@ def jugadasMaximizadoras(posicionesPosibles):
 
             listaJugadasMaximizadoras = [coordenada]
             maximaCantidadFichasVolteadas = cantidadFichasVolteadas
-        
-    print(listaJugadasMaximizadoras)
-    input("Ingrese enter para continuar")            
+               
     return listaJugadasMaximizadoras
 
 
 
-def verificarFormato(jugada):
-    """
-    verificacionFormato :: str -> bool
-
-    La función toma una jugada realizada y 
-    nos determina si tiene como primer valor un string y un número
-    como segundo. También verifica que dicho jugda, tenga exactamente
-    una longitud de dos.
-    """
-
-    if len(jugada) != 2: # No verifica que tenga dos coordenadas 
-        return False
-    
-    columna, fila = jugada[0], jugada[1]
-        
-    if not columna.isalpha(): # No verifica que la columna sea una letra
-        return False
-
-    if not fila.isdigit(): # No verifica que la fila sea un número
-        return False
-
-    return True
-
-
-
-def verificarRango(jugada):
-    """
-    verificacionRango :: str -> bool
-
-    Dada una jugada que no sea un salto de turno,
-    nos determina si dicha jugdada se encuentra dentro de los límites del tablero.
-    """
-    
-    columnas = ['A','B','C','D','E','F','G','H']
-
-    columna = jugada[0].upper()
-    fila = int(jugada[1])
-
-    return (columna in columnas) and (1 <= fila <= 8)
-
-
 
 def posicionesPermitidas(turnoActual, fichasJugadas, tamTablero):
+
     """
     posicionesPermitidas :: str dict(str:set((int,int))) int -> dict((int,int):set((int,int)))
 
@@ -262,19 +267,9 @@ def posicionesPermitidas(turnoActual, fichasJugadas, tamTablero):
 
 
 
-def ocupada(fichasJugadas, jugada):
-    """
-    ocupada :: dict(str:set((int,int))) (int,int) -> bool
-    
-    Dada las fichas jugadas y una jugada que se quiere realizar, nos indica
-    si la casilla en donde se quiere colocar la ficha se encuentra ocupada o no.
-    """
-    
-    return (jugada in fichasJugadas['B']) or (jugada in fichasJugadas['N'])
-
-
 
 def vecinasLibresFichasOpuestas(turnoActual, fichasJugadas, tamTablero):
+
     """
     vecinasLibresFichaOpuesta :: str dict(str:set((int,int))) int -> set((int,int))
 
@@ -294,7 +289,9 @@ def vecinasLibresFichasOpuestas(turnoActual, fichasJugadas, tamTablero):
 
 
 
+
 def vecinasLibres(coordenada, fichasJugadas, tamTablero):
+
     """
     vecinasLibres :: (int,int) dict(str:set((int,int))) int-> set((int,int))
 
@@ -302,7 +299,7 @@ def vecinasLibres(coordenada, fichasJugadas, tamTablero):
     nos devuelve un conjunto con todas las casillas adyacantes libres a dicha ficha.
     """
 
-    vecinas = set()
+    vecinasDesocupadas = set()
 
     columna,fila = coordenada
 
@@ -312,40 +309,20 @@ def vecinasLibres(coordenada, fichasJugadas, tamTablero):
 
             if (0 <= x <= (tamTablero - 1)) and (0 <= y <= (tamTablero - 1)) and not ocupada(fichasJugadas,(x,y)):
 
-                vecinas.update([(x,y)])
+                vecinasDesocupadas.update([(x,y)])
  
     # Eliminamos la propia casilla
-    vecinas.discard(coordenada)
+    vecinasDesocupadas.discard(coordenada)
 
-    return vecinas
-
-
-    
-def actualizarFichasJugadas(fichasJugadas, jugadaActual, fichasModificadas, turnoActual):
-    """
-    actualizarFichasJugadas :: dict(str:set((int,int))) (int,int) set((int,int)) str -> dic(str:set((int,int)))
-
-    Dada las fichas jugadas, la jugada que se realizo, las fichas que se modificaron gracias a esa jugada
-    y el turnoa actual, nos devuelve las fichas jugadas luega de la modificacion. 
-    """
-
-    for ficha in fichasModificadas:
-
-        fichasJugadas[turnoActual].update([ficha])
-        fichasJugadas[turnoOpuesto(turnoActual)].discard(ficha)
+    return vecinasDesocupadas
 
 
-    # Agregamos la jugada que se realizo
-    fichasJugadas[turnoActual].update([jugadaActual])
-   
-    return fichasJugadas
 
 
-# INTENTAR MODULARIZAS ESTA PARTE
 def fichasVolteadasJugada(fichasJugadas, jugadaRealizada, turnoActual, tamTablero):
     
     """
-    fichasVolteadas :: dict(str:set((int,int))) (int,int) str -> set((int,int))
+    fichasVolteadasJugada :: dict(str:set((int,int))) (int,int) str int -> set((int,int))
     
     Dadas las fichas jugadas, la coordenada donde se coloca la ficha, el turno en el que estamos,
     y el tamano del tablero, nos devuelve un conjunto de tuplas que representan todas las fichas
@@ -354,53 +331,46 @@ def fichasVolteadasJugada(fichasJugadas, jugadaRealizada, turnoActual, tamTabler
     En caso de que no modifique ninguna fichas, nos devuelve un conjunto vacio.
     """
 
-    # Definimos una lista en donde colocaremos todos los vectores de cada una de la direcciones
-    # Para representar los dos sentidos, lo unico que tenemos que hacer es multiplicar por -1 a uno
-    # de los sentidos.
-    # Por lo que para representar los 8 sentidos, solo usaremos un sentido de cada una de las 
-    # direcciones.
-
-
-
     fichasVolteadas = set()
 
     # Vemos si se salteo el turno
     if jugadaRealizada == (-1,-1): return fichasVolteadas
 
+    # Definimos todas la direcciones en donde vamos a buscar fichas volteadas
     vectoresDireccion = [(1,0),(0,1),(1,-1),(1,1)]
-
-    columnaJugada, filaJugada = jugadaRealizada
-
-    # Maximo rango que llegamos a verificar
-    maximo = tamTablero - 2
-
-    colorOpuesto = turnoOpuesto(turnoActual)
 
     # Definimos los dos sentidos posibles para cada una de las direcciones
     sentidosDireccion = [1,-1]
 
+    columnaJugada, filaJugada = jugadaRealizada
+
+    colorOpuesto = turnoOpuesto(turnoActual)
+
     # Iteramos por cada una de las direcciones
     for direccion in vectoresDireccion:
-
 
         # Iteramos por cada uno de los sentidos
         for sentido in sentidosDireccion:
             
+            # Nos comenzamos a mover en dicha direccion y sentido
             indiceX = columnaJugada + sentido * direccion[0]
             indiceY = filaJugada + sentido * direccion[1]
 
             casilla = (indiceX, indiceY)
 
+            # Lista de fichas del otro color encontradas en esa direccion y sentido
             fichasColorOpuesto = []
         
             while enRango(casilla, sentido, direccion, tamTablero) and casilla in fichasJugadas[colorOpuesto]:
 
-                fichasColorOpuesto.append((indiceX,indiceY))
+                fichasColorOpuesto.append(casilla)
 
+                # Si encontramos una ficha del color actual que ecierre a todas las otras del color opuesto
                 if (indiceX + sentido * direccion[0], indiceY + sentido * direccion[1]) in fichasJugadas[turnoActual]:
                     
                     fichasVolteadas.update(fichasColorOpuesto)
 
+                # Nos seguimos moviendo en esa direccion y sentido
                 indiceX += sentido * direccion[0]
                 indiceY += sentido * direccion[1]
 
@@ -410,9 +380,11 @@ def fichasVolteadasJugada(fichasJugadas, jugadaRealizada, turnoActual, tamTabler
 
 
 
+
 def enRango(casilla, sentido, direccion, tamTablero):
+
     """
-    enRango :: int int int -> bool
+    enRango :: (int,int) int (int,int) int -> bool
 
     Dada la casilla donde nos encontramos, el sentido de movimiento, y 
     el tamanio del tablero, nos determina si nos encontramos dentro
@@ -424,21 +396,150 @@ def enRango(casilla, sentido, direccion, tamTablero):
     minimo = 1
     maximo = (tamTablero - 1 ) - minimo
 
-    movimientoX = sentido * direccion[0]
-    movimientoY = sentido * direccion[1]
+    # Definimos el desplazamiento en esa direccion y sentido en la que estamos
+    # verificando si volteamos alguna ficha 
+    desplazamientoX = sentido * direccion[0]
+    desplazamientoY = sentido * direccion[1]
 
-    if movimientoX != 0:
+
+    if desplazamientoX != 0:
         
-        enRangoX = indiceX <= maximo if movimientoX == 1 else indiceX >= minimo
+        enRangoX = indiceX <= maximo if desplazamientoX == 1 else indiceX >= minimo
     
     else: enRangoX = True
 
+    
+    if desplazamientoY != 0: 
 
-    if movimientoY != 0: 
-
-        enRangoY = indiceY <= maximo if movimientoY == 1 else indiceY >= minimo
+        enRangoY = indiceY <= maximo if desplazamientoY == 1 else indiceY >= minimo
     
     else: enRangoY = True
 
 
     return enRangoX and enRangoY
+
+
+
+
+def actualizarFichasJugadas(fichasJugadas, jugadaActual, fichasModificadas, turnoActual):
+
+    """
+    actualizarFichasJugadas :: dict(str:set((int,int))) (int,int) set((int,int)) str -> dic(str:set((int,int)))
+
+    Dada las fichas jugadas, la jugada que se realizo, las fichas que se modificaron gracias a esa jugada
+    y el turnoa actual, nos devuelve las fichas jugadas luega de la modificacion. 
+    """
+
+    colorTurnoOpuesto = turnoOpuesto(turnoActual)
+
+    for ficha in fichasModificadas:
+
+        fichasJugadas[turnoActual].update([ficha])
+        fichasJugadas[colorTurnoOpuesto].discard(ficha)
+
+    # Agregamos la jugada que se realizo
+    fichasJugadas[turnoActual].update([jugadaActual])
+   
+    return fichasJugadas
+
+
+
+
+def ocupada(fichasJugadas, jugada):
+
+    """
+    ocupada :: dict(str:set((int,int))) (int,int) -> bool
+    
+    Dada las fichas jugadas y una jugada que se quiere realizar, nos indica
+    si la casilla en donde se quiere colocar la ficha se encuentra ocupada o no.
+    """
+    
+    return (jugada in fichasJugadas['B']) or (jugada in fichasJugadas['N'])
+
+
+
+
+def verificarFormato(jugada):
+    
+    """
+    verificacionFormato :: str -> bool
+
+    La función toma una jugada realizada y 
+    nos determina si tiene como primer valor un string y un número
+    como segundo. También verifica que dicho jugda, tenga exactamente
+    una longitud de dos.
+    """
+
+    if len(jugada) != 2: # No verifica que tenga dos coordenadas 
+        return False
+    
+    columna, fila = jugada[0], jugada[1]
+        
+    if not columna.isalpha(): # No verifica que la columna sea una letra
+        return False
+
+    if not fila.isdigit(): # No verifica que la fila sea un número
+        return False
+
+    return True
+
+
+
+
+def verificarRango(jugada):
+
+    """
+    verificacionRango :: str -> bool
+
+    Dada una jugada que no sea un salto de turno,
+    nos determina si dicha jugdada se encuentra dentro de los límites del tablero.
+    """
+    
+    columnas = ['A','B','C','D','E','F','G','H']
+
+    columna = jugada[0].upper()
+    fila = int(jugada[1])
+
+    return (columna in columnas) and (1 <= fila <= 8)
+
+
+
+ 
+def convertirCoordenadas(jugada):
+    
+    """
+    convertirCoordenada :: str -> (int,int)
+
+    Dada una jugada, la convertimos en la coordenada equivalente con la que trabajaremos:
+    - A las letras de la A a la H, las relacionamos con los números
+      del 0 al 7. - A los números del 1 al 8, los relacionamos con los números del 0 al 7.
+    En el caso que nos encontremos con un salto de jugada, la asociaremos con la coordenada
+    (-1,-1).
+    """
+    
+    if jugada == '': return (-1,-1)
+
+    columnas = ['A','B','C','D','E','F','G','H']
+
+    columna = jugada[0].upper()
+    fila = int(jugada[1])
+
+    columnaEquivalente = columnas.index(columna)
+    filaEquivalente = fila - 1
+
+    return (columnaEquivalente,filaEquivalente)
+
+
+
+
+def turnoOpuesto(turno):
+
+    """
+    turnoOpuesto :: str -> str
+
+    Dado el turno actual del juego, nos devuelve el turno opuesto:
+    Si recibe 'B' devuelve 'N'
+    Si recibe 'N' devuelve 'B'
+    """
+
+    return 'N' if turno == 'B' else 'B'

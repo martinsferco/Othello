@@ -1,10 +1,7 @@
-import sys
+from arguments import verificarArgumentos
+from show import *
 from functions import *
-from chequeoInicio import *
-from mensajes import mensajeFinalJuego
-from mensajes import mensajeInicio
-from varios import *
-from tablero import *
+import sys
 from time import sleep
 
 
@@ -41,8 +38,8 @@ def main(nombreArchivoJuego, colorJugador, nivelDificultad):
         # Vemos de quien es el turno
         if turnoActual == colorJugador:
 
-            # jugadaActual, fichasModificadas  = pedirJugadaJugador(colorJugador, fichasJugadas, tamTablero)
-            jugadaActual, fichasModificadas = realizarJugadaMaquina(colorJugador, nivelDificultad, fichasJugadas, tamTablero)            
+            jugadaActual, fichasModificadas  = pedirJugadaJugador(colorJugador, fichasJugadas, tamTablero)
+            # jugadaActual, fichasModificadas = realizarJugadaMaquina(colorJugador, nivelDificultad, fichasJugadas, tamTablero)            
 
         else:
 
@@ -65,6 +62,7 @@ def main(nombreArchivoJuego, colorJugador, nivelDificultad):
         # Cambiamos el turno de juego
         turnoActual = turnoOpuesto(turnoActual)
 
+
     # Mostramos el mensaje que determina el ganador del juego
     mensajeFinalJuego(jugadaActual,fichasJugadas,turnoActual)
 
@@ -84,7 +82,7 @@ if __name__ == "__main__":
     
     else:
 
-        print("ERROR: Ha ingresado la cantidad incorrecta de argumentos")
+        print("ERROR: Ha ingresado la cantidad incorrecta de argumentos. Finalizando programa...")
 
 
 
