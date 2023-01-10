@@ -35,15 +35,23 @@
 
 
     /*
-    leer informacionPreliminar se encarga de tomar el archivo de juego
-    y almacenar en todas las variables a las cuales referencian los punteros
-    los valores que son tomados del archivo.
+    leerInformacionPreliminar se encarga de tomar la informacion del
+    archivo y verificarla. En caso de que la informacion sea correcta,
+    almacena dicha informacion en las variables que referencian los
+    punteros pasados.
+    Si consigue pasar la informacion a las variables, devuelve 1.
+    Si no consigue hacerlo, devuelve 0.
     */
-    void leerInformacionPreliminar(FILE* archivoJuego,char* nombre1, char* nombre2, char* color1, char* color2, char* colorInicio);
+    int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorInicio, FILE* archivoJuego);
 
-    int verificarInformacionPreliminar(char* nombre1);
 
+
+    /*
+    verificarInformacionPreliminard
+    */
     
+
+
 
 
     /*

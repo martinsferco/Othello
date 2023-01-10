@@ -29,16 +29,46 @@ int verificarCantidadArgumentos(int cantidadArgumentos){
 
 
 // FUNCIONES QUE VERIFICAN INFORMACION PRELIMINAR DEL JUEGO
-void leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorInicio, FILE* archivo){
+int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorInicio, FILE* archivoJuego){
+
+    char bufferLecturaArchivo[100];
+    char color[100];
+
+    // Leemos la primer linea
+    fgets(bufferLecturaArchivo,100,archivoJuego);
+
+    // Recuperamos nombre y color
+    char* nombre1 = strtok(bufferLecturaArchivo,",");
+    char* color1 = strtok(NULL,",");
+
+    printf("Nombre: %s\nColor: %s\n",nombre1,color1);
 
 
 
+
+    // Leemos la segunda linea
+    fgets(bufferLecturaArchivo,100,archivoJuego);
+
+    // Recuperamos nombre y color
+    char* nombre2 = strtok(bufferLecturaArchivo,",");
+    char* color2 = strtok(NULL,",");
+
+    printf("Nombre: %s\nColor: %s\n",nombre2,color2);
+
+
+    // Leemos la tercer linea
+    fgets(color,100,archivoJuego);
+
+    printf("Color inicio: %s",color);
+
+    // Verificamos que todo este bien
+
+    
+    // Guardamos la informacion en las variables    
+
+    return 1;
 }
 
-
-int verificarInformacionPreliminar(Jugador *jugador1, Jugador *jugador2, char color){
-    return 0;
-}
 
 
 void inicializarTablero(char tableroJuego[][8], int tamTablero){
