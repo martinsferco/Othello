@@ -1,0 +1,8 @@
+Othello,B
+Emilia,N
+N
+C4
+C3
+A1
+
+

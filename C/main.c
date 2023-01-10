@@ -2,32 +2,41 @@
 
 int main(int argv, char* argc[]){
 
+    int tamTablero = 8;
+
     // Chequeamos la cantidad de argumentos
-    if (verificarCantidadArgumentos(argv)){
+    if (! verificarCantidadArgumentos(argv)){
         return 0;
     }
-
-
 
     // Abrimos el archivo con el nombre pasado como argumentos
     FILE *archivoJuego = fopen(argc[1],"r");
     
     // Verificamos que dicho nombre corresponda a un archivo valido
     if (archivoJuego == NULL){
-
-        printf("ERROR: El nombre pasado no corresponde a ningun archivo. Finalizando partida...\n");
+        printf("ERROR: El nombre pasado no corresponde a ningun archivo. Finalizando el programa...\n");
         return 0;
     }
 
-    // Chequeamos que la informacion preliminar al juego sea correcta:
-        // Colores Jugadores: Que sean validos y distintos entre si
-        // Color inicio: Que sea valido
+    Jugador jugador1;
+    Jugador jugador2;
+    char colorInicio;
+
+
+    leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego); 
+
+
 
 
     // Inicializamos el tablero: Utilizaremos un array bidimensional
+    char tableroJuego[tamTablero][tamTablero];
+    inicializarTablero(tableroJuego,tamTablero);
+    mostrarTablero(tableroJuego,tamTablero);
 
     // Recorremos por todas las jugadas mientras se cumplan
     // determinadas condiciones
+    
+
 
         // Vemos la fichas dadas vueltas
         
@@ -37,10 +46,12 @@ int main(int argv, char* argc[]){
 
     
 
+    // Cerramos el archivo
+    fclose(archivoJuego);
 
     // Mostramos el mensaje final
 
-
+    
 
 
     // Generamos el archivo para que lo tome el programa de Python
@@ -48,6 +59,9 @@ int main(int argv, char* argc[]){
     // En caso de que la partida haya terminado a medias, generamos un archivo
     // en donde se muestre el Tablero Final y el Turno Actual.
 
+    // No olvidar la memoria dinamica que utilizamos 
+    // DEBEMOS VERIFICAR QUE TODA LA MEMORIA HA SIDO LIBERADA
+    // UTILIZANDO VALGRIND.
 
     return 0;
 }
