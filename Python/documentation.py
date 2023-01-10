@@ -26,9 +26,9 @@
 # 
 #  
 # - EJECUCION DEL PROGRAMA:
-#                           Para ejecutar el programa, primero tenemos que colocar el 
-#   archivo que queremos abrir en la misma carpeta que main.py. Luego debemos abrir la
-#   terminal en la misma carpeta y ejecutar el siguiente comando:
+#                           Para ejecutar el programa en Linux, primero tenemos que 
+#   colocar el archivo que queremos abrir en la misma carpeta que main.py. Luego debemos 
+#   abrir la terminal en la misma carpeta y ejecutar el siguiente comando:
 #   
 #           $ python3 main.py nombreArchivo colorJugador nivelDificultad
 #           
@@ -42,6 +42,8 @@
 #       - colorJugador        Es el color del jugador, y puede ser B o N. 
 #
 #       - nivelDificultad     Es el nivel de dificultad de la maquina y puede ser 0 o 1.
+#
+#   En el caso de que estemos en Windows, debemos utilizar python en lugar de python3. 
 #
 # - EJECUCION DE TESTS:
 #                       Para ejecutar los tests de las funciones del programa, debemos abrir

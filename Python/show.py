@@ -7,11 +7,6 @@ def mostrarTablero(fichasJugadas,tamTablero):
     la función imprime en pantalla una representación del mismo.
     """
     
-    fichaBlanca = "⚪"
-    fichaNegra = "⚫"
-
-    #Imprimimos el tablero
-
     print("\n\n    A  B  C  D  E  F  G  H",end = "")
 
     for fila in range(tamTablero):
@@ -23,10 +18,10 @@ def mostrarTablero(fichasJugadas,tamTablero):
         for columna in range(tamTablero):
 
             if (columna,fila) in fichasJugadas["B"]:
-                print(f'|{fichaBlanca}',end = "")
+                print('| B',end = "")
 
             elif (columna,fila) in fichasJugadas["N"]:
-                print(f'|{fichaNegra}',end = "")
+                print('| N',end = "")
              
             else:
                 print('|  ',end = "")
