@@ -47,11 +47,29 @@
 
 
     /*
-    verificarInformacionPreliminard
+    verificarInformacionPreliminar toma el color de los jugadores y el 
+    color de inicio leido del archivo y nos determina si todos estos
+    valores se encuentren dentro de las opciones correctas.
     */
+   int verificarInformacionPreliminar(char* color1, char* color2, char* colorI);
+
+
+
+     /*
+    verificarColor toma un color y verifica que se encuentre dentro de
+    las opciones correctas. En caso de verificar devuelve 1, y en caso
+    contrario devuelve 0.
+    */
+    int verificarColor(char* colorJugador);
     
 
-
+     /*
+    coloresJugadoresDistintos toma los dos colores de los jugadores y 
+    determina si estos son distintos. En caso de serlo devuelve 1, si no
+    devuelve 0.
+    */
+    int coloresJugadoresDistintos(char* color1, char* color2);
+    
 
 
     /*

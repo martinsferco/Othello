@@ -32,7 +32,7 @@ int verificarCantidadArgumentos(int cantidadArgumentos){
 int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorInicio, FILE* archivoJuego){
 
     char bufferLecturaArchivo[100];
-    char color[100];
+    char colorI[100];
 
     // Leemos la primer linea
     fgets(bufferLecturaArchivo,100,archivoJuego);
@@ -41,9 +41,10 @@ int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorI
     char* nombre1 = strtok(bufferLecturaArchivo,",");
     char* color1 = strtok(NULL,",");
 
+    
     printf("Nombre: %s\nColor: %s\n",nombre1,color1);
-
-
+    
+    // printf("%d\n",strcmp(color1,"B\n"));
 
 
     // Leemos la segunda linea
@@ -57,16 +58,63 @@ int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorI
 
 
     // Leemos la tercer linea
-    fgets(color,100,archivoJuego);
+    fgets(colorI,100,archivoJuego);
 
-    printf("Color inicio: %s",color);
+    printf("Color inicio: %s",colorI);
 
-    // Verificamos que todo este bien
-
+    // Verificamos que todos los colores esten bien
+    if (! verificarInformacionPreliminar(color1, color2, colorI)){
+        return 0;
+    }
     
+    printf("Copiando informacion a las variables...\n");
     // Guardamos la informacion en las variables    
 
     return 1;
+}
+
+
+
+int verificarInformacionPreliminar(char* color1, char* color2, char* colorI){
+
+    if (! verificarColor(color1)){
+        printf("ERROR: El color del primer jugador no es valido. Finalizando programa...\n");
+        return 0;
+    }
+
+    if (! verificarColor(color1)){
+        printf("ERROR: El color del segundo jugador no es valido. Finalizando programa...\n");
+        return 0;
+    }
+
+    if (! coloresJugadoresDistintos(color1,color2)){
+        printf("ERROR: Los colores de los jugadores coinciden. Finalizando programa...\n");
+        return 0;
+    }
+
+    if (! verificarColor(colorI)){
+        printf("ERROR: El color de inicio no es correcto. Finalizando el programa...\n");
+        return 0;
+    }
+
+    // Si llegamos hasta aca, es que la informacion preliminar es correcta
+    return 1;
+}
+
+
+int coloresJugadoresDistintos(char* color1, char* color2){
+
+    if ((strcmp) && ())
+
+
+}
+
+
+
+int verificarColor(char* color){
+
+    return ! (strcmp(color,"B\n") && strcmp(color,"N\n") &&
+            strcmp(color,"b\n") && strcmp(color,"n\n"));
 }
 
 

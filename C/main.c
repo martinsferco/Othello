@@ -22,10 +22,8 @@ int main(int argv, char* argc[]){
     char colorInicio;
 
     // Leemos la informacion, verificamos que sea correcta, y la almacenamos
-    if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego)){
-        printf("ERROR: La informacion preliminar era incorrecta. Finalizando el programa...\n");
-        return 1;
-    } 
+    if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego))
+        return 1; 
 
 
     // Si llegamos hasta aqui, la informacion preliminar era correcta,
