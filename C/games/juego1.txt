@@ -1,5 +1,5 @@
-Desdémona,b
-Yago,n
+Desdémona,B
+Yago,b
 N
 F5
 F4
