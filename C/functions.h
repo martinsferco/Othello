@@ -6,6 +6,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <ctype.h>
 
     // ESTRUCTURAS UTILIZADAS
 
@@ -63,13 +64,8 @@
     int verificarColor(char* colorJugador);
     
 
-     /*
-    coloresJugadoresDistintos toma los dos colores de los jugadores y 
-    determina si estos son distintos. En caso de serlo devuelve 1, si no
-    devuelve 0.
-    */
-    int coloresJugadoresDistintos(char* color1, char* color2);
-    
+    char copiarColor(char* color);
+
 
 
     /*

@@ -22,8 +22,14 @@ int main(int argv, char* argc[]){
     char colorInicio;
 
     // Leemos la informacion, verificamos que sea correcta, y la almacenamos
-    if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego))
-        return 1; 
+    if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego)){
+        fclose(archivoJuego);
+        return 0; 
+    }
+
+    printf("Nombre: %s\nColor: %c\n",jugador1.nombreJugador,jugador1.colorJugador);
+    printf("Nombre: %s\nColor: %c\n",jugador2.nombreJugador,jugador2.colorJugador);
+    printf("Color inicio: %c\n",colorInicio);
 
 
     // Si llegamos hasta aqui, la informacion preliminar era correcta,
@@ -31,6 +37,7 @@ int main(int argv, char* argc[]){
 
 
     // Inicializamos el tablero: Utilizaremos un array bidimensional
+
     char tableroJuego[tamTablero][tamTablero];
     inicializarTablero(tableroJuego,tamTablero);
     
@@ -58,6 +65,13 @@ int main(int argv, char* argc[]){
 
     // Cerramos el archivo
     fclose(archivoJuego);
+    
+    // No olvidar la memoria dinamica que utilizamos 
+    // DEBEMOS VERIFICAR QUE TODA LA MEMORIA HA SIDO LIBERADA
+    // UTILIZANDO VALGRIND.
+    free(jugador1.nombreJugador);
+    free(jugador2.nombreJugador);
+
 
     // Mostramos el mensaje final
 
@@ -66,9 +80,9 @@ int main(int argv, char* argc[]){
     // En caso de que la partida haya terminado a medias, generamos un archivo
     // en donde se muestre el Tablero Final y el Turno Actual.
 
-    // No olvidar la memoria dinamica que utilizamos 
-    // DEBEMOS VERIFICAR QUE TODA LA MEMORIA HA SIDO LIBERADA
-    // UTILIZANDO VALGRIND.
+    
+
+
 
     return 0;
 }
