@@ -31,14 +31,15 @@ int verificarCantidadArgumentos(int cantidadArgumentos){
 // FUNCIONES QUE VERIFICAN INFORMACION PRELIMINAR DEL JUEGO
 int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorInicio, FILE* archivoJuego){
 
-    char bufferLecturaArchivo[100];
-    char colorI[100];
+    char bufferJugador1[100];
+    char bufferJugador2[100];
+    char bufferColor[100];
 
     // Leemos la primer linea
-    fgets(bufferLecturaArchivo,100,archivoJuego);
+    fgets(bufferJugador1,100,archivoJuego);
 
     // Recuperamos nombre y color
-    char* nombre1 = strtok(bufferLecturaArchivo,",");
+    char* nombre1 = strtok(bufferJugador1,",");
     char* color1 = strtok(NULL,",");
 
     
@@ -48,27 +49,45 @@ int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorI
 
 
     // Leemos la segunda linea
-    fgets(bufferLecturaArchivo,100,archivoJuego);
+    fgets(bufferJugador2,100,archivoJuego);
 
     // Recuperamos nombre y color
-    char* nombre2 = strtok(bufferLecturaArchivo,",");
+    char* nombre2 = strtok(bufferJugador2,",");
     char* color2 = strtok(NULL,",");
+
 
     printf("Nombre: %s\nColor: %s\n",nombre2,color2);
 
 
     // Leemos la tercer linea
-    fgets(colorI,100,archivoJuego);
+    fgets(bufferColor,100,archivoJuego);
 
-    printf("Color inicio: %s",colorI);
 
     // Verificamos que todos los colores esten bien
-    if (! verificarInformacionPreliminar(color1, color2, colorI)){
+    if (! verificarInformacionPreliminar(color1, color2, bufferColor)){
         return 0;
     }
     
-    printf("Copiando informacion a las variables...\n");
-    // Guardamos la informacion en las variables    
+
+    jugador1->nombreJugador = malloc(sizeof(char) * (strlen(nombre1) + 1));
+    strcpy(jugador1->nombreJugador,color1);
+
+    jugador1->colorJugador = toupper(color1[0]);
+
+
+
+
+    jugador2->nombreJugador = malloc(sizeof(char) * (strlen(nombre2) + 1));
+    strcpy(jugador2->nombreJugador,color2);
+
+    jugador2->colorJugador = toupper(color2[0]);
+
+
+    *colorInicio = toupper(bufferColor[0]);
+
+
+
+
 
     return 1;
 }
@@ -87,7 +106,8 @@ int verificarInformacionPreliminar(char* color1, char* color2, char* colorI){
         return 0;
     }
 
-    if (! coloresJugadoresDistintos(color1,color2)){
+
+    if (! coloresDistintos(color1,color2)){
         printf("ERROR: Los colores de los jugadores coinciden. Finalizando programa...\n");
         return 0;
     }
@@ -102,13 +122,11 @@ int verificarInformacionPreliminar(char* color1, char* color2, char* colorI){
 }
 
 
-int coloresJugadoresDistintos(char* color1, char* color2){
+int coloresDistintos(char* color1, char* color2){
 
-    if ((strcmp) && ())
-
+    return (toupper(color1[0]) != toupper(color2[0]));
 
 }
-
 
 
 int verificarColor(char* color){

@@ -6,6 +6,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
+    #include <ctype.h>
 
     // ESTRUCTURAS UTILIZADAS
 
@@ -68,7 +69,7 @@
     determina si estos son distintos. En caso de serlo devuelve 1, si no
     devuelve 0.
     */
-    int coloresJugadoresDistintos(char* color1, char* color2);
+    int coloresDistintos(char* color1, char* color2);
     
 
 
