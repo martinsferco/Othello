@@ -28,7 +28,7 @@ int main(int argv, char* argc[]){
 
     // Si llegamos hasta aqui, la informacion preliminar era correcta,
     // por lo que podemos empezar con la partida.
-
+    char turnoActual = colorInicio;
 
     // Inicializamos el tablero: Utilizaremos un array bidimensional
     char tableroJuego[tamTablero][tamTablero];
@@ -38,23 +38,31 @@ int main(int argv, char* argc[]){
     mostrarTablero(tableroJuego,tamTablero);
 
     // Tomamos la primer jugada
+    char jugadaLeida[100]; // Aqui almacenaremos las jugadas que iremos leyendo
+    fgets(jugadaLeida,100,archivoJuego);
+
+    
+    Casilla* jugadasRealizadas[64]; // Punteros a casillas
+    int cantidadJugadas = 4;
 
     // Posiciones posibles
     // Fichas afectadas
 
-    // WHILE PARTIDANOTERMINADA
+
+    while (! partidaTerminada(jugadaLeida,cantidadJugadas,jugadasRealizadas) &&
+             jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero)){
 
         // Ver las fichas que afecta
-
-        // Vemos la fichas dadas vueltas
         
         // Volteamos las fichas
 
         // Cambiamos el turno
+        turnoActual = cambiarTurno(turnoActual);
 
         // Leemos la nueva jugada
+        fgets(jugadaLeida,100,archivoJuego);
 
-    
+    }
 
     // Cerramos el archivo
     fclose(archivoJuego);
@@ -69,6 +77,10 @@ int main(int argv, char* argc[]){
     // No olvidar la memoria dinamica que utilizamos 
     // DEBEMOS VERIFICAR QUE TODA LA MEMORIA HA SIDO LIBERADA
     // UTILIZANDO VALGRIND.
+
+
+    // Liberar nombres de jugadores
+    // Liberar jugadas realizazadas, cada una array[i] es un puntero a un malloc
 
     return 0;
 }

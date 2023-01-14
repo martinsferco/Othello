@@ -70,8 +70,74 @@
     devuelve 0.
     */
     int coloresDistintos(char* color1, char* color2);
-    
 
+
+    /*
+    partidaTerminada se 
+    */
+    int partidaTerminada(char* jugada,int cantidadJugadas, Casilla* jugadasRealizadas[]);
+
+
+    /*
+    dobleSaltoTurno toma las jugadas realizadas y determina si las dos ultimas
+    jugadas fueron un salto de turno. En el caso de que eso ocurra devuelve 1,
+    en caso contrario devuelve 0.
+    */
+
+    int dobleSaltoTurno(Casilla* jugadasRealizadas[], int cantidadJugadas);
+
+
+    /*
+    jugadaVerifica toma la jugada que se leyo, el turno actual y el tablero y nos
+    determina si la jugada leida es una jugada correcta. En caso de serlo retorna 1
+    y en caso contrario devuelve 0.
+    */
+    int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero);
+
+
+    /*
+    existenJugadasPosibles
+    */
+    int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTablero);
+
+
+    /*
+    verificarFormato    
+    */
+    int verificarFormato(char* jugada);
+
+
+    /*
+    verificarRango
+    */
+    int verificarRango(char* jugada,int tamTablero);
+
+    /*
+    buscarArray
+    */
+    int buscarArray(char objetivo, char* arrayValores, int tamTablero);
+
+
+    Casilla convertirJugada(char* jugada,int tamTablero);
+
+    int ocupada(Casilla jugada, char tableroJuego[][8]);
+
+    int generaCambios(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero);
+
+    /*
+    existenJugadasPosibles toma el turno actual, el tablero de juego, y el tamanio del mismo
+    nos determina si existen alguna jugada posible para el turno actual.
+    */
+
+
+    /*
+    cambiarTurno toma el color del turno actual y se encarga de devolvernos
+    el color del turno opuesto. Es decir:
+    - Si recibe 'B' devuelve 'N'
+    - Si recibe 'N' devuelve 'B'
+    */
+
+    char cambiarTurno(char turnoActual);
 
     /*
     inicializarTablero toma un tablero de juego y su tamanio y se encarga
