@@ -17,12 +17,29 @@
 
     } Casilla;
 
+
+    typedef struct {
+
+        int x;
+        int y;
+
+    } VectorDireccion;
+
+
     typedef struct {
 
         char* nombreJugador;
         char colorJugador;
 
     } Jugador;
+
+    Casilla crearCasilla(int columna, int fila);
+
+
+
+    VectorDireccion crearVector(int x, int y);
+
+
 
 
 
@@ -92,7 +109,7 @@
     determina si la jugada leida es una jugada correcta. En caso de serlo retorna 1
     y en caso contrario devuelve 0.
     */
-    int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero);
+    int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla* registroVolteadas);
 
 
     /*
@@ -100,7 +117,7 @@
     */
     int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTablero);
 
-
+    
     /*
     verificarFormato    
     */
@@ -122,12 +139,14 @@
 
     int ocupada(Casilla jugada, char tableroJuego[][8]);
 
-    int generaCambios(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero);
+    int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla* registroVolteadas);
 
-    /*
-    existenJugadasPosibles toma el turno actual, el tablero de juego, y el tamanio del mismo
-    nos determina si existen alguna jugada posible para el turno actual.
-    */
+
+    int enRango(int x, int y, int sentido, VectorDireccion direccion, int tamTablero);
+
+
+    void copiarCasillas(Casilla* destino, int inicio, Casilla* origen, int cantidad);
+
 
 
     /*

@@ -2,9 +2,6 @@
 
 
 
-// FUNCIONES QUE VERIFICAN ARGUMENTOS DEL PROGRAMA
-
-
 int verificarCantidadArgumentos(int cantidadArgumentos){
 
     if (cantidadArgumentos == 1){
@@ -23,7 +20,8 @@ int verificarCantidadArgumentos(int cantidadArgumentos){
 }
 
 
-// FUNCIONES QUE VERIFICAN INFORMACION PRELIMINAR DEL JUEGO
+
+
 int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorInicio, FILE* archivoJuego){
 
     char bufferJugador1[100];
@@ -85,6 +83,7 @@ int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorI
 
 
 
+
 int verificarInformacionPreliminar(char* color1, char* color2, char* colorI){
 
     if (! verificarColor(color1)){
@@ -113,6 +112,8 @@ int verificarInformacionPreliminar(char* color1, char* color2, char* colorI){
 }
 
 
+
+
 int coloresDistintos(char* color1, char* color2){
 
     return (toupper(color1[0]) != toupper(color2[0]));
@@ -120,13 +121,11 @@ int coloresDistintos(char* color1, char* color2){
 }
 
 
-
-
 int partidaTerminada(char* jugada, int cantidadJugadas, Casilla* jugadasRealizadas[]){
 
 
     // Verificamos si se hicieron dos saltos de turno consecutivos
-    if (dobleSaltoTurno(jugadasRealizadas,cantidadJugadas)){
+    if (cantidadJugadas >= 6 && dobleSaltoTurno(jugadasRealizadas,cantidadJugadas)){
         printf("Se hicieron dos saltos de turno consecutivamente. Finalizando programa...");
         return 1;
     }
@@ -151,19 +150,18 @@ int partidaTerminada(char* jugada, int cantidadJugadas, Casilla* jugadasRealizad
 }
 
 
-int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int tamTablero){
 
+
+int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int tamTablero, Casilla* registroVolteadas){
 
     // Primero vemos si es salto de turno
     if (! strcmp(jugada,"\n")){
         
         if (! existenJugadasPosibles(turnoActual, tableroJuego, tamTablero))
 
-            // Fue correcto saltar el turno
             return 1;
 
         return 0;
-
     }
 
     // Verificamos el formato
@@ -179,6 +177,7 @@ int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int ta
     }
 
     Casilla jugadaConvertida = convertirJugada(jugada,tamTablero);
+    printf("(%d,%d)",jugadaConvertida.columna,jugadaConvertida.fila);
 
     if (ocupada(jugadaConvertida,tableroJuego)){
         printf("ERROR: La casilla se encuentra ocupada. Finalizando programa...");
@@ -186,33 +185,128 @@ int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int ta
     }
 
 
-    if (! generaCambios(jugadaConvertida, turnoActual, tableroJuego, tamTablero)){
+    if (! fichasVolteadasJugada(jugadaConvertida, turnoActual, tableroJuego, tamTablero, registroVolteadas)){
         printf("ERROR: La jugada no genera cambios en el tablero. Finalizando programa...");
         return 0;
     }
 
 }
 
-int generaCambios(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero){
 
-    int direccion = 0;
 
+
+int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero,Casilla* registroVolteadas){
+
+
+    VectorDireccion direccion[4] = {crearVector(1,0),crearVector(0,1),crearVector(1,-1),crearVector(1,1)};
+
+    int sentido[2] = {1,-1};
+
+    char colorOpuesto = cambiarTurno(turnoActual);
+
+    // Indices de movimiento
+    int iX;
+    int iY;
+
+    Casilla bufferVolteadas[64];
+    int cantidadVolteadas = 0;
+
+
+    Casilla fichasColorOpuesto[64];
+    int cantidadFichasColorOpuesto;
+
+    Casilla fichasVolteadas[64];
     int cantidadFichasVolteadas = 0;
 
-    // Verificamos hasta que encontremos algun cambio en alguna direccion
-    while (cantidadFichasVolteadas != 0 && direccion < 4){
 
-        
 
-        direccion++;
+
+
+    for (int d = 0 ; d < 4 ; d++){
+
+        for (int s = 0 ; s < 2 ; s++) {
+
+            iX = jugada.columna + sentido[s] * direccion[0].x;
+            iY = jugada.fila + sentido[s] * direccion[0].y;
+
+            cantidadFichasColorOpuesto = 0;
+
+            while (enRango(iX,iY,sentido[s],direccion[d],tamTablero) &&  tableroJuego[iX][iY] == colorOpuesto){
+
+                fichasColorOpuesto[cantidadFichasColorOpuesto] = crearCasilla(iX,iY); 
+                cantidadFichasColorOpuesto++;
+
+                if (tableroJuego[iX + sentido[s] * direccion[d].x][iY + sentido[s] * direccion[d].y] == turnoActual){
+
+                    copiarCasillas(fichasVolteadas,cantidadFichasVolteadas,fichasColorOpuesto,cantidadFichasColorOpuesto);
+                    cantidadVolteadas += cantidadFichasColorOpuesto;
+                }
+
+                iX += sentido[s] * direccion[d].x;
+                iY += sentido[s] * direccion[d].y;
+            }
+        }
     }
+
+    // Primero debemos liberar la memoria del anterior registro de volteadas
+    if (registroVolteadas != NULL)
+        free(registroVolteadas);
+
+    // Ahora debemos pedir espacio para almacenar las volteadas
+    registroVolteadas = malloc(sizeof(Casilla) * cantidadFichasVolteadas);
+
+    // Copiamos las fichas registradas
+    copiarCasillas(registroVolteadas,0,fichasVolteadas,cantidadFichasVolteadas);
+
+    return cantidadFichasVolteadas;
+
+
+
+
+}
+
+void copiarCasillas(Casilla* destino, int inicio, Casilla* origen, int cantidad){
+
+    for (int i = 0 ; i < cantidad ; i++)
+
+        destino[inicio + 1] = origen[i];
+}
+
+
+
+int enRango(int x, int y, int sentido, VectorDireccion direccion, int tamTablero){
+
+    return 1;
+
+}
+
+
+Casilla crearCasilla(int columna, int fila){
+
+    Casilla casilla;
+
+    casilla.columna = columna;
+    casilla.fila = fila;
+
+    return casilla;
+}
+
+
+VectorDireccion crearVector(int x, int y){
+
+    VectorDireccion vector;
+
+    vector.x = x;
+    vector.y = y;
+
+    return vector;
 
 }
 
 
 
-
 int fichasVolteadas
+
 
 
 int verificarFormato(char* jugada){
@@ -220,8 +314,8 @@ int verificarFormato(char* jugada){
     // Verificamos que tenga el largo adecuado (incluyendo el '\n')
     if (strlen(jugada) != 3){
         return 0;
-    }
-
+    }  
+    
 
     if (! isalpha(jugada[0])){
         printf("ERROR: La primer componente debe ser una letra. Finalizando programa...");
@@ -238,14 +332,21 @@ int verificarFormato(char* jugada){
 }
 
 
+
+
 Casilla convertirJugada(char* jugada, int tamTablero){
     
     Casilla jugadaConvertida;
     char rangoLetras[8] = {'A','B','C','D','E','F','G','H'};
     char rangoNumeros[8] = {'1','2','3','4','5','6','7','8'};
 
-    // Ver si es necesario implementar que si la jugada es un salto de turno
-    // nos debe devolver (-1,-1)
+
+
+    if (! strcmp(jugada,"\n")){
+        jugadaConvertida.columna = -1;
+        jugadaConvertida.fila = -1;
+        return jugadaConvertida;
+    }
 
    // Convertimos la letra
    for (int i = 0 ; i < tamTablero ; i++){
@@ -268,6 +369,8 @@ Casilla convertirJugada(char* jugada, int tamTablero){
 }
 
 
+
+
 int ocupada(Casilla jugada, char tableroJuego[][8]){
 
     return (! (tableroJuego[jugada.columna][jugada.fila] == 'X'));
@@ -288,6 +391,8 @@ int verificarRango(char* jugada, int tamTablero){
 
 int buscarArray(char objetivo, char* arrayValores,int tamTablero){
 
+
+
     int verificadorBusqueda = 0;
 
     for(int i = 0 ; i < tamTablero ; i++){
@@ -303,7 +408,6 @@ int buscarArray(char objetivo, char* arrayValores,int tamTablero){
 
 
 
-
 int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTablero){
 
     return 1;
@@ -311,11 +415,11 @@ int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTabl
 
 
 
+
 int dobleSaltoTurno(Casilla* jugadasRealizadas[], int cantidadJugadas){
 
     return (((jugadasRealizadas[cantidadJugadas - 1]->columna == -1) && (jugadasRealizadas[cantidadJugadas - 1]->fila == -1)) && 
             ((jugadasRealizadas[cantidadJugadas - 2]->columna == -1) && (jugadasRealizadas[cantidadJugadas - 2]->fila == -1)));
-
 }
 
 
@@ -328,6 +432,8 @@ int verificarColor(char* color){
 }
 
 
+
+
 char cambiarTurno(char turnoActual){
 
     if (turnoActual == 'B')
@@ -335,14 +441,16 @@ char cambiarTurno(char turnoActual){
         return 'N';
 
     return 'B';
-
 }
+
+
+
 
 void inicializarTablero(char tableroJuego[][8], int tamTablero){
 
-    for (int x = 0; x < tamTablero; x++){
+    for (int x = 0 ; x < tamTablero ; x++){
         
-        for (int y = 0; y < tamTablero; y++){
+        for (int y = 0 ; y < tamTablero ; y++){
 
             tableroJuego[x][y] = 'X';
 
@@ -352,11 +460,11 @@ void inicializarTablero(char tableroJuego[][8], int tamTablero){
             
             // Colocamos ficha negra
             if ((x == 4 && y == 3) || (x == 3 && y == 4))
-                tableroJuego[x][y] = 'N';
-        
+                tableroJuego[x][y] = 'N';        
         }
     }
 }
+
 
 
 
@@ -364,13 +472,13 @@ void mostrarTablero(char tableroJuego[][8], int tamTablero){
     
     printf("\n\n    A  B  C  D  E  F  G  H");
     
-    for (int y = 0; y < tamTablero; y++){
+    for (int y = 0 ; y < tamTablero ; y++){
 
         printf("\n   -------------------------\n");
 
         printf(" %d ",y + 1);
 
-        for (int x = 0; x < tamTablero; x++){
+        for (int x = 0 ; x < tamTablero ; x++){
 
             if (tableroJuego[x][y] == 'B')
                 printf("| B");
@@ -381,20 +489,7 @@ void mostrarTablero(char tableroJuego[][8], int tamTablero){
             if (tableroJuego[x][y] == 'X')
                 printf("|  ");
         }
-
         printf("|");
     }
-
     printf("\n   -------------------------\n\n");
 }
-
-
-
-// EMPEZAMOS CON LA RESOLUCION DEL PROBLEMA
-
-
-// Primero tenemos que hacer la funcion que dada una jugada, la cantidad de fichas jugadas, 
-// nos determine si la jugada leida es una jugada valida.
-// 
-// Luego debemos hacer todos los cambios de fichas, cambio de turno
-

@@ -33,54 +33,73 @@ int main(int argv, char* argc[]){
     // Inicializamos el tablero: Utilizaremos un array bidimensional
     char tableroJuego[tamTablero][tamTablero];
     inicializarTablero(tableroJuego,tamTablero);
-    
+
+
     // Mostramos el tablero por primera vez
     mostrarTablero(tableroJuego,tamTablero);
 
     // Tomamos la primer jugada
     char jugadaLeida[100]; // Aqui almacenaremos las jugadas que iremos leyendo
+
     fgets(jugadaLeida,100,archivoJuego);
+    
+
+    Casilla* jugadasRealizadas[60] = {NULL};
+    
+    int cantidadFichas = 4;     
+
+    Casilla* fichasVolteadas = NULL; // Lo iremos modificando 
 
     
-    Casilla* jugadasRealizadas[64]; // Punteros a casillas
-    int cantidadJugadas = 4;
+    while (! partidaTerminada(jugadaLeida,cantidadFichas,jugadasRealizadas) &&
+             jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,fichasVolteadas)){
 
-    // Posiciones posibles
-    // Fichas afectadas
-
-
-    while (! partidaTerminada(jugadaLeida,cantidadJugadas,jugadasRealizadas) &&
-             jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero)){
-
-        // Ver las fichas que afecta
+            
         
-        // Volteamos las fichas
+        
 
         // Cambiamos el turno
         turnoActual = cambiarTurno(turnoActual);
+
+        // Agregamos la jugada a la lista de Jugadas
+
 
         // Leemos la nueva jugada
         fgets(jugadaLeida,100,archivoJuego);
 
     }
-
+    
     // Cerramos el archivo
     fclose(archivoJuego);
 
+
     // Mostramos el mensaje final
+
 
     // Generamos el archivo para que lo tome el programa de Python
     // En caso de que la partida haya terminado totalmente, no generamos archivo.
     // En caso de que la partida haya terminado a medias, generamos un archivo
     // en donde se muestre el Tablero Final y el Turno Actual.
 
-    // No olvidar la memoria dinamica que utilizamos 
-    // DEBEMOS VERIFICAR QUE TODA LA MEMORIA HA SIDO LIBERADA
-    // UTILIZANDO VALGRIND.
+
+
+
 
 
     // Liberar nombres de jugadores
-    // Liberar jugadas realizazadas, cada una array[i] es un puntero a un malloc
+    free(jugador1.nombreJugador);
+    free(jugador2.nombreJugador);
+    
+    // Liberar jugadas realizadas, cada casilla del array es un puntero a un malloc(Casilla)
+    for (int i = 0 ; i < (cantidadFichas - 4) ; i++)
+        free(jugadasRealizadas[i]);
+
+    // Liberamos las fichas volteadas si no pudo ser liberado con anterioridad
+    if (fichasVolteadas != NULL)
+        free(fichasVolteadas);
+
+
+    // Verificar que todo funciona con Valgrind
 
     return 0;
 }
