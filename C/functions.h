@@ -92,7 +92,13 @@
     /*
     partidaTerminada se 
     */
-    int partidaTerminada(char* jugada,int cantidadJugadas, Casilla* jugadasRealizadas[]);
+    int partidaTerminada(char* jugada, int cantidadFichas, Casilla* jugadasRealizadas);
+
+
+    void agregarJugada(Casilla jugadaAgregada, Casilla* jugadasRealizadas);
+
+
+    void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVolteadas ,char turnoActual, char tableroJuego[][8], int tamTablero);
 
 
     /*
@@ -101,7 +107,7 @@
     en caso contrario devuelve 0.
     */
 
-    int dobleSaltoTurno(Casilla* jugadasRealizadas[], int cantidadJugadas);
+    int dobleSaltoTurno(Casilla* jugadasRealizadas, int cantidadJugadas);
 
 
     /*
@@ -109,7 +115,7 @@
     determina si la jugada leida es una jugada correcta. En caso de serlo retorna 1
     y en caso contrario devuelve 0.
     */
-    int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla* registroVolteadas);
+    int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla* registroVolteadas, int* cantidadVolteadas);
 
 
     /*
