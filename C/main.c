@@ -38,39 +38,44 @@ int main(int argv, char* argc[]){
     // Mostramos el tablero por primera vez
     mostrarTablero(tableroJuego,tamTablero);
 
-    // Tomamos la primer jugada
-    char jugadaLeida[100]; // Aqui almacenaremos las jugadas que iremos leyendo
+    // Aqui almacenaremos las jugadas que iremos leyendo
+    char jugadaLeida[100];
 
+    // Leemos la primer jugada
     fgets(jugadaLeida,100,archivoJuego);
     
 
     // Aca iremos almacenando las dos ultimas jugadas, para ver si se salteo el turno doble
-    // Las iniciamos con dos valores cualesquiera;
     Casilla jugadasRealizadas[2] = {crearCasilla(0,0),crearCasilla(0,0)};
     
     int cantidadFichasColocadas = 4;     
 
-    Casilla* fichasVolteadas = NULL; // Arreglo que ira guardando las fichas volteadas por las distintas jugadas 
+    // Iremos guardando las fichas que las jugadas correctas voltean
+    Casilla* fichasVolteadas = NULL;  
 
     int cantidadVolteadas;
 
-
+    
     while (! partidaTerminada(jugadaLeida,cantidadFichasColocadas,jugadasRealizadas) &&
-             jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,fichasVolteadas,&cantidadVolteadas)){
+             jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,&fichasVolteadas,&cantidadVolteadas)){
 
         // Convertimos la jugada
         Casilla jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
 
         // Agregamos la jugada a nuestro registro de jugadas
-        agregarJugada(jugadaConvertida,jugadasRealizadas);
+       agregarJugada(jugadaConvertida,jugadasRealizadas);
+        
 
         // Vemos si no se salteo el turno
         if (jugadaConvertida.columna != -1 && jugadaConvertida.fila != -1){
 
+            
             voltearFichas(jugadaConvertida,fichasVolteadas,cantidadVolteadas,turnoActual,tableroJuego,tamTablero);
             
             cantidadFichasColocadas++;
         }
+
+        mostrarTablero(tableroJuego,tamTablero);
 
         // Cambiamos el turno
         turnoActual = cambiarTurno(turnoActual);
@@ -78,6 +83,8 @@ int main(int argv, char* argc[]){
         // Leemos la nueva jugada
         fgets(jugadaLeida,100,archivoJuego);
     }
+
+    
     
     // Cerramos el archivo
     fclose(archivoJuego);

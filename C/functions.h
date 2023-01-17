@@ -95,6 +95,8 @@
     int partidaTerminada(char* jugada, int cantidadFichas, Casilla* jugadasRealizadas);
 
 
+
+
     void agregarJugada(Casilla jugadaAgregada, Casilla* jugadasRealizadas);
 
 
@@ -115,7 +117,7 @@
     determina si la jugada leida es una jugada correcta. En caso de serlo retorna 1
     y en caso contrario devuelve 0.
     */
-    int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla* registroVolteadas, int* cantidadVolteadas);
+    int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas, int* cantidadVolteadas);
 
 
     /*
@@ -145,7 +147,7 @@
 
     int ocupada(Casilla jugada, char tableroJuego[][8]);
 
-    int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla* registroVolteadas);
+    int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas);
 
 
     int enRango(int x, int y, int sentido, VectorDireccion direccion, int tamTablero);

@@ -35,7 +35,6 @@ int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorI
 
     printf("Nombre: %s\nColor: %s\n",nombre1,color1);
 
-
     fgets(bufferJugador2,100,archivoJuego);
 
     char* nombre2 = strtok(bufferJugador2,",");
@@ -149,7 +148,7 @@ void agregarJugada(Casilla jugadaAgregada, Casilla* jugadasRealizadas){
 
 
 
-int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int tamTablero, Casilla* registroVolteadas, int* cantidadVolteadas){
+int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int tamTablero, Casilla** registroVolteadas, int* cantidadVolteadas){
 
     // Primero vemos si es salto de turno
     if (! strcmp(jugada,"\n")){
@@ -161,20 +160,16 @@ int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int ta
         return 0;
     }
 
-    // Verificamos el formato
     if (! verificarFormato(jugada)){
-
         return 0;
     }
 
-    // Verificamos el rango 
     if (! verificarRango(jugada, tamTablero)){
         printf("ERROR: La jugada se sale de rango. Finalizando programa...");
         return 0;
     }
 
     Casilla jugadaConvertida = convertirJugada(jugada,tamTablero);
-    printf("(%d,%d)",jugadaConvertida.columna,jugadaConvertida.fila);
 
     if (ocupada(jugadaConvertida,tableroJuego)){
         printf("ERROR: La casilla se encuentra ocupada. Finalizando programa...");
@@ -197,15 +192,50 @@ int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int ta
 }
 
 
+int verificarRango(char* jugada, int tamTablero){
+
+    // Normalizamos el primer caracter
+    jugada[0] = toupper(jugada[0]);
+
+    char rangoLetras[8] = {'A','B','C','D','E','F','G','H'};
+    char rangoNumeros[8] = {'1','2','3','4','5','6','7','8'};
+
+    return (buscarArray(jugada[0],rangoLetras,tamTablero) &&
+            buscarArray(jugada[1],rangoNumeros,tamTablero));
+}
 
 
-int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero,Casilla* registroVolteadas){
+int buscarArray(char objetivo, char* arrayValores,int tamTablero){
+
+    int verificadorBusqueda = 0;
+
+    for(int i = 0 ; i < tamTablero ; i++){
+
+        if (arrayValores[i] == objetivo)
+            verificadorBusqueda = 1;
+    }
+
+    return verificadorBusqueda;
+}
+
+
+
+
+int existenJugadasPosibles(char turnoActual, char tableroJuego[][8],int tamTablero){
+
+    return 1;
+
+}
+
+
+
+int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero,Casilla** registroVolteadas){
 
     // Definimos las direcciones de busqueda
     VectorDireccion direccion[4] = {crearVector(1,0),crearVector(0,1),crearVector(1,-1),crearVector(1,1)};
 
     // Definimos los sentidos para cada una de las direcciones
-    int sentido[2] = {1,-1};
+    int sentido[] = {1,-1};
 
     char colorOpuesto = cambiarTurno(turnoActual);
 
@@ -215,11 +245,11 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][
 
     // Para llevar el registro de las fichas encontradas del otro color
     // en cada una de las direcciones
-    Casilla fichasColorOpuesto[64];
+    Casilla fichasColorOpuesto[8];
     int cantidadFichasColorOpuesto;
 
     // Para almacenar todas las fichas encontradas
-    Casilla fichasVolteadas[64];
+    Casilla fichasVolteadas[32];
     int cantidadVolteadas = 0;
 
 
@@ -228,8 +258,8 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][
 
         for (int s = 0 ; s < 2 ; s++) {
 
-            iX = jugada.columna + sentido[s] * direccion[0].x;
-            iY = jugada.fila + sentido[s] * direccion[0].y;
+            iX = jugada.columna + sentido[s] * direccion[d].x;
+            iY = jugada.fila + sentido[s] * direccion[d].y;
 
             cantidadFichasColorOpuesto = 0;
 
@@ -253,18 +283,20 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][
     }
 
 
+
+
     // Si la jugada genera cambios, guardamos la informacion
     if (cantidadVolteadas) {
             
         // Primero debemos liberar la memoria del anterior registro de volteadas
-        if (registroVolteadas != NULL)
-            free(registroVolteadas);
+        if (*registroVolteadas != NULL)
+            free(*registroVolteadas);
 
         // Ahora debemos pedir espacio para almacenar las volteadas
-        registroVolteadas = malloc(sizeof(Casilla) * cantidadVolteadas);
+        *registroVolteadas = malloc(sizeof(Casilla) * cantidadVolteadas);
 
         // Copiamos las fichas registradas
-        copiarCasillas(registroVolteadas,0,fichasVolteadas,cantidadVolteadas);
+        copiarCasillas(*registroVolteadas,0,fichasVolteadas,cantidadVolteadas);
     }
 
     return cantidadVolteadas;
@@ -322,7 +354,7 @@ void copiarCasillas(Casilla* destino, int inicio, Casilla* origen, int cantidad)
 
     for (int i = 0 ; i < cantidad ; i++)
 
-        destino[inicio + 1] = origen[i];
+        destino[inicio + i] = origen[i];
 }
 
 
@@ -332,7 +364,6 @@ void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVoltead
     for (int i = 0 ; i < cantidadVolteadas ; i++)
 
         tableroJuego[fichasVolteadas[i].columna][fichasVolteadas[i].fila] = turnoActual;
-
 
     tableroJuego[jugada.columna][jugada.fila] = turnoActual;
 }
@@ -433,40 +464,10 @@ int ocupada(Casilla jugada, char tableroJuego[][8]){
 }
 
 
-int verificarRango(char* jugada, int tamTablero){
-
-    char rangoLetras[8] = {'A','B','C','D','E','F','G','H'};
-    char rangoNumeros[8] = {'1','2','3','4','5','6','7','8'};
-
-
-    return (buscarArray(jugada[0],rangoLetras,tamTablero) &&
-            buscarArray(jugada[1],rangoNumeros,tamTablero));
-}
-
-
-int buscarArray(char objetivo, char* arrayValores,int tamTablero){
-
-
-
-    int verificadorBusqueda = 0;
-
-    for(int i = 0 ; i < tamTablero ; i++){
-
-            if (arrayValores[i] == objetivo)
-                verificadorBusqueda = 1;
-    }
-
-    return verificadorBusqueda;
-
-}
 
 
 
 
-int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTablero){
-
-    return 1;
-}
 
 
 
