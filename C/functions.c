@@ -108,7 +108,14 @@ int coloresDistintos(char* color1, char* color2){
 }
 
 
-int partidaTerminada(char* jugada, int cantidadFichas, Casilla* jugadasRealizadas){
+int partidaTerminada(char* verificadorLectura, int cantidadFichas, Casilla* jugadasRealizadas){
+
+
+    // Vemos si llegamos al final del archivo
+    if (verificadorLectura == NULL){
+        printf("Se llego al final del archivo de lectura. Finalizando programa...");
+        return 1;
+    }
 
 
     // Verificamos si se hicieron dos saltos de turno consecutivos
@@ -125,11 +132,6 @@ int partidaTerminada(char* jugada, int cantidadFichas, Casilla* jugadasRealizada
     }
 
 
-    // Verificamos si llegamos al final del archivo
-    if (jugada == NULL){
-        printf("Hemos llegado al final del archivo de juego. Finalizando programa...");
-        return 1;
-    }
 
     // Si llegamos hasta aca la partida no termino
     return 0;
@@ -223,8 +225,28 @@ int buscarArray(char objetivo, char* arrayValores,int tamTablero){
 
 int existenJugadasPosibles(char turnoActual, char tableroJuego[][8],int tamTablero){
 
-    return 1;
+    int cantidadJugasPosibles = 0;
 
+    Casilla* bufferRegistroVolteadas = NULL;
+
+    for (int i = 0 ; i < tamTablero && cantidadJugasPosibles != 0 ; i++){
+
+        for (int j = 0 ; j < tamTablero && cantidadJugasPosibles != 0 ; j++){
+
+            if (fichasVolteadasJugada(crearCasilla(i,j),turnoActual,tableroJuego,tamTablero,&bufferRegistroVolteadas))
+
+                cantidadJugasPosibles++; 
+        }
+    }
+
+    // Si encontramos una liberamos la memoria del buffer de jugadas
+    if (cantidadJugasPosibles){
+        free(bufferRegistroVolteadas);
+        return 1;
+    }
+
+    return 0;
+    
 }
 
 

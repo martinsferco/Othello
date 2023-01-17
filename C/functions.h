@@ -92,7 +92,7 @@
     /*
     partidaTerminada se 
     */
-    int partidaTerminada(char* jugada, int cantidadFichas, Casilla* jugadasRealizadas);
+    int partidaTerminada(char* verificadorLectura, int cantidadFichas, Casilla* jugadasRealizadas);
 
 
 

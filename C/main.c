@@ -42,7 +42,7 @@ int main(int argv, char* argc[]){
     char jugadaLeida[100];
 
     // Leemos la primer jugada
-    fgets(jugadaLeida,100,archivoJuego);
+    char* verificadorLectura = fgets(jugadaLeida,100,archivoJuego);
     
 
     // Aca iremos almacenando las dos ultimas jugadas, para ver si se salteo el turno doble
@@ -50,13 +50,14 @@ int main(int argv, char* argc[]){
     
     int cantidadFichasColocadas = 4;     
 
-    // Iremos guardando las fichas que las jugadas correctas voltean
+    // Iremos guardando las fichas que las jugadas correctas volteando
     Casilla* fichasVolteadas = NULL;  
 
     int cantidadVolteadas;
 
-    
-    while (! partidaTerminada(jugadaLeida,cantidadFichasColocadas,jugadasRealizadas) &&
+
+
+    while (! partidaTerminada(verificadorLectura,cantidadFichasColocadas,jugadasRealizadas) && 
              jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,&fichasVolteadas,&cantidadVolteadas)){
 
         // Convertimos la jugada
@@ -81,7 +82,7 @@ int main(int argv, char* argc[]){
         turnoActual = cambiarTurno(turnoActual);
 
         // Leemos la nueva jugada
-        fgets(jugadaLeida,100,archivoJuego);
+        verificadorLectura = fgets(jugadaLeida,100,archivoJuego);
     }
 
     
@@ -103,17 +104,13 @@ int main(int argv, char* argc[]){
 
 
 
-    // Liberar nombres de jugadores
+    // Liberamos la memoria pedida dinamicamente
     free(jugador1.nombreJugador);
     free(jugador2.nombreJugador);
     
-
-    // Liberamos las fichas volteadas si no pudo ser liberado con anterioridad
     if (fichasVolteadas != NULL)
         free(fichasVolteadas);
 
-
-    // Verificar que todo funciona con Valgrind
 
     return 0;
 }

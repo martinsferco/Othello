@@ -2,10 +2,19 @@
 
 
 
+int main(){
+
+    test_cambiarTurno();
+
+
+
+}
+
+
 
 void test_cambiarTurno(){
 
-    assert(cambiarTurno('H') == 'B');
-    assert(cambiarTurno('B') == 'H');
+    assert(cambiarTurno('N') == 'B');
+    assert(cambiarTurno('B') == 'N');
 
 }
