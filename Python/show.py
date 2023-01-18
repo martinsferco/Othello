@@ -33,7 +33,7 @@ def mostrarTablero(fichasJugadas,tamTablero):
 
 
 
-def mensajeFinalJuego(jugadaFinal,fichasJugadas,turnoActual):
+def mensajeFinalJuego(fichasJugadas):
     
     """
     mensajeFinalJuego :: str dict(str:set((int,int))) str -> None

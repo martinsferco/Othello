@@ -17,6 +17,10 @@ int main(int argv, char* argc[]){
         return 1;
     }
 
+
+
+
+
     Jugador jugador1;
     Jugador jugador2;
     char colorInicio;
@@ -26,17 +30,12 @@ int main(int argv, char* argc[]){
         return 1; 
 
 
-    // Si llegamos hasta aqui, la informacion preliminar era correcta,
-    // por lo que podemos empezar con la partida.
+    // Si llegamos hasta aqui, la informacion preliminar era correcta.
     char turnoActual = colorInicio;
 
-    // Inicializamos el tablero: Utilizaremos un array bidimensional
+    // Inicializamos el tablero
     char tableroJuego[tamTablero][tamTablero];
     inicializarTablero(tableroJuego,tamTablero);
-
-
-    // Mostramos el tablero por primera vez
-    mostrarTablero(tableroJuego,tamTablero);
 
     // Aqui almacenaremos las jugadas que iremos leyendo
     char jugadaLeida[100];
@@ -50,16 +49,16 @@ int main(int argv, char* argc[]){
     
     int cantidadFichasColocadas = 4;     
 
-    // Iremos guardando las fichas que las jugadas correctas volteando
+    // Iremos guardando las fichas que las jugadas correctas voltearon
     Casilla* fichasVolteadas = NULL;  
 
     int cantidadVolteadas;
 
 
-
     while (! partidaTerminada(verificadorLectura,cantidadFichasColocadas,jugadasRealizadas) && 
              jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,&fichasVolteadas,&cantidadVolteadas)){
 
+        
         // Convertimos la jugada
         Casilla jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
 
@@ -70,13 +69,10 @@ int main(int argv, char* argc[]){
         // Vemos si no se salteo el turno
         if (jugadaConvertida.columna != -1 && jugadaConvertida.fila != -1){
 
-            
             voltearFichas(jugadaConvertida,fichasVolteadas,cantidadVolteadas,turnoActual,tableroJuego,tamTablero);
             
             cantidadFichasColocadas++;
         }
-
-        mostrarTablero(tableroJuego,tamTablero);
 
         // Cambiamos el turno
         turnoActual = cambiarTurno(turnoActual);
@@ -86,18 +82,24 @@ int main(int argv, char* argc[]){
     }
 
     
-    
     // Cerramos el archivo
     fclose(archivoJuego);
 
-
     // Mostramos el mensaje final
+    mensajeFinalJuego(jugadaLeida,tableroJuego,tamTablero,verificadorLectura,jugadasRealizadas);
+
+    mostrarTablero(tableroJuego,tamTablero);
 
 
-    // Generamos el archivo para que lo tome el programa de Python
+
+    if (cantidadFichasColocadas != 64 && verificadorLectura == NULL) {
+        printf("Generando archivo de juego...\n");
+        // Generamos el archivo
+
+    }
     // En caso de que la partida haya terminado totalmente, no generamos archivo.
-    // En caso de que la partida haya terminado a medias, generamos un archivo
-    // en donde se muestre el Tablero Final y el Turno Actual.
+    // En caso de que haya error, no generamos archivo.
+    // En caso de que la partida haya terminado a medias, generamos un archivo.
 
 
 

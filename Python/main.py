@@ -64,7 +64,7 @@ def main(nombreArchivoJuego, colorJugador, nivelDificultad):
 
 
     # Mostramos el mensaje que determina el ganador del juego
-    mensajeFinalJuego(jugadaActual,fichasJugadas,turnoActual)
+    mensajeFinalJuego(fichasJugadas)
 
 
 

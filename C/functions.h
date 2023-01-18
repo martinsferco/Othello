@@ -109,7 +109,7 @@
     en caso contrario devuelve 0.
     */
 
-    int dobleSaltoTurno(Casilla* jugadasRealizadas, int cantidadJugadas);
+    int dobleSaltoTurno(Casilla* jugadasRealizadas);
 
 
     /*
@@ -120,16 +120,25 @@
     int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas, int* cantidadVolteadas);
 
 
+    void almacenarInformacionVolteadas(Casilla** registroVolteadas, int cantidadVolteadas, Casilla* fichasVolteadas);
+
+
+
     /*
     existenJugadasPosibles
     */
     int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTablero);
 
-    
+    void mensajeGanador(int cantidadBlancas, int cantidadNegras);
+
+
     /*
     verificarFormato    
     */
     int verificarFormato(char* jugada);
+
+
+    int verificarLargo(char* jugada);
 
 
     /*
@@ -178,5 +187,12 @@
     de mostrarlo por consola.
     */
    void mostrarTablero(char tableroJuego[][8], int tamTablero);
+
+
+   void mensajeFinalJuego(char* jugadaFinal,char tableroJuego[][8],int tamTablero,char* verificadorLectura, Casilla* jugadasRealizadas );
+
+   void contarFichas(int* cantidadFichasNegras, int* cantidadFichasBlancas, char tableroJuego[][8],int tamTablero);
+
+
 
 #endif
