@@ -5,18 +5,16 @@ from os import system
 
 
 
-def lecturaArchivoJuego(nombreArchivoJuego):
+def lecturaArchivoJuego(rutaArchivoJuego):
     
     """
     lecturaArchivoJuego :: str -> dict(str: set(int,int)) str
 
-    Dado el nombre de un archivo de juego, abre el archivo correspondiente
+    Dada la ruta donde se encuentra el archivo de juego, lo abre
     y nos devuelve una estructura de datos con la informacion de las fichas
     jugadas de cada uno de los colores y el color de a quien le toca jugar
     en la siguiente jugada.
     """
-
-    rutaArchivoJuego = "../juegosGenerados/" + nombreArchivoJuego
 
     system('clear')
     print("Abriendo el archivo de juego...\n__________________________________")

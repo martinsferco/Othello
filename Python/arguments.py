@@ -1,16 +1,14 @@
-def verificarExistenciaArchivo(nombre):
+def verificarExistenciaArchivo(ruta):
 
     """
     verificarExistenciaArchivo :: str -> bool
 
-    Toma un string, y verifica si es posible abrir un archivo cuyo nombre
-    sea el string dado como argumento.
+    Toma un string, y verifica si es posible abrir un archivo
+    en dicha ruta.
     """
 
-    rutaArchivo = "../juegosGenerados/" + nombre
-
     try:
-        open(rutaArchivo,'r')
+        open(ruta,'r')
 
     except:
 
