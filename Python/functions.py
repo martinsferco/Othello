@@ -1,5 +1,7 @@
 from show import errorJugada
 from random import randrange
+from os import system
+
 
 
 
@@ -14,8 +16,11 @@ def lecturaArchivoJuego(nombreArchivoJuego):
     en la siguiente jugada.
     """
 
-    print("Abriendo el archivo de juego...")
-    archivoJuego = open(nombreArchivoJuego, 'r')
+    rutaArchivoJuego = "../juegosGenerados/" + nombreArchivoJuego
+
+    system('clear')
+    print("Abriendo el archivo de juego...\n__________________________________")
+    archivoJuego = open(rutaArchivoJuego, 'r')
 
     # Inicializamos la estructura donde guardaremos las fichas jugadas
     fichasJugadas = {'B': set(), 'N': set()}
@@ -98,15 +103,16 @@ def pedirJugadaJugador(colorJugador, fichasJugadas, tamTablero):
     Esta funcion toma el color del jugador, las fichas jugadas y el tamanio
     del tablero, y se encarga de devolvernos una jugada valida por parte del
     jugador.
-    """
-    
-    print("TURNO DEL JUGADOR...")
 
-    jugadaJugador = input("Ingrese la jugada que quiere realizar: ").upper()
+    """
+    print("__________________________________")
+    print("TURNO DEL JUGADOR...\n")
+
+    jugadaJugador = input("Ingrese la jugada que quiere realizar (no ingrese nada si quiere saltar su turno): ").upper()
     
     while not jugadaJugadorVerifica(jugadaJugador,fichasJugadas, colorJugador, tamTablero):
 
-        jugadaJugador = input("Ingrese nuevamente la jugada que quiere realizar: ").upper()
+        jugadaJugador = input("Ingrese nuevamente la jugada que quiere realizar (no ingrese nada si quiere saltar el turno): ").upper()
         
         
     # Si la jugada verifica, la convertimos a la tupla de coordenadas y la retornamos
@@ -176,13 +182,17 @@ def realizarJugadaMaquina(colorMaquina, nivelDificultad, fichasJugadas, tamTable
     realizada por la maquina y las fichas que afecta.
     """
 
-    print("TURNO DE LA MAQUINA...")
+    print("__________________________________")
+    print("TURNO DE LA MAQUINA...\n")
 
     # Vemos todas las jugadas posibles
     posicionesPosibles = posicionesPermitidas(colorMaquina, fichasJugadas, tamTablero)
 
     # Si no hay jugadas posibles, saltea el turno
     if posicionesPosibles == {}:
+        
+        print("No existen jugadas posibles. La maquina saltea el turno.")
+
         return (-1,-1), set()
 
     # Ahora analizamos segun el nivel de dificultad
@@ -197,6 +207,8 @@ def realizarJugadaMaquina(colorMaquina, nivelDificultad, fichasJugadas, tamTable
         
     # Elegimos una al azar
     jugadaElegida = coordenadas[randrange(0,len(coordenadas))]
+
+    print("La maquina ha realizado la jugada: ",reconvertirCoordenada(jugadaElegida))
 
     # Devuelvo la jugada y las fichas que modifica
     return jugadaElegida, posicionesPosibles[jugadaElegida]
@@ -521,15 +533,37 @@ def convertirCoordenadas(jugada):
     
     if jugada == '': return (-1,-1)
 
-    columnas = ['A','B','C','D','E','F','G','H']
+    letrasColumna = ['A','B','C','D','E','F','G','H']
 
     columna = jugada[0].upper()
     fila = int(jugada[1])
 
-    columnaEquivalente = columnas.index(columna)
+    columnaEquivalente = letrasColumna.index(columna)
     filaEquivalente = fila - 1
 
     return (columnaEquivalente,filaEquivalente)
+
+
+
+
+
+def reconvertirCoordenada(jugada):
+
+    """
+    reconvertirCoordenada :: (int,int) -> str
+
+    Dada la jugada en forma de tupla, nos devuelve un string de las coordenadas
+    de la jugada pero con el formato que se usa en el tablero.
+    """
+
+    letrasColumna = ['A','B','C','D','E','F','G','H']
+
+    columna,fila = jugada
+
+    jugadaEquivalente = letrasColumna[columna] + str(fila + 1)
+
+    return jugadaEquivalente
+
 
 
 

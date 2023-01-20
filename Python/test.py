@@ -218,6 +218,13 @@ def test_convertirCoordenadas():
 
 
 
+def test_reconvertirCoordenadas():
+
+    assert reconvertirCoordenada((0,0)) == "A1"
+    assert reconvertirCoordenada((7,7)) == "H8"
+
+
+
 def test_turnoOpuesto():
 
     assert turnoOpuesto('B') == 'N'

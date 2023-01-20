@@ -112,16 +112,19 @@ int partidaTerminada(char* verificadorLectura, int cantidadFichas, Casilla* juga
 
     // Verificamos si se hicieron dos saltos de turno consecutivos
     if (dobleSaltoTurno(jugadasRealizadas)){
+        printf("DOBLE SALTO");
         return 1;
     }
 
      // Verificamos si colocamos todas las fichas
     if (cantidadFichas >= 64){
+        printf("FICHAS");
         return 1;
     }
 
     // Vemos si llegamos al final del archivo
     if (verificadorLectura == NULL){
+        printf("FINAL");
         return 1;
     }
 
@@ -145,12 +148,13 @@ void agregarJugada(Casilla jugadaAgregada, Casilla* jugadasRealizadas){
 int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int tamTablero, Casilla** registroVolteadas, int* cantidadVolteadas){
 
     // Primero vemos si es salto de turno
-    if (! strcmp(jugada,"\n")){
+    if (strcmp(jugada,"\n") == 0){
         
-        if (! existenJugadasPosibles(turnoActual, tableroJuego, tamTablero))
+        if (existenJugadasPosibles(turnoActual, tableroJuego, tamTablero))
             printf("ERROR: Se salto de turno cuando existen jugadas posibles.\n");
             return 0;
 
+        printf("aCA");
         return 1;
     }
 
@@ -597,7 +601,7 @@ void mensajeFinalJuego(char* jugadaFinal,char tableroJuego[][8],int tamTablero,c
             printf("El jugador negro se ha quedado sin fichas. Ha ganado el jugador blanco.\n");
             return;
         }
-
+        printf("JUGADAS REALIZADAS: (%d,%d) (%d,%d)\n",jugadasRealizadas[0].columna,jugadasRealizadas[0].fila,jugadasRealizadas[1].columna,jugadasRealizadas[1].fila);
         if (dobleSaltoTurno(jugadasRealizadas)){
 
             printf("La partida termino debido a que se realizaron dos saltos de turno consecutivos.\n");

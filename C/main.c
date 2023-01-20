@@ -62,6 +62,8 @@ int main(int argv, char* argc[]){
         // Convertimos la jugada
         Casilla jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
 
+        printf("JUGADA CONVERTIDA: (%d,%d)\n",jugadaConvertida.columna,jugadaConvertida.fila);
+
         // Agregamos la jugada a nuestro registro de jugadas
        agregarJugada(jugadaConvertida,jugadasRealizadas);
         
@@ -79,8 +81,11 @@ int main(int argv, char* argc[]){
 
         // Leemos la nueva jugada
         verificadorLectura = fgets(jugadaLeida,100,archivoJuego);
-    }
 
+        mostrarTablero(tableroJuego,tamTablero);
+
+    }
+    printf("fin ciclo\n");
     
     // Cerramos el archivo
     fclose(archivoJuego);

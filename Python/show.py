@@ -1,3 +1,6 @@
+from time import sleep
+
+
 def mostrarTablero(fichasJugadas,tamTablero):
     
     """
@@ -7,7 +10,7 @@ def mostrarTablero(fichasJugadas,tamTablero):
     la función imprime en pantalla una representación del mismo.
     """
     
-    print("\n\n    A  B  C  D  E  F  G  H",end = "")
+    print("\n    A  B  C  D  E  F  G  H",end = "")
 
     for fila in range(tamTablero):
         
@@ -28,7 +31,7 @@ def mostrarTablero(fichasJugadas,tamTablero):
 
         print('|',end = "")
 
-    print("\n   -------------------------")
+    print("\n   -------------------------\n")
 
 
 
@@ -104,19 +107,19 @@ def errorJugada(error):
     """
 
     if error == "salteo":
-        print("ERROR JUGADA: Se salteó el turno cuando había jugadas posibles.")
+        print("ERROR JUGADA: Se salteó el turno cuando había jugadas posibles.\n")
 
     if error == "formato":
-        print("ERROR JUGADA: La jugada no cumple con el formato estipulado.")
+        print("ERROR JUGADA: La jugada no cumple con el formato estipulado.\n")
 
     if error == "rango":
-        print("ERROR JUGADA: La jugada se sale fuera del rango del tablero.")
+        print("ERROR JUGADA: La jugada se sale fuera del rango del tablero.\n")
 
     if error == "ocupada":
-        print("ERROR JUGADA: La jugada cae sobre una casilla ya ocupada.")
+        print("ERROR JUGADA: La jugada cae sobre una casilla ya ocupada.\n")
 
     if error == "imposible":
-        print("ERROR JUGADA: La jugada no genera cambios en el tablero..")
+        print("ERROR JUGADA: La jugada no genera cambios en el tablero.\n")
 
 
 
@@ -130,9 +133,8 @@ def mensajeInicio(nivelDificultad, colorJugador, colorMaquina,turnoActual):
     """ 
 
     print("__________________________________")
-    print("# El jugador juega con el color: ",colorJugador)
-    print("# La maquina juega con el color: ",colorMaquina)
-    print(f"# El nivel de dificultad es: {nivelDificultad}")
-    print("# Inicia el color: ",turnoActual)
-    print("__________________________________")
-    print("\nMostrando tablero inciial...",end = '')
+    print("# El jugador juega con el color:",colorJugador)
+    print("# La maquina juega con el color:",colorMaquina)
+    print("# El nivel de dificultad es:",nivelDificultad)
+    print("# Inicia el color:",turnoActual)
+    sleep(0.5)

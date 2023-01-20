@@ -7,12 +7,14 @@ def verificarExistenciaArchivo(nombre):
     sea el string dado como argumento.
     """
 
+    rutaArchivo = "../juegosGenerados/" + nombre
+
     try:
-        open(nombre,'r')
+        open(rutaArchivo,'r')
 
     except:
 
-        print("ERROR: No existe ningun archivo con el nombre pasado.")
+        print("ERROR: No existe ningun archivo con el nombre pasado. Finalizando programa...")
         return False
 
     else:
@@ -33,7 +35,7 @@ def verificarNivelDificultad(nivelDificultad):
 
     if nivelDificultad != '0' and nivelDificultad != '1':
 
-        print("ERROR: El nivel de dificultad pasado como argumento es incorrecto.") 
+        print("ERROR: El nivel de dificultad pasado como argumento es incorrecto. Finalizando programa...") 
         return False
 
     return True
@@ -54,7 +56,7 @@ def verificarColorJugador(colorJugador):
 
     if colorJugador != 'B' and colorJugador != 'N':
         
-        print("ERROR: El color pasado como argumento es incorrecto.")
+        print("ERROR: El color pasado como argumento es incorrecto. Finalizando programa...")
         return False
 
     return True
