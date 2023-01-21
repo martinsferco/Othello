@@ -1,4 +1,4 @@
-# _______________________________________________________________________
+# ________________________________________________________________________
 # LICENCIATURA EN CIENCIAS DE LA COMPUTACION - R123 Programacion II - 2022
 # 
 # Documentacion Trabajo Practico Final - Parte Python
