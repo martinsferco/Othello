@@ -17,10 +17,6 @@ int main(int argv, char* argc[]){
         return 1;
     }
 
-
-
-
-
     Jugador jugador1;
     Jugador jugador2;
     char colorInicio;
@@ -28,16 +24,14 @@ int main(int argv, char* argc[]){
     // Leemos la informacion, verificamos que sea correcta, y la almacenamos
     if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego))
         return 1; 
-
-
-    // Si llegamos hasta aqui, la informacion preliminar era correcta.
+    
     char turnoActual = colorInicio;
 
-    // Inicializamos el tablero
+    // Creamos e inicializamos el tablero
     char tableroJuego[tamTablero][tamTablero];
     inicializarTablero(tableroJuego,tamTablero);
 
-    // Aqui almacenaremos las jugadas que iremos leyendo
+    // Aqui almacenamos las jugadas que vamos leyendo
     char jugadaLeida[100];
 
     // Leemos la primer jugada
@@ -51,13 +45,11 @@ int main(int argv, char* argc[]){
 
     // Iremos guardando las fichas que las jugadas correctas voltearon
     Casilla* fichasVolteadas = NULL;  
-
     int cantidadVolteadas;
 
 
     while (! partidaTerminada(verificadorLectura,cantidadFichasColocadas,jugadasRealizadas) && 
              jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,&fichasVolteadas,&cantidadVolteadas)){
-
         
         // Convertimos la jugada
         Casilla jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
@@ -82,33 +74,19 @@ int main(int argv, char* argc[]){
         // Leemos la nueva jugada
         verificadorLectura = fgets(jugadaLeida,100,archivoJuego);
 
-        mostrarTablero(tableroJuego,tamTablero);
-
     }
-    printf("fin ciclo\n");
     
-    // Cerramos el archivo
     fclose(archivoJuego);
 
-    // Mostramos el mensaje final
+    // Mostramos el mensaje final y el tablero
     mensajeFinalJuego(jugadaLeida,tableroJuego,tamTablero,verificadorLectura,jugadasRealizadas);
-
     mostrarTablero(tableroJuego,tamTablero);
 
-
-
-    if (cantidadFichasColocadas != 64 && verificadorLectura == NULL) {
+    // Generamos el archivo 
+    if (cantidadFichasColocadas != 64 && verificadorLectura == NULL && !dobleSaltoTurno(jugadasRealizadas)) {
         printf("Generando archivo de juego...\n");
-        // Generamos el archivo
-
+        // Generamos el archivo que guardaremos en la carpeta /partidasGeneradas
     }
-    // En caso de que la partida haya terminado totalmente, no generamos archivo.
-    // En caso de que haya error, no generamos archivo.
-    // En caso de que la partida haya terminado a medias, generamos un archivo.
-
-
-
-
 
 
     // Liberamos la memoria pedida dinamicamente
@@ -117,7 +95,6 @@ int main(int argv, char* argc[]){
     
     if (fichasVolteadas != NULL)
         free(fichasVolteadas);
-
 
     return 0;
 }

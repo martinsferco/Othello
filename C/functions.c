@@ -150,11 +150,11 @@ int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int ta
     // Primero vemos si es salto de turno
     if (strcmp(jugada,"\n") == 0){
         
-        if (existenJugadasPosibles(turnoActual, tableroJuego, tamTablero))
+        if (existenJugadasPosibles(turnoActual, tableroJuego, tamTablero)){
             printf("ERROR: Se salto de turno cuando existen jugadas posibles.\n");
             return 0;
+        }
 
-        printf("aCA");
         return 1;
     }
 
@@ -236,12 +236,13 @@ int existenJugadasPosibles(char turnoActual, char tableroJuego[][8],int tamTable
         }
     }
 
-    // Si encontramos una liberamos la memoria del buffer de jugadas
+    // Si encontramos una, liberamos la memoria del buffer de jugadas
     if (cantidadJugasPosibles){
         free(bufferRegistroVolteadas);
         return 1;
     }
 
+    // En caso contrario, no encontramos ninguna posible
     return 0;
     
 }
