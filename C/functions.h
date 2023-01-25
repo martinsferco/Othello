@@ -45,7 +45,13 @@
     crearVector toma dos enteros y nos devuelve una estructura
     de tipo VectorDireccion con sus dos campos inicializados con los valores
     pasados.
+    */
     VectorDireccion crearVector(int x, int y);
+
+
+
+
+
 
     /*
     vertificarCantidadArgumentos toma la cantidad de argumentos
@@ -87,35 +93,15 @@
 
     /*
     partidaTerminada toma el verificadorLectura del archivo, la cantidad
-    de fichas colocaas y las jugadas realizadas, y nos determina si la partida
-    ya termino, o si se puede seguir jugando. Va a verificar que:
+    de fichas colocadas por color y las jugadas realizadas, y nos determina
+    si la partida ya termino, o si se puede seguir jugando. Va a verificar que:
     - No hayamos llegado al final del archivo.
     - No hayamos colocado todas las fichas.
     - No se haya salteado dos veces el turno de manera consecutiva.
 
     Si la partida no termino devuelve 1, si no 0.
     */
-    int partidaTerminada(char* verificadorLectura, int cantidadFichas, Casilla* jugadasRealizadas);
-
-    /*
-    agregarJugada toma la jugada agregada y las jugadas realizadas, y 
-    la agrega como la ultima jugada hecha.
-    */
-    void agregarJugada(Casilla jugadaAgregada, Casilla* jugadasRealizadas);
-
-    /*
-    voltearFichas toma la jugada que se realizo, las fichas volteadas por dicha
-    jugada y cuantas son, el turno actual, el tablero y su tamanio, y se encarga
-    de modificar el tablero en base a la jugada y sus fichas volteadas para dicho
-    turno.
-    */
-    void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVolteadas ,char turnoActual, char tableroJuego[][8], int tamTablero);
-
-    /*
-    dobleSaltoTurno toma las jugadas y determina si se hizo un doble salto de turno.
-    En el caso de que eso ocurra devuelve 1, en caso contrario devuelve 0.
-    */
-    int dobleSaltoTurno(Casilla* jugadasRealizadas);
+    int partidaTerminada(char* verificadorLectura, int* cantidadFichas, Casilla* jugadasRealizadas);
 
     /*
     jugadaVerifica toma la jugada que se leyo, el turno actual y el tablero y nos
@@ -124,25 +110,27 @@
     */
     int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas, int* cantidadVolteadas);
 
-    /*
-    almacenarInformacionVolteadas toma el registroVolteadas, y tambien toma las fichas
-    que fueron volteadas por la jugada y su cantidad. Luego, dependiendo de si ya se
-    le habia asignado una direccion de memoria al registro o no, libera o no la memoria
-    y le asigna un nuevo espacio para guardad las nuevas fichasVolteadas.
-    */
-    void almacenarInformacionVolteadas(Casilla** registroVolteadas, int cantidadVolteadas, Casilla* fichasVolteadas);
 
+    
+ 
+    /*
+    dobleSaltoTurno toma las jugadas y determina si se hizo un doble salto de turno.
+    En el caso de que eso ocurra devuelve 1, en caso contrario devuelve 0.
+    */
+    int dobleSaltoTurno(Casilla* jugadasRealizadas);
+
+    
+    
     /*
     existenJugadasPosibles toma el turno actual, el tablero de juego y su tamanio, y 
     se encarga de recorrer dicho tablero para determinar si existen jugadas posibles.
     */
     int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTablero);
 
-    /*
-    mensajeGanador toma la cantidad de fichas de ambos colores, y muestra un mensaje
-    por consola en donde quien gano, o si hubo un empate.
-    */
-    void mensajeGanador(int cantidadBlancas, int cantidadNegras);
+
+
+
+
 
     /*
     verificarFormato toma la jugada realizada y nos determina si cumple con el formato
@@ -162,12 +150,16 @@
     */
     int verificarRango(char* jugada,int tamTablero);
 
+
     /*
-    buscarArray toma un objetivo a encontrar, un array y el tamanio de dicho array,
-    nos determina si dicho obetivo es un elemento del array. En caso de serlo devuelve 1,
-    si no 0.
+    ocupada toma la jugada realizada y el tablero de juego, y nos determina si dicha
+    casilla se encuentra ocupada. En caso de estarlo devuelve 1, si no 0. 
     */
-    int buscarArray(char objetivo, char* arrayValores, int tamTablero);
+    int ocupada(Casilla jugada, char tableroJuego[][8]);
+
+
+
+
 
     /*
     convertirJugada toma la jugada realizada y el tamanio del tablero, y nos devuelve
@@ -177,11 +169,33 @@
     Casilla convertirJugada(char* jugada,int tamTablero);
 
     /*
-    ocupada toma la jugada realizada y el tablero de juego, y nos determina si dicha
-    casilla se encuentra ocupada. En caso de estarlo devuelve 1, si no 0. 
+    cambiarTurno toma el color del turno actual y se encarga de devolvernos
+    el color del turno opuesto. Es decir:
+    - Si recibe 'B' devuelve 'N'
+    - Si recibe 'N' devuelve 'B'
     */
-    int ocupada(Casilla jugada, char tableroJuego[][8]);
+    char cambiarTurno(char turnoActual);
 
+
+    /*
+    agregarJugada toma la jugada agregada y las jugadas realizadas, y 
+    la agrega como la ultima jugada hecha.
+    */
+    void agregarJugada(Casilla jugadaAgregada, Casilla* jugadasRealizadas);
+
+
+
+
+
+    /*
+    buscarArray toma un objetivo a encontrar, un array y el tamanio de dicho array,
+    nos determina si dicho obetivo es un elemento del array. En caso de serlo devuelve 1,
+    si no 0.
+    */
+    int buscarArray(char objetivo, char* arrayValores, int tamTablero);
+
+    
+    
     /*
     fichasVolteadaJugada toma la jugada realizada, el turno actual, el tablero de
     juego y su tamanio. Si luego de analizar todas las direcciones y sentidos, 
@@ -208,12 +222,36 @@
     void copiarCasillas(Casilla* destino, int inicio, Casilla* origen, int cantidad);
 
     /*
-    cambiarTurno toma el color del turno actual y se encarga de devolvernos
-    el color del turno opuesto. Es decir:
-    - Si recibe 'B' devuelve 'N'
-    - Si recibe 'N' devuelve 'B'
+    almacenarInformacionVolteadas toma el registroVolteadas, y tambien toma las fichas
+    que fueron volteadas por la jugada y su cantidad. Luego, dependiendo de si ya se
+    le habia asignado una direccion de memoria al registro o no, libera o no la memoria
+    y le asigna un nuevo espacio para guardad las nuevas fichasVolteadas.
     */
-    char cambiarTurno(char turnoActual);
+    void almacenarInformacionVolteadas(Casilla** registroVolteadas, int cantidadVolteadas, Casilla* fichasVolteadas);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
 
     /*
     inicializarTablero toma un tablero de juego y su tamanio y se encarga
@@ -227,20 +265,52 @@
     */
     void mostrarTablero(char tableroJuego[][8], int tamTablero);
 
-    /*
-    mensajeFinalJuego toma la jugada final, el tablero de juego y su tamanio,
-    el verificador de lectura del archivo y las jugadas realizada. En base a eso,
-    nos muestra por consola un mensaje adecuado de como termino la partida y quien
-    es el ganador.
-    */
-    void mensajeFinalJuego(char* jugadaFinal,char tableroJuego[][8],int tamTablero,char* verificadorLectura, Casilla* jugadasRealizadas );  
+   
+
+
+
 
     /*
-    contarFichas toma el tablero de juego y su tamanio, y luego de contar la 
-    cantidad de fichas blancas y negras que hay en el tablero, guarda en las
-    variables referenciadas por los punteros pasados, dichos valores. 
+    actualizarCantidadFichasColor
     */
-    void contarFichas(int* cantidadFichasNegras, int* cantidadFichasBlancas, char tableroJuego[][8],int tamTablero);
+    void actualizarCantidadFichasColor(int* cantidadFichasColor, int cantidadFichasVolteadas, char turno);
+
+    /*
+    voltearFichas toma la jugada que se realizo, las fichas volteadas por dicha
+    jugada y cuantas son, el turno actual, el tablero y su tamanio, y se encarga
+    de modificar el tablero en base a la jugada y sus fichas volteadas para dicho
+    turno.
+    */
+    void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVolteadas ,char turnoActual, char tableroJuego[][8], int tamTablero);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    mensajeInicio toma la informacion de los jugadores y el color de inicio y 
+    se encarga de mostrarnos por consola la informacion antes de comenzar a jugar.
+    */
+    void mensajeInicio(Jugador jugador1, Jugador jugador2, char colorInicio);
+
+    /*
+    mensajeGanador toma la cantidad de fichas de ambos colores, y muestra un mensaje
+    por consola en donde quien gano, o si hubo un empate.
+    */
+    void mensajeGanador(int* cantidadFichasColor);
+
+
+
+
 
 
 #endif

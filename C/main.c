@@ -24,48 +24,49 @@ int main(int argv, char* argc[]){
     // Leemos la informacion, verificamos que sea correcta, y la almacenamos
     if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego))
         return 1; 
-    
+
+    mensajeInicio(jugador1,jugador2,colorInicio);
+
     char turnoActual = colorInicio;
 
     // Creamos e inicializamos el tablero
     char tableroJuego[tamTablero][tamTablero];
     inicializarTablero(tableroJuego,tamTablero);
 
-    // Aqui almacenamos las jugadas que vamos leyendo
+    // Aqui almacenamos las jugadas que vamos leyendo del archivo
     char jugadaLeida[100];
+    Casilla jugadaConvertida;
 
     // Leemos la primer jugada
     char* verificadorLectura = fgets(jugadaLeida,100,archivoJuego);
     
-
-    // Aca iremos almacenando las dos ultimas jugadas, para ver si se salteo el turno doble
+    // Iremos almacenando las dos ultimas jugadas
     Casilla jugadasRealizadas[2] = {crearCasilla(0,0),crearCasilla(0,0)};
     
-    int cantidadFichasColocadas = 4;     
+    int cantidadFichasColor[] = {2,2};
 
-    // Iremos guardando las fichas que las jugadas correctas voltearon
+    // Iremos guardando las fichas que fueron volteadas
     Casilla* fichasVolteadas = NULL;  
     int cantidadVolteadas;
 
 
-    while (! partidaTerminada(verificadorLectura,cantidadFichasColocadas,jugadasRealizadas) && 
+    while (! partidaTerminada(verificadorLectura,cantidadFichasColor,jugadasRealizadas) && 
              jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,&fichasVolteadas,&cantidadVolteadas)){
         
         // Convertimos la jugada
-        Casilla jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
+        jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
 
-        printf("JUGADA CONVERTIDA: (%d,%d)\n",jugadaConvertida.columna,jugadaConvertida.fila);
+        // printf("JUGADA CONVERTIDA: (%d,%d)\n",jugadaConvertida.columna,jugadaConvertida.fila);
 
         // Agregamos la jugada a nuestro registro de jugadas
        agregarJugada(jugadaConvertida,jugadasRealizadas);
         
-
         // Vemos si no se salteo el turno
         if (jugadaConvertida.columna != -1 && jugadaConvertida.fila != -1){
 
             voltearFichas(jugadaConvertida,fichasVolteadas,cantidadVolteadas,turnoActual,tableroJuego,tamTablero);
             
-            cantidadFichasColocadas++;
+            actualizarCantidadFichasColor(cantidadFichasColor,cantidadVolteadas,turnoActual);
         }
 
         // Cambiamos el turno
@@ -78,15 +79,10 @@ int main(int argv, char* argc[]){
     
     fclose(archivoJuego);
 
-    // Mostramos el mensaje final y el tablero
-    mensajeFinalJuego(jugadaLeida,tableroJuego,tamTablero,verificadorLectura,jugadasRealizadas);
+    // Mostramos el tablero final
     mostrarTablero(tableroJuego,tamTablero);
 
-    // Generamos el archivo 
-    if (cantidadFichasColocadas != 64 && verificadorLectura == NULL && !dobleSaltoTurno(jugadasRealizadas)) {
-        printf("Generando archivo de juego...\n");
-        // Generamos el archivo que guardaremos en la carpeta /partidasGeneradas
-    }
+    
 
 
     // Liberamos la memoria pedida dinamicamente
