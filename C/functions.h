@@ -48,11 +48,6 @@
     */
     VectorDireccion crearVector(int x, int y);
 
-
-
-
-
-
     /*
     vertificarCantidadArgumentos toma la cantidad de argumentos
     pasados al programa y verifica que sean la cantidad correcta.
@@ -90,7 +85,6 @@
     */
     int coloresDistintos(char* color1, char* color2);
 
-
     /*
     partidaTerminada toma el verificadorLectura del archivo, la cantidad
     de fichas colocadas por color y las jugadas realizadas, y nos determina
@@ -110,27 +104,17 @@
     */
     int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas, int* cantidadVolteadas);
 
-
-    
- 
     /*
     dobleSaltoTurno toma las jugadas y determina si se hizo un doble salto de turno.
     En el caso de que eso ocurra devuelve 1, en caso contrario devuelve 0.
     */
     int dobleSaltoTurno(Casilla* jugadasRealizadas);
 
-    
-    
     /*
     existenJugadasPosibles toma el turno actual, el tablero de juego y su tamanio, y 
     se encarga de recorrer dicho tablero para determinar si existen jugadas posibles.
     */
     int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTablero);
-
-
-
-
-
 
     /*
     verificarFormato toma la jugada realizada y nos determina si cumple con el formato
@@ -150,16 +134,11 @@
     */
     int verificarRango(char* jugada,int tamTablero);
 
-
     /*
     ocupada toma la jugada realizada y el tablero de juego, y nos determina si dicha
     casilla se encuentra ocupada. En caso de estarlo devuelve 1, si no 0. 
     */
     int ocupada(Casilla jugada, char tableroJuego[][8]);
-
-
-
-
 
     /*
     convertirJugada toma la jugada realizada y el tamanio del tablero, y nos devuelve
@@ -176,16 +155,11 @@
     */
     char cambiarTurno(char turnoActual);
 
-
     /*
     agregarJugada toma la jugada agregada y las jugadas realizadas, y 
     la agrega como la ultima jugada hecha.
     */
     void agregarJugada(Casilla jugadaAgregada, Casilla* jugadasRealizadas);
-
-
-
-
 
     /*
     buscarArray toma un objetivo a encontrar, un array y el tamanio de dicho array,
@@ -194,8 +168,6 @@
     */
     int buscarArray(char objetivo, char* arrayValores, int tamTablero);
 
-    
-    
     /*
     fichasVolteadaJugada toma la jugada realizada, el turno actual, el tablero de
     juego y su tamanio. Si luego de analizar todas las direcciones y sentidos, 
@@ -229,30 +201,6 @@
     */
     void almacenarInformacionVolteadas(Casilla** registroVolteadas, int cantidadVolteadas, Casilla* fichasVolteadas);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
     /*
     inicializarTablero toma un tablero de juego y su tamanio y se encarga
     de inicializarlo para poder comenzar a jugar.
@@ -265,13 +213,10 @@
     */
     void mostrarTablero(char tableroJuego[][8], int tamTablero);
 
-   
-
-
-
-
     /*
-    actualizarCantidadFichasColor
+    actualizarCantidadFichasColor toma el la cantidad de fichas de cada color, la 
+    cantidad de fichas volteadas y el turno actual, y se encarga de actualizar
+    la cantidad de fichas de cada uno de los colores.
     */
     void actualizarCantidadFichasColor(int* cantidadFichasColor, int cantidadFichasVolteadas, char turno);
 
@@ -282,19 +227,6 @@
     turno.
     */
     void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVolteadas ,char turnoActual, char tableroJuego[][8], int tamTablero);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /*
     mensajeInicio toma la informacion de los jugadores y el color de inicio y 
