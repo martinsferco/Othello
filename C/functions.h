@@ -258,11 +258,17 @@
     void mensajeGanador(int* cantidadFichasColor);
 
     /*
+    mensajeErrorJugador toma la jugada realizada y el turno del que jugo dicha jugada
+    y se encarga de mostrarnos un mensaje con la informacion del error.
+    */
+    void mensajeErrorJugador(char* jugada, char turno);
+
+    /*
     generarArchivo el tablero final del juego y el ultimo turno, y se encarga
     de generar un archivo con la informacion necesaria para continuar la partida
     desde la ultima jugada.
     */
-   void generarArchivo(char tableroFinal[][8], int tamTablero, char turnoFinal);
+    void generarArchivo(char tableroFinal[][8], int tamTablero, char turnoFinal);
 
     /*
     liberarMemoria se encarga de liberar la memoria pedida dinamicamente de las

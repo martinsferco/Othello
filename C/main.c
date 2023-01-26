@@ -58,8 +58,6 @@ int main(int argv, char* argc[]){
         // Convertimos la jugada
         jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
 
-        // printf("JUGADA CONVERTIDA: (%d,%d)\n",jugadaConvertida.columna,jugadaConvertida.fila);
-
         // Agregamos la jugada a nuestro registro de jugadas
        agregarJugada(jugadaConvertida,jugadasRealizadas);
         
