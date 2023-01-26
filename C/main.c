@@ -22,8 +22,10 @@ int main(int argv, char* argc[]){
     char colorInicio;
 
     // Leemos la informacion, verificamos que sea correcta, y la almacenamos
-    if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego))
+    if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego)){
+        fclose(archivoJuego);
         return 1; 
+    }
 
     mensajeInicio(jugador1,jugador2,colorInicio);
 
@@ -50,9 +52,9 @@ int main(int argv, char* argc[]){
     int cantidadVolteadas;
 
 
-    while (! partidaTerminada(verificadorLectura,cantidadFichasColor,jugadasRealizadas) && 
+    while (! partidaTerminada(cantidadFichasColor,jugadasRealizadas) && ! finLectura(verificadorLectura) && 
              jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,&fichasVolteadas,&cantidadVolteadas)){
-        
+
         // Convertimos la jugada
         jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
 
@@ -65,8 +67,9 @@ int main(int argv, char* argc[]){
         if (jugadaConvertida.columna != -1 && jugadaConvertida.fila != -1){
 
             voltearFichas(jugadaConvertida,fichasVolteadas,cantidadVolteadas,turnoActual,tableroJuego,tamTablero);
-            
+        
             actualizarCantidadFichasColor(cantidadFichasColor,cantidadVolteadas,turnoActual);
+
         }
 
         // Cambiamos el turno
@@ -82,15 +85,14 @@ int main(int argv, char* argc[]){
     // Mostramos el tablero final
     mostrarTablero(tableroJuego,tamTablero);
 
-    
-
+    // Generamos el archivo si la partida no termino y se leyo todo el archivo 
+    if (partidaIncompleta(verificadorLectura,cantidadFichasColor,jugadasRealizadas)){
+        printf("\nAVISO: Generando archivo para continuacion de partida...\n");
+        generarArchivo(tableroJuego,tamTablero,turnoActual);
+    }
 
     // Liberamos la memoria pedida dinamicamente
-    free(jugador1.nombreJugador);
-    free(jugador2.nombreJugador);
-    
-    if (fichasVolteadas != NULL)
-        free(fichasVolteadas);
+    liberarMemoria(&jugador1,&jugador2,fichasVolteadas);
 
     return 0;
 }

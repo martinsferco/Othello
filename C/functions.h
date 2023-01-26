@@ -7,6 +7,7 @@
     #include <string.h>
     #include <ctype.h>
 
+
     // Estructuras utilizadas
 
     typedef struct {
@@ -31,6 +32,7 @@
         char colorJugador;
 
     } Jugador;
+
 
     // Prototipos de funciones en functions.c
 
@@ -86,16 +88,23 @@
     int coloresDistintos(char* color1, char* color2);
 
     /*
-    partidaTerminada toma el verificadorLectura del archivo, la cantidad
-    de fichas colocadas por color y las jugadas realizadas, y nos determina
-    si la partida ya termino, o si se puede seguir jugando. Va a verificar que:
-    - No hayamos llegado al final del archivo.
+    partidaTerminada toma la cantidad de fichas colocadas por color y las
+    jugadas realizadas, y nos determina si la partida ya termino, o si se
+    puede seguir jugando. Va a verificar que:
     - No hayamos colocado todas las fichas.
+    - Ningun jugador se haya quedado sin fichas.
     - No se haya salteado dos veces el turno de manera consecutiva.
 
     Si la partida no termino devuelve 1, si no 0.
     */
-    int partidaTerminada(char* verificadorLectura, int* cantidadFichas, Casilla* jugadasRealizadas);
+    int partidaTerminada(int* cantidadFichasColor, Casilla* jugadasRealizadas);
+
+    /*
+    finLectura toma el puntero que devuelve la funcion fgets, y mientras dicho
+    puntero no sea null (es decir que no se termino de leer el achivo), devolvera
+    1, en caso contrario devuelve 0.
+    */
+    int finLectura(char* verificadorLectura);
 
     /*
     jugadaVerifica toma la jugada que se leyo, el turno actual y el tablero y nos
@@ -103,6 +112,14 @@
     y en caso contrario devuelve 0.
     */
     int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas, int* cantidadVolteadas);
+
+    /*
+    partidaIncompleta toma el verificador de lectura, la cantidad de fichas de cada
+    color y las jugadas realizadas, y se encarga de determinar si la partida quedo
+    a medio terminar, para asi poder determinar si se debe generar el archivo para 
+    continuar con la partida en el programa de Python.
+    */
+    int partidaIncompleta(char* verificadorLectura, int* cantidadFichasColor, Casilla* jugadasRealizadas);
 
     /*
     dobleSaltoTurno toma las jugadas y determina si se hizo un doble salto de turno.
@@ -166,7 +183,7 @@
     nos determina si dicho obetivo es un elemento del array. En caso de serlo devuelve 1,
     si no 0.
     */
-    int buscarArray(char objetivo, char* arrayValores, int tamTablero);
+    int buscarArray(char objetivo, char* arrayValores, int tamArray);
 
     /*
     fichasVolteadaJugada toma la jugada realizada, el turno actual, el tablero de
@@ -178,13 +195,13 @@
     int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas);
 
     /*
-    enRango toma las coordenadas de la casilla, el sentido y la direccion en donde
+    enRango toma las la casilla analizada, el sentido y la direccion en donde
     nos estamos moviendo, y el tamanio del tablero, y nos determina si la casilla
     que estamos analizando se encuentra dentro del rango para que podamos encontrar
     una ficha que encierre a todas las demas. En caso de que se encuentre en rango, 
     devuelve 1, si no 0.
     */
-    int enRango(int x, int y, int sentido, VectorDireccion direccion, int tamTablero);
+    int enRango(Casilla casilla, int sentido, VectorDireccion direccion, int tamTablero);
 
     /*
     copiarCasillas toma el destino de guardado, a partir de donde vamos a guardar,
@@ -240,9 +257,17 @@
     */
     void mensajeGanador(int* cantidadFichasColor);
 
+    /*
+    generarArchivo el tablero final del juego y el ultimo turno, y se encarga
+    de generar un archivo con la informacion necesaria para continuar la partida
+    desde la ultima jugada.
+    */
+   void generarArchivo(char tableroFinal[][8], int tamTablero, char turnoFinal);
 
-
-
-
+    /*
+    liberarMemoria se encarga de liberar la memoria pedida dinamicamente de las
+    distintas variables del programa.
+    */
+    void liberarMemoria(Jugador* jugador1, Jugador* jugador2, Casilla* fichasVolteadasJugada);
 
 #endif

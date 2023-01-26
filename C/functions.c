@@ -72,7 +72,7 @@ int verificarInformacionPreliminar(char* color1, char* color2, char* colorI){
         return 0;
     }
 
-    if (! verificarColor(color1)){
+    if (! verificarColor(color2)){
         printf("ERROR: El color del segundo jugador no es valido. Finalizando programa...\n");
         return 0;
     }
@@ -102,7 +102,7 @@ int coloresDistintos(char* color1, char* color2){
 }
 
 
-int partidaTerminada(char* verificadorLectura, int* cantidadFichasColor, Casilla* jugadasRealizadas){
+int partidaTerminada(int* cantidadFichasColor, Casilla* jugadasRealizadas){
 
     // Verificamos si se hicieron dos saltos de turno consecutivos
     if (dobleSaltoTurno(jugadasRealizadas)){
@@ -110,7 +110,7 @@ int partidaTerminada(char* verificadorLectura, int* cantidadFichasColor, Casilla
         return 1;
     }
 
-    // Vemos si alguno se quedo sin fichas
+    // Vemos si alguno de los jugadores se quedo sin fichas
     if (cantidadFichasColor[0] == 0){
         printf("El jugador de las fichas blancas se quedo sin fichas. Ha ganado el jugador de las fichas negras.\n");
         return 1;
@@ -118,6 +118,7 @@ int partidaTerminada(char* verificadorLectura, int* cantidadFichasColor, Casilla
 
     if (cantidadFichasColor[1] == 0){
         printf("El jugador de las fichas negras se ha quedado sin fichas. Ha ganado el jugador de las fichas blancas.\n");
+        return 1;
     }
 
      // Verificamos si colocamos todas las fichas
@@ -127,16 +128,46 @@ int partidaTerminada(char* verificadorLectura, int* cantidadFichasColor, Casilla
         return 1;
     }
 
-    // Vemos si llegamos al final del archivo
+    // Si llegamos hasta aca la partida no termino
+    return 0;
+
+}
+
+
+
+int finLectura(char* verificadorLectura){
+
+     // Vemos si llegamos al final del archivo
     if (verificadorLectura == NULL){
         printf("Se ha llegado al final del archivo de jugadas. No se puede determinar un ganador...\n");
         return 1;
     }
 
-    // Si llegamos hasta aca la partida no termino
     return 0;
-
 }
+
+
+int partidaIncompleta(char* verificadorLectura, int* cantidadFichasColor, Casilla* jugadasRealizadas){
+   
+    if (dobleSaltoTurno(jugadasRealizadas))
+        return 0;
+    
+    if (cantidadFichasColor[0] == 0)
+        return 0;
+
+    if (cantidadFichasColor[1] == 0)
+        return 0;
+
+    if (cantidadFichasColor[0] + cantidadFichasColor[1] >= 64)
+        return 0;
+
+    if (verificadorLectura != NULL)
+        return 0;
+
+    // La partida no termino, y llegamos al final del archivo
+    return 1;
+}
+
 
 
 
@@ -159,7 +190,11 @@ void mensajeErrorJugador(char* jugada, char turno){
     else    
         strcpy(color,"negras");
 
-    printf("El error fue cometido por el jugador de las ficha %s en la jugada %s\n",color,jugada);
+    if (strcmp(jugada,"\n") == 0)
+        printf("El error fue cometido por el jugador de las fichas %s\n",color);
+
+    else
+        printf("El error fue cometido por el jugador de las fichas %s en la jugada %s\n",color,jugada);
 }
 
 
@@ -168,7 +203,7 @@ int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8],int ta
 
     // Primero vemos si es salto de turno
     if (strcmp(jugada,"\n") == 0){
-        
+
         if (existenJugadasPosibles(turnoActual, tableroJuego, tamTablero)){
             printf("ERROR: Se salto de turno cuando existen jugadas posibles.\n");
             mensajeErrorJugador(jugada,turnoActual);
@@ -226,11 +261,11 @@ int verificarRango(char* jugada, int tamTablero){
 }
 
 
-int buscarArray(char objetivo, char* arrayValores,int tamTablero){
+int buscarArray(char objetivo, char* arrayValores,int tamArray){
 
     int verificadorBusqueda = 0;
 
-    for(int i = 0 ; i < tamTablero ; i++){
+    for(int i = 0 ; i < tamArray ; i++){
 
         if (arrayValores[i] == objetivo)
             verificadorBusqueda = 1;
@@ -248,13 +283,14 @@ int existenJugadasPosibles(char turnoActual, char tableroJuego[][8],int tamTable
 
     Casilla* bufferRegistroVolteadas = NULL;
 
-    for (int i = 0 ; i < tamTablero && cantidadJugasPosibles != 0 ; i++){
+    for (int i = 0 ; i < tamTablero && cantidadJugasPosibles == 0 ; i++){
 
-        for (int j = 0 ; j < tamTablero && cantidadJugasPosibles != 0 ; j++){
+        for (int j = 0 ; j < tamTablero && cantidadJugasPosibles == 0 ; j++){
 
-            if (fichasVolteadasJugada(crearCasilla(i,j),turnoActual,tableroJuego,tamTablero,&bufferRegistroVolteadas))
-
-                cantidadJugasPosibles++; 
+            if (! ocupada(crearCasilla(i,j),tableroJuego) &&
+                  fichasVolteadasJugada(crearCasilla(i,j),turnoActual,tableroJuego,tamTablero,&bufferRegistroVolteadas))
+            
+                cantidadJugasPosibles++;
         }
     }
 
@@ -334,7 +370,8 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][
 
             cantidadFichasColorOpuesto = 0;
 
-            while (enRango(iX,iY,sentido[s],direccion[d],tamTablero) &&  tableroJuego[iX][iY] == colorOpuesto){
+            while (enRango(crearCasilla(iX,iY),sentido[s],direccion[d],tamTablero) && 
+                   tableroJuego[iX][iY] == colorOpuesto){
 
                 fichasColorOpuesto[cantidadFichasColorOpuesto] = crearCasilla(iX,iY); 
                 cantidadFichasColorOpuesto++;
@@ -344,6 +381,7 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][
 
                     copiarCasillas(fichasVolteadas,cantidadVolteadas,fichasColorOpuesto,cantidadFichasColorOpuesto);
                     cantidadVolteadas += cantidadFichasColorOpuesto;
+                
                 }
 
                 // Nos seguimos moviendo en esa direccion
@@ -364,21 +402,24 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][
 void almacenarInformacionVolteadas(Casilla** registroVolteadas, int cantidadVolteadas, Casilla* fichasVolteadas){
 
     // Primero debemos liberar la memoria del anterior registro de volteadas
-        if (*registroVolteadas != NULL)
+    if (*registroVolteadas != NULL)
             free(*registroVolteadas);
 
-        // Ahora debemos pedir espacio para almacenar las volteadas
-        *registroVolteadas = malloc(sizeof(Casilla) * cantidadVolteadas);
+    // Ahora debemos pedir espacio para almacenar las volteadas
+    *registroVolteadas = malloc(sizeof(Casilla) * cantidadVolteadas);
 
-        // Copiamos las fichas registradas
-        copiarCasillas(*registroVolteadas,0,fichasVolteadas,cantidadVolteadas);
+    // Copiamos las fichas registradas
+    copiarCasillas(*registroVolteadas,0,fichasVolteadas,cantidadVolteadas);
 }
 
 
 
 
 
-int enRango(int x, int y, int sentido, VectorDireccion direccion, int tamTablero){
+int enRango(Casilla casilla, int sentido, VectorDireccion direccion, int tamTablero){
+
+    int x = casilla.columna;
+    int y = casilla.fila;
 
     int minimo = 1;
     int maximo = (tamTablero - 1) - minimo;
@@ -651,3 +692,41 @@ void mensajeInicio(Jugador jugador1, Jugador jugador2, char colorInicio){
     printf("____________________________\n");
 
 }
+
+
+
+void generarArchivo(char tableroFinal[][8], int tamTablero, char turnoFinal){
+
+    // Abrimos el archivo
+    FILE* archivoGenerado = fopen("../juegosGenerados/partidaGenerada.txt","w");
+
+    // Guardamos tablero
+    for (int y = 0 ; y < tamTablero ; y++){
+
+        if (y != 0)
+            fputc('\n',archivoGenerado);
+
+        for (int x = 0 ; x < tamTablero ; x++)
+            fputc(tableroFinal[x][y],archivoGenerado);
+    }
+
+    // Guardamos color siguiente
+    fputc('\n',archivoGenerado);
+    fputc(cambiarTurno(turnoFinal),archivoGenerado);
+
+    fclose(archivoGenerado);
+}
+
+
+
+
+void liberarMemoria(Jugador* jugador1, Jugador* jugador2, Casilla* fichasVolteadasJugada){
+
+    free(jugador1->nombreJugador);
+    free(jugador2->nombreJugador);
+        
+    if (fichasVolteadasJugada != NULL)
+        free(fichasVolteadasJugada);
+
+}
+
