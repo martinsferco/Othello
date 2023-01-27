@@ -7,8 +7,8 @@ from arguments import *
 def test_verificarExistenciaArchivo():
     pass
     # Ver como podemos testear esto en la carpeta de asserts
-    assert verificarExistenciaArchivo('initialGame.txt')
-    assert not verificarExistenciaArchivo('juego.txt')
+    assert verificarExistenciaArchivo('../generados/initialGame.txt')
+    assert not verificarExistenciaArchivo('../generados/juego.txt')
 
 
 
@@ -32,11 +32,11 @@ def test_verificarColorJugador():
 
 def test_verificarArgumentos():
 
-    assert not verificarArgumentos('initialGame.txt', 'B', '2')
-    assert not verificarArgumentos('initialGame.txt', 'R', '1')
-    assert not verificarArgumentos('juego.txt', 'B', '2')
-    assert verificarArgumentos('initialGame.txt', 'b', '1')
-    assert verificarArgumentos('initialGame.txt', 'N', '0')
+    assert not verificarArgumentos('../generados/initialGame.txt', 'B', '2')
+    assert not verificarArgumentos('../generados/initialGame.txt', 'R', '1')
+    assert not verificarArgumentos('../generados/juego.txt', 'B', '2')
+    assert verificarArgumentos('../generados/initialGame.txt', 'b', '1')
+    assert verificarArgumentos('../generados/initialGame.txt', 'N', '0')
 
 
     
@@ -44,7 +44,7 @@ def test_verificarArgumentos():
 
 def test_lecturaArchivoJuego():
     
-    assert lecturaArchivoJuego('initialGame.txt') == ({'B':{(4,4),(3,3)},'N':{(3,4),(4,3)}},'N')
+    assert lecturaArchivoJuego('../generados/initialGame.txt') == ({'B':{(4,4),(3,3)},'N':{(3,4),(4,3)}},'N')
 
 
 

@@ -3,8 +3,8 @@ def verificarExistenciaArchivo(ruta):
     """
     verificarExistenciaArchivo :: str -> bool
 
-    Toma un string, y verifica si es posible abrir un archivo
-    en dicha ruta.
+    Toma un string de una ruta, y verifica si es posible
+    abrir un archivo en dicha ruta.
     """
 
     try:

@@ -4,6 +4,4 @@
 
     #include "functions.h"
 
-    // Prototipos de funciones del MAIN
-
 #endif

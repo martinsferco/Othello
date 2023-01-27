@@ -662,7 +662,7 @@ void mensajeErrorJugador(char* jugada, char turno){
 void generarArchivo(char tableroFinal[][8], int tamTablero, char turnoFinal){
 
     // Abrimos el archivo
-    FILE* archivoGenerado = fopen("../juegosGenerados/partidaGenerada.txt","w");
+    FILE* archivoGenerado = fopen("../generados/partidaGenerada.txt","w");
 
     // Guardamos tablero
     for (int y = 0 ; y < tamTablero ; y++){
@@ -676,7 +676,7 @@ void generarArchivo(char tableroFinal[][8], int tamTablero, char turnoFinal){
 
     // Guardamos color siguiente
     fputc('\n',archivoGenerado);
-    fputc(cambiarTurno(turnoFinal),archivoGenerado);
+    fputc(turnoFinal,archivoGenerado);
 
     fclose(archivoGenerado);
 }

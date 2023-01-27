@@ -5,6 +5,18 @@
 // Alumno: Sferco Martin
 // ________________________________________________________________________
 //
+// - ARCHIVOS DE JUGADAS: 
+//                     En cuanto al formato de los archivos de jugadas, una
+//   vez que hayan escrito todas las jugadas que contendra el archivo NO
+//   toquen la tecla enter nuevamente. El programa detectara que se quizo
+//   saltar el turno y la partida terminara debido a un error de jugada. 
+//   Esto afecta a cuando se quiere dejar una partida a medias, ya que la
+//   partida se consideraria terminda por un error, y no se generaria el
+//   archivo para su posterior continuacion en el programa de Python.  
+//   
+//   En resumen, el cursor debe terminar en el mismo renglon en el cual
+//   se escribio la ultima jugada.
+//
 //
 // - EJECUCION DEL PROGRAMA:
 //                          Para compilar el programa debemos entrar a la 
@@ -15,11 +27,11 @@
 // 
 //  Una vez compilado, ejecutamos el programa con el siguiente comando:
 // 
-//          $ ./reversi ../juegosPrueba/nombreArchivo 
+//          $ ./reversi ../partidas/nombreArchivo 
 //  
 //  en donde nombreArchivo debe colocarse el nombre de archivo de juego que 
 //  quieras procesar (con la extension .txt), que se encuentra dentro de la
-//  carpeta /juegosPrueba. En el caso que se quiera utilizar otra carpeta con
+//  carpeta partidas/. En el caso que se quiera utilizar otra carpeta con
 //  archivos de prueba deberiamos utilizar el siguiente comando:
 //
 //          $ ./reversi ../tuCarpeta/nombreArchivo 
@@ -34,11 +46,15 @@
 //    proyecto. Luego abrimos una terminal dentro de dicha carpeta y 
 //    ejecutamos el siguiente comando:
 //
-//          $ gcc test.c functions.c -o test
+//          $ gcc test.c functions.c -o tests
 //
 //    Una vez compilado, ejecutamos los test con el siguiente comando:
 //
-//          $ ./test
+//          $ ./tests
+//
+//    Apareceran muchos mensajes por pantalla, pero se debe a que las 
+//    funciones que testeamos imprimen la informacion de las jugadas
+//    erroneas. Aclaro que no son errores en los tests.
 //
 //  
 //  - DISENIO DE DATOS Y RESOLUCION:
@@ -101,11 +117,17 @@
 //          - Generacion de archivo: 
 //                                  En el caso de que la partida haya
 //          quedado a medias y se pueda seguir jugando, el programa
-//          generara un archivo .txt en la carpeta juegosGenerados/, la
-//          cual se encuentra en la raiz del proyecto. Dicho archivo
-//          contendra informacion de la partida, la cual sera la posicion
-//          de todas las fichas y el turno del jugador que le toca en el
-//          siguiente turno.
+//          generara un archivo partidaGenerada.txt en la carpeta 
+//          generados/, la cual se encuentra en la raiz del proyecto.
+//          Dicho archivo contendra informacion de la partida, la cual
+//          sera la posicion de todas las fichas y el turno del jugador 
+//          que le toca en el siguiente turno. 
+//          
+//          Si existe ya una partidaGenerada.txt, se reescribira todos
+//          los datos del archivo. Seria conveniente que si quiere
+//          conservar la informacion del archivo, le cambie el nombre
+//          asi puede generar un nuevo archivo sin perder los datos del
+//          anterior.
 //
 //
 //

@@ -4,7 +4,6 @@ from os import system
 
 
 
-
 def lecturaArchivoJuego(rutaArchivoJuego):
     
     """

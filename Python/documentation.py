@@ -11,14 +11,15 @@
 #   de la carpeta Python/, la cual se encuentra en la raiz del proyecto. Luego, ejecutamos
 #   el siguiente comando:
 #   
-#           $ python3 main.py ../juegosGenerados/nombreArchivo colorJugador nivelDificultad
+#           $ python3 main.py ../generados/nombreArchivo colorJugador nivelDificultad
 #           
 #   en donde todos los argumentos deben estar separados por un espacio. Cada uno 
 #   de los argumentos nombreArchivo, turnoJugador y nivelDificultad los debera elegir el
 #   usuario y pueden tomar los siguientes valores:
 #
 #       - nombreArchivo       Es el nombre del archivo del cual vamos a empezar la partida.
-#                             Tiene que incluir la terminacion .txt
+#                             Tiene que incluir la terminacion .txt y debe estar dentro de
+#                             la carpeta generados/.
 #   
 #       - colorJugador        Es el color del jugador, y puede ser B o N. 
 #
@@ -90,5 +91,3 @@
 #       comandos es un archivo correcto, no verificamos la informacion que posee dentro. Lo 
 #       consideramos correcto ya que fue generado por el programa en C y no fue realizado por
 #       una persona.
-
-
