@@ -5,9 +5,11 @@
 # Alumno: Sferco Martin
 # ________________________________________________________________________
 #
+#
 # - EJECUCION DEL PROGRAMA:
-#                           Para ejecutar el programa en Linux, debemos abrir una consola
-#   en la misma carpeta en donde se encuentre main.py y ejecutar el siguiente comando:
+#                           Para ejecutar el programa, debemos abrir una consola dentro
+#   de la carpeta Python/, la cual se encuentra en la raiz del proyecto. Luego, ejecutamos
+#   el siguiente comando:
 #   
 #           $ python3 main.py ../juegosGenerados/nombreArchivo colorJugador nivelDificultad
 #           
@@ -24,8 +26,8 @@
 #
 #   En el caso de que estemos en Windows, debemos utilizar python en lugar de python3.
 #   En el caso de que se quiera utilizar otra carpeta con archivos generados, se tiene 
-#   que incluir dicha carpeta en la carpeta principal del proyecto y se debe ejecutar el
-#   comando de la siguiente manera:
+#   que incluir dicha carpeta en la raiz del proyecto y se debe ejecutar el comando de 
+#   la siguiente manera:
 #
 #           $ python3 main.py ../tuCarpeta/nombreArchivo colorJugador nivelDificultad
 #
@@ -34,8 +36,8 @@
 #
 # - EJECUCION DE LOS TESTS:
 #                       Para ejecutar los tests de las funciones del programa, debemos abrir
-#   una terminal en la misma carpeta donde se encuentra el archivo test.py y ejecutar el 
-#   siguiente comando:
+#   una terminal en la carpeta Python/, la cual se encuentra en la raiz del proyecto. A 
+#   continuacion, ejecutamos el siguiente comando.
 #
 #           $ python3 -m pytest test.py
 #
