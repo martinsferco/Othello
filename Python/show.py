@@ -137,4 +137,5 @@ def mensajeInicio(nivelDificultad, colorJugador, colorMaquina,turnoActual):
     print("# La maquina juega con el color:",colorMaquina)
     print("# El nivel de dificultad es:",nivelDificultad)
     print("# Inicia el color:",turnoActual)
+    print("__________________________________")
     sleep(0.5)

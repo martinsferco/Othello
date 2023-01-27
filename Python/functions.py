@@ -32,10 +32,10 @@ def lecturaArchivoJuego(rutaArchivoJuego):
 
         while coordenadaColumna < 8:
 
-            if linea[coordenadaColumna] == 'B':
+            if linea[coordenadaColumna].upper() == 'B':
                 fichasJugadas['B'].update({(coordenadaColumna,coordenadaFila)})
 
-            if linea[coordenadaColumna] == 'N':
+            if linea[coordenadaColumna].upper() == 'N':
                 fichasJugadas['N'].update({(coordenadaColumna,coordenadaFila)})
 
             coordenadaColumna += 1
