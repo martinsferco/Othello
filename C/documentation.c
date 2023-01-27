@@ -27,16 +27,16 @@
 // 
 //  Una vez compilado, ejecutamos el programa con el siguiente comando:
 // 
-//          $ ./reversi ../partidas/nombreArchivo 
+//          $ ./reversi ../partidas/<nombreArchivo> 
 //  
-//  en donde nombreArchivo debe colocarse el nombre de archivo de juego que 
+//  en donde <nombreArchivo> debe colocarse el nombre de archivo de juego que 
 //  quieras procesar (con la extension .txt), que se encuentra dentro de la
 //  carpeta partidas/. En el caso que se quiera utilizar otra carpeta con
 //  archivos de prueba deberiamos utilizar el siguiente comando:
 //
-//          $ ./reversi ../tuCarpeta/nombreArchivo 
+//          $ ./reversi ../<tuCarpeta>/<nombreArchivo> 
 //
-//  reeemplazando tuCarpeta por el nombre de la carpeta que hayas agregado
+//  reeemplazando <tuCarpeta> por el nombre de la carpeta que hayas agregado
 //  en la raiz del proyecto.
 //
 //

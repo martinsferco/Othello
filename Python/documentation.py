@@ -11,28 +11,28 @@
 #   de la carpeta Python/, la cual se encuentra en la raiz del proyecto. Luego, ejecutamos
 #   el siguiente comando:
 #   
-#           $ python3 main.py ../generados/nombreArchivo colorJugador nivelDificultad
+#           $ python3 main.py ../generados/<nombreArchivo> <colorJugador> <nivelDificultad>
 #           
 #   en donde todos los argumentos deben estar separados por un espacio. Cada uno 
 #   de los argumentos nombreArchivo, turnoJugador y nivelDificultad los debera elegir el
 #   usuario y pueden tomar los siguientes valores:
 #
-#       - nombreArchivo       Es el nombre del archivo del cual vamos a empezar la partida.
+#       - <nombreArchivo>       Es el nombre del archivo del cual vamos a empezar la partida.
 #                             Tiene que incluir la terminacion .txt y debe estar dentro de
 #                             la carpeta generados/.
 #   
-#       - colorJugador        Es el color del jugador, y puede ser B o N. 
+#       - <colorJugador>        Es el color del jugador, y puede ser B o N. 
 #
-#       - nivelDificultad     Es el nivel de dificultad de la maquina y puede ser 0 o 1.
+#       - <nivelDificultad>     Es el nivel de dificultad de la maquina y puede ser 0 o 1.
 #
 #   En el caso de que estemos en Windows, debemos utilizar python en lugar de python3.
 #   En el caso de que se quiera utilizar otra carpeta con archivos generados, se tiene 
 #   que incluir dicha carpeta en la raiz del proyecto y se debe ejecutar el comando de 
 #   la siguiente manera:
 #
-#           $ python3 main.py ../tuCarpeta/nombreArchivo colorJugador nivelDificultad
+#           $ python3 main.py ../<tuCarpeta>/<nombreArchivo> <colorJugador> <nivelDificultad>
 #
-#   reemplazando tuCarpeta por el nombre de la carpeta que hayas incluido.
+#   reemplazando <tuCarpeta> por el nombre de la carpeta que hayas incluido.
 #
 #
 # - EJECUCION DE LOS TESTS:
