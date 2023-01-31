@@ -3,7 +3,7 @@ Valentin Sosa,b
 n
 D3
 C3
-B3
+b3
 D6
 D7
 C5

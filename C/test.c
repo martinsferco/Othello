@@ -99,29 +99,29 @@ void test_jugadaVerifica(){
     tablero2.casillas = fichas;
     tablero2.dimension = 8;
 
-    Casilla* registroVolteadas = NULL;
-    int cantidadVolteadas;
+    Volteadas fichasVolteadas;
+    fichasVolteadas.coordenadas = NULL;
 
-    assert(! jugadaVerifica("\n",'N',&tablero1,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
-    assert(jugadaVerifica("\n",'N',&tablero2,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("\n",'N',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("\n",'B',&tablero1,&fichasVolteadas));
+    assert(jugadaVerifica("\n",'N',&tablero2,&fichasVolteadas));
 
-    assert(! jugadaVerifica("AA\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("AB2\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("AA\n",'B',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("AB2\n",'B',&tablero1,&fichasVolteadas));
 
-    assert(! jugadaVerifica("a9\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("Z1\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("a9\n",'B',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("Z1\n",'B',&tablero1,&fichasVolteadas));
 
-    assert(! jugadaVerifica("d3\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("E4\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("d3\n",'B',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("E4\n",'B',&tablero1,&fichasVolteadas));
 
-    assert(! jugadaVerifica("A1\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("G8\n",'N',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("A1\n",'B',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("G8\n",'N',&tablero1,&fichasVolteadas));
 
-    assert(jugadaVerifica("d6\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
-    assert(jugadaVerifica("C4\n",'N',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(jugadaVerifica("d6\n",'B',&tablero1,&fichasVolteadas));
+    assert(jugadaVerifica("C4\n",'N',&tablero1,&fichasVolteadas));
 
-    free(registroVolteadas);
+    free(fichasVolteadas.coordenadas);
     liberarMemoriaTablero(&tablero1);
 }
 

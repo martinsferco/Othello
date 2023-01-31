@@ -176,7 +176,7 @@ int finLectura(char* verificadorLectura){
 
 
 
-int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Casilla** registroVolteadas, int* cantidadVolteadas){
+int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Volteadas* fichasVolteadas){
 
     // Primero vemos si es salto de turno
     if (strcmp(jugada,"\n") == 0){
@@ -209,7 +209,7 @@ int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Casill
         return 0;
     }
     
-    int cantidadFichasVolteadas = fichasVolteadasJugada(jugadaConvertida, turnoActual, tableroJuego, registroVolteadas);
+    int cantidadFichasVolteadas = fichasVolteadasJugada(jugadaConvertida, turnoActual, tableroJuego, &(fichasVolteadas->coordenadas));
 
     if (! cantidadFichasVolteadas){
         printf("ERROR: La jugada no genera cambios en el tablero.\n");
@@ -218,7 +218,7 @@ int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Casill
     }
 
     // Si llegamos hasta aca, la jugada no era un salto de turno y genera cambios
-    *cantidadVolteadas = cantidadFichasVolteadas;
+    fichasVolteadas->cantidad = cantidadFichasVolteadas;
 
     return 1;
 }
@@ -606,11 +606,11 @@ void actualizarCantidadFichasColor(int* cantidadFichasColor, int cantidadFichasV
 
 
 
-void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVolteadas, char turnoActual, Tablero* tableroJuego){
+void voltearFichas(Casilla jugada, Volteadas* fichasVolteadas, char turnoActual, Tablero* tableroJuego){
 
-    for (int i = 0 ; i < cantidadVolteadas ; i++)
+    for (int i = 0 ; i < fichasVolteadas->cantidad ; i++)
 
-        tableroJuego->casillas[fichasVolteadas[i].columna][fichasVolteadas[i].fila] = turnoActual;
+        tableroJuego->casillas[fichasVolteadas->coordenadas[i].columna][fichasVolteadas->coordenadas[i].fila] = turnoActual;
 
     tableroJuego->casillas[jugada.columna][jugada.fila] = turnoActual;
 }
@@ -697,10 +697,10 @@ void liberarMemoriaJugadores(Jugador* jugador1, Jugador* jugador2){
 
 
 
-void liberarMemoriaVolteadas(Casilla* fichasVolteadas){
+void liberarMemoriaVolteadas(Volteadas* fichasVolteadas){
 
-    if (fichasVolteadas != NULL)
-        free(fichasVolteadas);
+    if (fichasVolteadas->coordenadas != NULL)
+        free(fichasVolteadas->coordenadas);
 }
 
 

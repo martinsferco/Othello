@@ -127,7 +127,7 @@
     determina si la jugada leida es una jugada correcta. En caso de serlo retorna 1
     y en caso contrario devuelve 0.
     */
-    int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Casilla** registroVolteadas, int* cantidadVolteadas);
+    int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Volteadas* fichasVolteadas);
 
     /*
     partidaIncompleta toma el verificador de lectura, la cantidad de fichas de cada
@@ -259,7 +259,7 @@
     de modificar el tablero en base a la jugada y sus fichas volteadas para dicho
     turno.
     */
-    void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVolteadas ,char turnoActual, Tablero* tableroJuego);
+    void voltearFichas(Casilla jugada, Volteadas* fichasVolteadas ,char turnoActual, Tablero* tableroJuego);
 
     /*
     mensajeInicio toma la informacion de los jugadores y el color de inicio y 
@@ -296,7 +296,7 @@
     liberarMemoriaVolteadas se encarga de liberar la memoria pedida dinamicamente
     siempre que se haya pedido.
     */
-    void liberarMemoriaVolteadas(Casilla* fichasVolteadas);
+    void liberarMemoriaVolteadas(Volteadas* fichasVolteadas);
 
     /*
     liberarMemoriaTablero se encarga de liberar la memoria pedida dinamicamente

@@ -48,12 +48,12 @@ int main(int argv, char* argc[]){
     int cantidadFichasColor[] = {2,2};
 
     // Iremos guardando las fichas que fueron volteadas
-    Casilla* fichasVolteadas = NULL;  
-    int cantidadVolteadas;
+    Volteadas fichasVolteadas;
+    fichasVolteadas.coordenadas = NULL;
 
 
     while (! partidaTerminada(cantidadFichasColor,jugadasRealizadas) && ! finLectura(verificadorLectura) && 
-             jugadaVerifica(jugadaLeida,turnoActual,&tableroJuego,&fichasVolteadas,&cantidadVolteadas)){
+             jugadaVerifica(jugadaLeida,turnoActual,&tableroJuego,&fichasVolteadas)){
 
         // Convertimos la jugada
         jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
@@ -64,9 +64,9 @@ int main(int argv, char* argc[]){
         // Vemos si no se salteo el turno
         if (jugadaConvertida.columna != -1 && jugadaConvertida.fila != -1){
 
-            voltearFichas(jugadaConvertida,fichasVolteadas,cantidadVolteadas,turnoActual,&tableroJuego);
+            voltearFichas(jugadaConvertida,&fichasVolteadas,turnoActual,&tableroJuego);
         
-            actualizarCantidadFichasColor(cantidadFichasColor,cantidadVolteadas,turnoActual);
+            actualizarCantidadFichasColor(cantidadFichasColor,fichasVolteadas.cantidad,turnoActual);
 
         }
 
@@ -91,7 +91,7 @@ int main(int argv, char* argc[]){
 
     // Liberamos la memoria pedida dinamicamente
     liberarMemoriaJugadores(&jugador1,&jugador2);
-    liberarMemoriaVolteadas(fichasVolteadas);
+    liberarMemoriaVolteadas(&fichasVolteadas);
     liberarMemoriaTablero(&tableroJuego);
 
     return 0;
