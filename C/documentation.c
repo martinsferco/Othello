@@ -23,18 +23,18 @@
 //   carpeta C/ que se encuentra en la raiz del proyecto. Luego abrimos una
 //   terminal dentro de dicha carpeta y ejecutamos el siguiente comando:
 //
-//          $ gcc main.c functions.c -o reversi
+//          $ gcc main.c functions.c -o othello
 // 
 //  Una vez compilado, ejecutamos el programa con el siguiente comando:
 // 
-//          $ ./reversi ../partidas/<nombreArchivo> 
+//          $ ./othello ../partidas/<nombreArchivo> 
 //  
 //  en donde <nombreArchivo> debe colocarse el nombre de archivo de juego que 
 //  quieras procesar (con la extension .txt), que se encuentra dentro de la
 //  carpeta partidas/. En el caso que se quiera utilizar otra carpeta con
 //  archivos de prueba deberiamos utilizar el siguiente comando:
 //
-//          $ ./reversi ../<tuCarpeta>/<nombreArchivo> 
+//          $ ./othello ../<tuCarpeta>/<nombreArchivo> 
 //
 //  reeemplazando <tuCarpeta> por el nombre de la carpeta que hayas agregado
 //  en la raiz del proyecto.
