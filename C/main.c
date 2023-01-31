@@ -32,8 +32,8 @@ int main(int argv, char* argc[]){
     char turnoActual = colorInicio;
 
     // Creamos e inicializamos el tablero
-    char tableroJuego[tamTablero][tamTablero];
-    inicializarTablero(tableroJuego,tamTablero);
+    Tablero tableroJuego;
+    inicializarTablero(&tableroJuego,tamTablero);
 
     // Aqui almacenamos las jugadas que vamos leyendo del archivo
     char jugadaLeida[100];
@@ -53,7 +53,7 @@ int main(int argv, char* argc[]){
 
 
     while (! partidaTerminada(cantidadFichasColor,jugadasRealizadas) && ! finLectura(verificadorLectura) && 
-             jugadaVerifica(jugadaLeida,turnoActual,tableroJuego,tamTablero,&fichasVolteadas,&cantidadVolteadas)){
+             jugadaVerifica(jugadaLeida,turnoActual,&tableroJuego,&fichasVolteadas,&cantidadVolteadas)){
 
         // Convertimos la jugada
         jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
@@ -64,7 +64,7 @@ int main(int argv, char* argc[]){
         // Vemos si no se salteo el turno
         if (jugadaConvertida.columna != -1 && jugadaConvertida.fila != -1){
 
-            voltearFichas(jugadaConvertida,fichasVolteadas,cantidadVolteadas,turnoActual,tableroJuego,tamTablero);
+            voltearFichas(jugadaConvertida,fichasVolteadas,cantidadVolteadas,turnoActual,&tableroJuego);
         
             actualizarCantidadFichasColor(cantidadFichasColor,cantidadVolteadas,turnoActual);
 
@@ -81,16 +81,18 @@ int main(int argv, char* argc[]){
     fclose(archivoJuego);
 
     // Mostramos el tablero final
-    mostrarTablero(tableroJuego,tamTablero);
+    mostrarTablero(&tableroJuego);
 
     // Generamos el archivo si la partida no termino y se leyo todo el archivo 
     if (partidaIncompleta(verificadorLectura,cantidadFichasColor,jugadasRealizadas)){
         printf("\nAVISO: Generando archivo para continuacion de partida...\n");
-        generarArchivo(tableroJuego,tamTablero,turnoActual);
+        generarArchivo(&tableroJuego,turnoActual);
     }
 
     // Liberamos la memoria pedida dinamicamente
-    liberarMemoria(&jugador1,&jugador2,fichasVolteadas);
+    liberarMemoriaJugadores(&jugador1,&jugador2);
+    liberarMemoriaVolteadas(fichasVolteadas);
+    liberarMemoriaTablero(&tableroJuego);
 
     return 0;
 }

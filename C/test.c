@@ -92,33 +92,37 @@ void test_finLectura(){
 
 void test_jugadaVerifica(){
     
-    char tablero1[8][8];
-    inicializarTablero(tablero1,8);
-    char tablero2[8][8] = {"BNXXXXXX","NNXXXXXX","XXXXXXXX","XXXXXXXX","XXXXXXXX","XXXXXXXX","XXXXXXXX","XXXXXXXX"};
+    Tablero tablero1,tablero2;
+    inicializarTablero(&tablero1,8);
+
+    char* fichas[8] = {"BNXXXXXX","NNXXXXXX","XXXXXXXX","XXXXXXXX","XXXXXXXX","XXXXXXXX","XXXXXXXX","XXXXXXXX"};
+    tablero2.casillas = fichas;
+    tablero2.dimension = 8;
 
     Casilla* registroVolteadas = NULL;
     int cantidadVolteadas;
 
-    assert(! jugadaVerifica("\n",'N',tablero1,8,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
-    assert(jugadaVerifica("\n",'N',tablero2,8,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("\n",'N',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(jugadaVerifica("\n",'N',&tablero2,&registroVolteadas,&cantidadVolteadas));
 
-    assert(! jugadaVerifica("AA\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("AB2\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("AA\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("AB2\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
 
-    assert(! jugadaVerifica("a9\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("Z1\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("a9\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("Z1\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
 
-    assert(! jugadaVerifica("d3\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("E4\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("d3\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("E4\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
 
-    assert(! jugadaVerifica("A1\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
-    assert(! jugadaVerifica("G8\n",'N',tablero1,8,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("A1\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(! jugadaVerifica("G8\n",'N',&tablero1,&registroVolteadas,&cantidadVolteadas));
 
-    assert(jugadaVerifica("d6\n",'B',tablero1,8,&registroVolteadas,&cantidadVolteadas));
-    assert(jugadaVerifica("C4\n",'N',tablero1,8,&registroVolteadas,&cantidadVolteadas));
+    assert(jugadaVerifica("d6\n",'B',&tablero1,&registroVolteadas,&cantidadVolteadas));
+    assert(jugadaVerifica("C4\n",'N',&tablero1,&registroVolteadas,&cantidadVolteadas));
 
     free(registroVolteadas);
+    liberarMemoriaTablero(&tablero1);
 }
 
 
@@ -155,18 +159,25 @@ void test_dobleSaltoTurno(){
 
 void test_existenJugadasPosibles(){
     
-    char tablero1[8][8];
-    inicializarTablero(tablero1,8);
+    Tablero tablero1,tablero2,tablero3;
+    inicializarTablero(&tablero1,8);
 
-    char tablero2[8][8] = {"XXXNBBBX","XXXXXXBB","XXXXXBXB","XXXXBXXB","XXXNXXXN","XXXXXXXX","XXXXXXXX","XXXXXXXX"};
-    char tablero3[8][8] = {"NNNNNNNN","XXXXXXXX","BBBBBBBB","XXXXXXXX","NNNNNNNN","XXXXXXXX","BBBBBBBB","XXXXXXXX"};
+    char* fichas2[8] = {"XXXNBBBX","XXXXXXBB","XXXXXBXB","XXXXBXXB","XXXNXXXN","XXXXXXXX","XXXXXXXX","XXXXXXXX"};
+    tablero2.casillas = fichas2;
+    tablero2.dimension = 8;
 
-    assert(existenJugadasPosibles('B',tablero1,8));
-    assert(existenJugadasPosibles('N',tablero1,8));
-    assert(existenJugadasPosibles('N',tablero2,8));
-    assert(existenJugadasPosibles('B',tablero2,8));
-    assert(! existenJugadasPosibles('B',tablero3,8));
-    assert(! existenJugadasPosibles('N',tablero3,8));
+    char* fichas3[8] = {"NNNNNNNN","XXXXXXXX","BBBBBBBB","XXXXXXXX","NNNNNNNN","XXXXXXXX","BBBBBBBB","XXXXXXXX"};
+    tablero3.casillas = fichas3;
+    tablero3.dimension = 8;
+
+    assert(existenJugadasPosibles('B',&tablero1));
+    assert(existenJugadasPosibles('N',&tablero1));
+    assert(existenJugadasPosibles('N',&tablero2));
+    assert(existenJugadasPosibles('B',&tablero2));
+    assert(! existenJugadasPosibles('B',&tablero3));
+    assert(! existenJugadasPosibles('N',&tablero3));
+
+    liberarMemoriaTablero(&tablero1);
 }
 
 
@@ -201,13 +212,15 @@ void test_verificarRango(){
 
 void test_ocupada(){
 
-    char tablero[8][8];
-    inicializarTablero(tablero,8);
+    Tablero tablero;
+    inicializarTablero(&tablero,8);
 
-    assert(ocupada(crearCasilla(4,4),tablero));
-    assert(ocupada(crearCasilla(3,3),tablero));
-    assert(! ocupada(crearCasilla(0,0),tablero));
-    assert(! ocupada(crearCasilla(7,7),tablero));
+    assert(ocupada(crearCasilla(4,4),tablero.casillas));
+    assert(ocupada(crearCasilla(3,3),tablero.casillas));
+    assert(! ocupada(crearCasilla(0,0),tablero.casillas));
+    assert(! ocupada(crearCasilla(7,7),tablero.casillas));
+
+    liberarMemoriaTablero(&tablero);
 }
 
 
@@ -230,24 +243,26 @@ void test_buscarARray(){
 
 void test_fichasVolteadasJugada(){
 
-    char tablero1[8][8];
-    inicializarTablero(tablero1,8);
+    Tablero tablero1,tablero2;
+    inicializarTablero(&tablero1,8);
 
-    char tablero2[8][8] = {"XXXNBBBX","XXXXXXBB","XXXXXBXB","XXXXBXXB","XXXNXXXN","XXXXXXXX","XXXXXXXX","XXXXXXXX"};
+    char* fichas[8] = {"XXXNBBBX","XXXXXXBB","XXXXXBXB","XXXXBXXB","XXXNXXXN","XXXXXXXX","XXXXXXXX","XXXXXXXX"};
+    tablero2.casillas = fichas;
+    tablero2.dimension = 8;
 
     Casilla* bufferVolteadas = NULL;
 
-    assert(fichasVolteadasJugada(crearCasilla(0,0),'B',tablero1,8,&bufferVolteadas) == 0);
-    assert(fichasVolteadasJugada(crearCasilla(0,0),'N',tablero1,8,&bufferVolteadas) == 0);
-    assert(fichasVolteadasJugada(crearCasilla(3,2),'N',tablero1,8,&bufferVolteadas) == 1);
-    assert(fichasVolteadasJugada(crearCasilla(5,3),'B',tablero1,8,&bufferVolteadas) == 1);
-    
-    assert(fichasVolteadasJugada(crearCasilla(0,7),'N',tablero2,8,&bufferVolteadas) == 9);
-    assert(fichasVolteadasJugada(crearCasilla(5,2),'B',tablero2,8,&bufferVolteadas) == 1);
-    assert(fichasVolteadasJugada(crearCasilla(0,2),'B',tablero2,8,&bufferVolteadas) == 1);
-    assert(fichasVolteadasJugada(crearCasilla(5,7),'B',tablero2,8,&bufferVolteadas) == 1);
+    assert(fichasVolteadasJugada(crearCasilla(0,0),'N',&tablero1,&bufferVolteadas) == 0);
+    assert(fichasVolteadasJugada(crearCasilla(0,0),'B',&tablero1,&bufferVolteadas) == 0);
+    assert(fichasVolteadasJugada(crearCasilla(3,2),'N',&tablero1,&bufferVolteadas) == 1);
+    assert(fichasVolteadasJugada(crearCasilla(5,3),'B',&tablero1,&bufferVolteadas) == 1);
+    assert(fichasVolteadasJugada(crearCasilla(0,7),'N',&tablero2,&bufferVolteadas) == 9);
+    assert(fichasVolteadasJugada(crearCasilla(5,2),'B',&tablero2,&bufferVolteadas) == 1);
+    assert(fichasVolteadasJugada(crearCasilla(0,2),'B',&tablero2,&bufferVolteadas) == 1);
+    assert(fichasVolteadasJugada(crearCasilla(5,7),'B',&tablero2,&bufferVolteadas) == 1);
 
     free(bufferVolteadas);
+    liberarMemoriaTablero(&tablero1);
 }
 
 

@@ -34,6 +34,22 @@
     } Jugador;
 
 
+    typedef struct {
+
+        char** casillas;
+        int dimension;
+
+    } Tablero;
+
+
+    typedef struct {
+
+        Casilla* coordenadas;
+        int cantidad; 
+ 
+    } Volteadas;
+
+
     // Prototipos de funciones en functions.c
 
     /*
@@ -111,7 +127,7 @@
     determina si la jugada leida es una jugada correcta. En caso de serlo retorna 1
     y en caso contrario devuelve 0.
     */
-    int jugadaVerifica(char* jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas, int* cantidadVolteadas);
+    int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Casilla** registroVolteadas, int* cantidadVolteadas);
 
     /*
     partidaIncompleta toma el verificador de lectura, la cantidad de fichas de cada
@@ -131,7 +147,7 @@
     existenJugadasPosibles toma el turno actual, el tablero de juego y su tamanio, y 
     se encarga de recorrer dicho tablero para determinar si existen jugadas posibles.
     */
-    int existenJugadasPosibles(char turnoActual, char tableroJuego[][8], int tamTablero);
+    int existenJugadasPosibles(char turnoActual, Tablero* tableroJuego);
 
     /*
     verificarFormato toma la jugada realizada y nos determina si cumple con el formato
@@ -155,7 +171,7 @@
     ocupada toma la jugada realizada y el tablero de juego, y nos determina si dicha
     casilla se encuentra ocupada. En caso de estarlo devuelve 1, si no 0. 
     */
-    int ocupada(Casilla jugada, char tableroJuego[][8]);
+    int ocupada(Casilla jugada, char** tableroJuego);
 
     /*
     convertirJugada toma la jugada realizada y el tamanio del tablero, y nos devuelve
@@ -192,7 +208,7 @@
     almacenar todas las coordenadas de las fichas que fueron volteadas, y almacena
     dicha direccion en el registroVolteadas.
     */
-    int fichasVolteadasJugada(Casilla jugada, char turnoActual, char tableroJuego[][8], int tamTablero, Casilla** registroVolteadas);
+    int fichasVolteadasJugada(Casilla jugada, char turnoActual, Tablero* tableroJuego, Casilla** registroVolteadas);
 
     /*
     enRango toma las la casilla analizada, el sentido y la direccion en donde
@@ -222,13 +238,13 @@
     inicializarTablero toma un tablero de juego y su tamanio y se encarga
     de inicializarlo para poder comenzar a jugar.
     */
-    void inicializarTablero(char tableroJuego[][8],int tamTablero);
+    void inicializarTablero(Tablero* tableroJuego, int tamTablero);
 
     /*
     mostrarTablero toma el tablero de juego actual y su tamanio y se encarga
     de mostrarlo por consola.
     */
-    void mostrarTablero(char tableroJuego[][8], int tamTablero);
+    void mostrarTablero(Tablero* tableroJuego);
 
     /*
     actualizarCantidadFichasColor toma el la cantidad de fichas de cada color, la 
@@ -243,7 +259,7 @@
     de modificar el tablero en base a la jugada y sus fichas volteadas para dicho
     turno.
     */
-    void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVolteadas ,char turnoActual, char tableroJuego[][8], int tamTablero);
+    void voltearFichas(Casilla jugada, Casilla* fichasVolteadas, int cantidadVolteadas ,char turnoActual, Tablero* tableroJuego);
 
     /*
     mensajeInicio toma la informacion de los jugadores y el color de inicio y 
@@ -268,12 +284,24 @@
     de generar un archivo con la informacion necesaria para continuar la partida
     desde la ultima jugada.
     */
-    void generarArchivo(char tableroFinal[][8], int tamTablero, char turnoFinal);
+    void generarArchivo(Tablero* tableroFinal, char turnoFinal);
 
     /*
-    liberarMemoria se encarga de liberar la memoria pedida dinamicamente de las
-    distintas variables del programa.
+    liberarMemoriaJugadores se encarga de liberar la memoria pedida dinamicamente para
+    los nombres de los jugadores.
     */
-    void liberarMemoria(Jugador* jugador1, Jugador* jugador2, Casilla* fichasVolteadasJugada);
+    void liberarMemoriaJugadores(Jugador* jugador1, Jugador* jugador2);
+
+    /*
+    liberarMemoriaVolteadas se encarga de liberar la memoria pedida dinamicamente
+    siempre que se haya pedido.
+    */
+    void liberarMemoriaVolteadas(Casilla* fichasVolteadas);
+
+    /*
+    liberarMemoriaTablero se encarga de liberar la memoria pedida dinamicamente
+    para almacenar las fichas colocadas en el tablero.
+    */
+    void liberarMemoriaTablero(Tablero* tableroJuego);
 
 #endif
