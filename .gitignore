@@ -2,4 +2,4 @@ Python/.pytest_cache
 Python/__pycache__
 C/*.out
 C/tests
-C/reversi
+C/othello

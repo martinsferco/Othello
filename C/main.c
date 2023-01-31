@@ -17,17 +17,16 @@ int main(int argv, char* argc[]){
         return 1;
     }
 
-    Jugador jugador1;
-    Jugador jugador2;
+    Jugador jugadores[2];
     char colorInicio;
 
     // Leemos la informacion, verificamos que sea correcta, y la almacenamos
-    if (! leerInformacionPreliminar(&jugador1,&jugador2,&colorInicio,archivoJuego)){
+    if (! leerInformacionPreliminar(jugadores,&colorInicio,archivoJuego)){
         fclose(archivoJuego);
         return 1; 
     }
 
-    mensajeInicio(jugador1,jugador2,colorInicio);
+    mensajeInicio(jugadores,colorInicio);
 
     char turnoActual = colorInicio;
 
@@ -52,8 +51,8 @@ int main(int argv, char* argc[]){
     fichasVolteadas.coordenadas = NULL;
 
 
-    while (! partidaTerminada(cantidadFichasColor,jugadasRealizadas) && ! finLectura(verificadorLectura) && 
-             jugadaVerifica(jugadaLeida,turnoActual,&tableroJuego,&fichasVolteadas)){
+    while (! partidaTerminada(cantidadFichasColor,jugadasRealizadas, jugadores) && ! finLectura(verificadorLectura) && 
+             jugadaVerifica(jugadaLeida,turnoActual,&tableroJuego,&fichasVolteadas,jugadores)){
 
         // Convertimos la jugada
         jugadaConvertida = convertirJugada(jugadaLeida,tamTablero);
@@ -90,7 +89,7 @@ int main(int argv, char* argc[]){
     }
 
     // Liberamos la memoria pedida dinamicamente
-    liberarMemoriaJugadores(&jugador1,&jugador2);
+    liberarMemoriaJugadores(jugadores);
     liberarMemoriaVolteadas(&fichasVolteadas);
     liberarMemoriaTablero(&tableroJuego);
 

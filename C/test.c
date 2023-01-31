@@ -18,6 +18,7 @@ int main(){
     test_buscarARray();
     test_fichasVolteadasJugada();
     test_enRango();
+    test_nombreTurno();
 
     return 0;
 }
@@ -66,6 +67,16 @@ void test_coloresDistintos(){
 
 void test_partidaTerminada(){
 
+    Jugador jugadores[2];
+    
+    jugadores[0].nombreJugador = malloc(sizeof(char) * (strlen("Martin Sferco") + 1));
+    strcpy(jugadores[0].nombreJugador,"Martin Sferco");
+    jugadores[0].colorJugador = 'B';
+
+    jugadores[1].nombreJugador = malloc(sizeof(char) * (strlen("Paula Gallo") + 1));
+    strcpy(jugadores[1].nombreJugador,"Paula Gallo");
+    jugadores[1].colorJugador = 'N';
+
     int cantidad1[] = {30,30};
     int cantidad2[] = {0,32};
     int cantidad3[] = {60,4};
@@ -73,13 +84,14 @@ void test_partidaTerminada(){
     Casilla jugadas1[] = {crearCasilla(-1,-1),crearCasilla(-1,-1)};
     Casilla jugadas2[] = {crearCasilla(1,1),crearCasilla(2,3)};
 
-    assert(! partidaTerminada(cantidad1,jugadas2));
-    assert(partidaTerminada(cantidad3,jugadas2));
-    assert(! partidaTerminada(cantidad1,jugadas2));
-    assert(partidaTerminada(cantidad2,jugadas2));
-    assert(partidaTerminada(cantidad2,jugadas1));
-    assert(partidaTerminada(cantidad1,jugadas1));
-    return;
+    assert(! partidaTerminada(cantidad1,jugadas2,jugadores));
+    assert(partidaTerminada(cantidad3,jugadas2,jugadores));
+    assert(! partidaTerminada(cantidad1,jugadas2,jugadores));
+    assert(partidaTerminada(cantidad2,jugadas2,jugadores));
+    assert(partidaTerminada(cantidad2,jugadas1,jugadores));
+    assert(partidaTerminada(cantidad1,jugadas1,jugadores));
+
+    liberarMemoriaJugadores(jugadores);
 }
 
 
@@ -92,6 +104,17 @@ void test_finLectura(){
 
 void test_jugadaVerifica(){
     
+    Jugador jugadores[2];
+    
+    jugadores[0].nombreJugador = malloc(sizeof(char) * (strlen("Martin Sferco") + 1));
+    strcpy(jugadores[0].nombreJugador,"Martin Sferco");
+    jugadores[0].colorJugador = 'B';
+
+    jugadores[1].nombreJugador = malloc(sizeof(char) * (strlen("Paula Gallo") + 1));
+    strcpy(jugadores[1].nombreJugador,"Paula Gallo");
+    jugadores[1].colorJugador = 'N';
+
+
     Tablero tablero1,tablero2;
     inicializarTablero(&tablero1,8);
 
@@ -102,27 +125,29 @@ void test_jugadaVerifica(){
     Volteadas fichasVolteadas;
     fichasVolteadas.coordenadas = NULL;
 
-    assert(! jugadaVerifica("\n",'N',&tablero1,&fichasVolteadas));
-    assert(! jugadaVerifica("\n",'B',&tablero1,&fichasVolteadas));
-    assert(jugadaVerifica("\n",'N',&tablero2,&fichasVolteadas));
+    assert(! jugadaVerifica("\n",'N',&tablero1,&fichasVolteadas,jugadores));
+    assert(! jugadaVerifica("\n",'B',&tablero1,&fichasVolteadas,jugadores));
+    assert(jugadaVerifica("\n",'N',&tablero2,&fichasVolteadas,jugadores));
 
-    assert(! jugadaVerifica("AA\n",'B',&tablero1,&fichasVolteadas));
-    assert(! jugadaVerifica("AB2\n",'B',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("AA\n",'B',&tablero1,&fichasVolteadas,jugadores));
+    assert(! jugadaVerifica("AB2\n",'B',&tablero1,&fichasVolteadas,jugadores));
 
-    assert(! jugadaVerifica("a9\n",'B',&tablero1,&fichasVolteadas));
-    assert(! jugadaVerifica("Z1\n",'B',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("a9\n",'B',&tablero1,&fichasVolteadas,jugadores));
+    assert(! jugadaVerifica("Z1\n",'B',&tablero1,&fichasVolteadas,jugadores));
 
-    assert(! jugadaVerifica("d3\n",'B',&tablero1,&fichasVolteadas));
-    assert(! jugadaVerifica("E4\n",'B',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("d3\n",'B',&tablero1,&fichasVolteadas,jugadores));
+    assert(! jugadaVerifica("E4\n",'B',&tablero1,&fichasVolteadas,jugadores));
 
-    assert(! jugadaVerifica("A1\n",'B',&tablero1,&fichasVolteadas));
-    assert(! jugadaVerifica("G8\n",'N',&tablero1,&fichasVolteadas));
+    assert(! jugadaVerifica("A1\n",'B',&tablero1,&fichasVolteadas,jugadores));
+    assert(! jugadaVerifica("G8\n",'N',&tablero1,&fichasVolteadas,jugadores));
 
-    assert(jugadaVerifica("d6\n",'B',&tablero1,&fichasVolteadas));
-    assert(jugadaVerifica("C4\n",'N',&tablero1,&fichasVolteadas));
+    assert(jugadaVerifica("d6\n",'B',&tablero1,&fichasVolteadas,jugadores));
+    assert(jugadaVerifica("C4\n",'N',&tablero1,&fichasVolteadas,jugadores));
 
-    free(fichasVolteadas.coordenadas);
+    liberarMemoriaVolteadas(&fichasVolteadas);
     liberarMemoriaTablero(&tablero1);
+    liberarMemoriaJugadores(jugadores);
+    
 }
 
 
@@ -277,4 +302,27 @@ void test_enRango(){
     assert(enRango(crearCasilla(7,7),-1,crearVector(1,1),8));
     assert(enRango(crearCasilla(6,3),1,crearVector(1,0),8));
     assert(enRango(crearCasilla(1,3),-1,crearVector(1,-1),8));
+}
+
+
+void test_nombreTurno(){
+
+    Jugador jugadores[2];
+    
+    jugadores[0].nombreJugador = malloc(sizeof(char) * (strlen("Martin Sferco") + 1));
+    strcpy(jugadores[0].nombreJugador,"Martin Sferco");
+    jugadores[0].colorJugador = 'B';
+
+    jugadores[1].nombreJugador = malloc(sizeof(char) * (strlen("Paula Gallo") + 1));
+    strcpy(jugadores[1].nombreJugador,"Paula Gallo");
+    jugadores[1].colorJugador = 'N';
+
+    char resultado1[] = "Martin Sferco";
+    char resultado2[] = "Paula Gallo";
+
+    assert((strcmp(nombreTurno('B',jugadores),resultado1) == 0));
+    assert((strcmp(nombreTurno('N',jugadores),resultado2) == 0));
+
+    free(jugadores[0].nombreJugador);
+    free(jugadores[1].nombreJugador);
 }

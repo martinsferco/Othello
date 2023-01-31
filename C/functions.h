@@ -80,7 +80,7 @@
     Si consigue pasar la informacion a las variables, devuelve 1.
     Si no consigue hacerlo, devuelve 0.
     */
-    int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorInicio, FILE* archivoJuego);
+    int leerInformacionPreliminar(Jugador* jugadores, char* colorInicio, FILE* archivoJuego);
 
     /*
     verificarInformacionPreliminar toma el color de los jugadores y el 
@@ -104,16 +104,16 @@
     int coloresDistintos(char* color1, char* color2);
 
     /*
-    partidaTerminada toma la cantidad de fichas colocadas por color y las
-    jugadas realizadas, y nos determina si la partida ya termino, o si se
-    puede seguir jugando. Va a verificar que:
+    partidaTerminada toma la cantidad de fichas colocadas por color, las
+    jugadas realizadas, y los jugadores, y nos determina si la partida ya termino,
+    o si se puede seguir jugando. Va a verificar que:
     - No hayamos colocado todas las fichas.
     - Ningun jugador se haya quedado sin fichas.
     - No se haya salteado dos veces el turno de manera consecutiva.
 
     Si la partida no termino devuelve 1, si no 0.
     */
-    int partidaTerminada(int* cantidadFichasColor, Casilla* jugadasRealizadas);
+    int partidaTerminada(int* cantidadFichasColor, Casilla* jugadasRealizadas, Jugador* jugadores);
 
     /*
     finLectura toma el puntero que devuelve la funcion fgets, y mientras dicho
@@ -123,11 +123,11 @@
     int finLectura(char* verificadorLectura);
 
     /*
-    jugadaVerifica toma la jugada que se leyo, el turno actual y el tablero y nos
-    determina si la jugada leida es una jugada correcta. En caso de serlo retorna 1
+    jugadaVerifica toma la jugada que se leyo, el turno actual y el tablero y los jugadores, 
+    y nos determina si la jugada leida es una jugada correcta. En caso de serlo retorna 1
     y en caso contrario devuelve 0.
     */
-    int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Volteadas* fichasVolteadas);
+    int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Volteadas* fichasVolteadas, Jugador* jugadores);
 
     /*
     partidaIncompleta toma el verificador de lectura, la cantidad de fichas de cada
@@ -264,19 +264,25 @@
     mensajeInicio toma la informacion de los jugadores y el color de inicio y 
     se encarga de mostrarnos por consola la informacion antes de comenzar a jugar.
     */
-    void mensajeInicio(Jugador jugador1, Jugador jugador2, char colorInicio);
+    void mensajeInicio(Jugador* jugadores, char colorInicio);
 
     /*
-    mensajeGanador toma la cantidad de fichas de ambos colores, y muestra un mensaje
-    por consola en donde quien gano, o si hubo un empate.
+    mensajeGanador toma la cantidad de fichas de ambos colores, y los jugadores , y
+    muestra un mensaje por consola en donde dice quien gano, o si hubo un empate.
     */
-    void mensajeGanador(int* cantidadFichasColor);
+    void mensajeGanador(int* cantidadFichasColor, Jugador* jugadores);
 
     /*
-    mensajeErrorJugador toma la jugada realizada y el turno del que jugo dicha jugada
-    y se encarga de mostrarnos un mensaje con la informacion del error.
+    mensajeErrorJugador toma la jugada realizada, el turno del que jugo dicha jugada
+    y los jugadores se encarga de mostrarnos un mensaje con la informacion del error.
     */
-    void mensajeErrorJugador(char* jugada, char turno);
+    void mensajeErrorJugador(char* jugada, char turno, Jugador* jugadores);
+
+    /*
+    nombreTurno toma a los jugadores y el color del turno, y nos devuelve la direccion
+    de memoria del nombre del jugador correspondiente a dicho color.
+    */
+    char* nombreTurno(char turno, Jugador* jugadores);
 
     /*
     generarArchivo el tablero final del juego y el ultimo turno, y se encarga
@@ -289,7 +295,7 @@
     liberarMemoriaJugadores se encarga de liberar la memoria pedida dinamicamente para
     los nombres de los jugadores.
     */
-    void liberarMemoriaJugadores(Jugador* jugador1, Jugador* jugador2);
+    void liberarMemoriaJugadores(Jugador* jugadores);
 
     /*
     liberarMemoriaVolteadas se encarga de liberar la memoria pedida dinamicamente

@@ -44,7 +44,7 @@ int verificarCantidadArgumentos(int cantidadArgumentos){
 
 
 
-int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorInicio, FILE* archivoJuego){
+int leerInformacionPreliminar(Jugador* jugadores, char* colorInicio, FILE* archivoJuego){
 
     char bufferJugador1[100];
     char bufferJugador2[100];
@@ -68,16 +68,16 @@ int leerInformacionPreliminar(Jugador* jugador1, Jugador* jugador2, char* colorI
     }
     
     // Copiamos la informacion obtenida
-    jugador1->nombreJugador = malloc(sizeof(char) * (strlen(nombre1) + 1));
-    strcpy(jugador1->nombreJugador,nombre1);
+    jugadores[0].nombreJugador = malloc(sizeof(char) * (strlen(nombre1) + 1));
+    strcpy(jugadores[0].nombreJugador,nombre1);
 
-    jugador1->colorJugador = toupper(color1[0]);
+    jugadores[0].colorJugador = toupper(color1[0]);
 
 
-    jugador2->nombreJugador = malloc(sizeof(char) * (strlen(nombre2) + 1));
-    strcpy(jugador2->nombreJugador,nombre2);
+    jugadores[1].nombreJugador = malloc(sizeof(char) * (strlen(nombre2) + 1));
+    strcpy(jugadores[1].nombreJugador,nombre2);
 
-    jugador2->colorJugador = toupper(color2[0]);
+    jugadores[1].colorJugador = toupper(color2[0]);
 
     *colorInicio = toupper(bufferColor[0]);
 
@@ -129,32 +129,32 @@ int coloresDistintos(char* color1, char* color2){
 
 
 
-int partidaTerminada(int* cantidadFichasColor, Casilla* jugadasRealizadas){
+int partidaTerminada(int* cantidadFichasColor, Casilla* jugadasRealizadas, Jugador* jugadores){
 
     // Verificamos si se hicieron dos saltos de turno consecutivos
     if (dobleSaltoTurno(jugadasRealizadas)){
         printf("Se han realizado dos saltos de turno de manera consectuvia. La partida ha terminado.\n");
-        mensajeGanador(cantidadFichasColor);
+        mensajeGanador(cantidadFichasColor,jugadores);
         return 1;
     }
 
     // Vemos si alguno de los jugadores se quedo sin fichas
     if (cantidadFichasColor[0] == 0){
-        printf("El jugador de las fichas blancas se quedo sin fichas. ");
-        mensajeGanador(cantidadFichasColor);
+        printf("El jugador de las fichas blancas se quedo sin fichas.\n");
+        mensajeGanador(cantidadFichasColor,jugadores);
         return 1;
     }
 
     if (cantidadFichasColor[1] == 0){
-        printf("El jugador de las fichas negras se ha quedado sin fichas. ");
-        mensajeGanador(cantidadFichasColor);
+        printf("El jugador de las fichas negras se ha quedado sin fichas.\n");
+        mensajeGanador(cantidadFichasColor,jugadores);
         return 1;
     }
 
      // Verificamos si colocamos todas las fichas
     if (cantidadFichasColor[0] + cantidadFichasColor[1] >= 64){
-        printf("Se han colocado todas las fichas sobre el tablero. ");
-        mensajeGanador(cantidadFichasColor);
+        printf("Se han colocado todas las fichas sobre el tablero.\n");
+        mensajeGanador(cantidadFichasColor,jugadores);
         return 1;
     }
 
@@ -176,14 +176,14 @@ int finLectura(char* verificadorLectura){
 
 
 
-int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Volteadas* fichasVolteadas){
+int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Volteadas* fichasVolteadas, Jugador* jugadores){
 
     // Primero vemos si es salto de turno
     if (strcmp(jugada,"\n") == 0){
 
         if (existenJugadasPosibles(turnoActual, tableroJuego)){
             printf("ERROR: Se salto de turno cuando existen jugadas posibles.\n");
-            mensajeErrorJugador(jugada,turnoActual);
+            mensajeErrorJugador(jugada,turnoActual,jugadores);
             return 0;
         }
 
@@ -191,13 +191,13 @@ int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Voltea
     }
 
     if (! verificarFormato(jugada)){
-        mensajeErrorJugador(jugada,turnoActual);
+        mensajeErrorJugador(jugada,turnoActual,jugadores);
         return 0;
     }
 
     if (! verificarRango(jugada, tableroJuego->dimension)){
         printf("ERROR: La jugada se sale de rango.\n");
-        mensajeErrorJugador(jugada,turnoActual);
+        mensajeErrorJugador(jugada,turnoActual,jugadores);
         return 0;
     }
 
@@ -205,7 +205,7 @@ int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Voltea
 
     if (ocupada(jugadaConvertida,tableroJuego->casillas)){
         printf("ERROR: La casilla se encuentra ocupada por otra ficha.\n");
-        mensajeErrorJugador(jugada,turnoActual);
+        mensajeErrorJugador(jugada,turnoActual,jugadores);
         return 0;
     }
     
@@ -213,7 +213,7 @@ int jugadaVerifica(char* jugada, char turnoActual, Tablero* tableroJuego, Voltea
 
     if (! cantidadFichasVolteadas){
         printf("ERROR: La jugada no genera cambios en el tablero.\n");
-        mensajeErrorJugador(jugada,turnoActual);
+        mensajeErrorJugador(jugada,turnoActual,jugadores);
         return 0;
     }
 
@@ -617,32 +617,32 @@ void voltearFichas(Casilla jugada, Volteadas* fichasVolteadas, char turnoActual,
 
 
 
-void mensajeInicio(Jugador jugador1, Jugador jugador2, char colorInicio){
+void mensajeInicio(Jugador* jugadores, char colorInicio){
 
     printf("____________________________\n");
-    printf("Jugador 1: %s\nColor: %c\n\n",jugador1.nombreJugador,jugador1.colorJugador);
-    printf("Jugador 2: %s\nColor: %c\n\n",jugador2.nombreJugador,jugador2.colorJugador);
+    printf("Jugador 1: %s\nColor: %c\n\n",jugadores[0].nombreJugador,jugadores[0].colorJugador);
+    printf("Jugador 2: %s\nColor: %c\n\n",jugadores[1].nombreJugador,jugadores[1].colorJugador);
     printf("Color inicio: %c\n",colorInicio);
     printf("____________________________\n");
 }
 
 
 
-void mensajeGanador(int* cantidadFichasColor){
+void mensajeGanador(int* cantidadFichasColor, Jugador* jugadores){
 
     if (cantidadFichasColor[0] == cantidadFichasColor[1])
         printf("Los jugadores han empatado.\n");
 
     if (cantidadFichasColor[0] > cantidadFichasColor[1])
-        printf("Ha ganado el jugador de las fichas blancas.\n");
+        printf("Ha ganado %s, el jugador de las fichas blancas.\n",nombreTurno('B',jugadores));
 
     if (cantidadFichasColor[0] < cantidadFichasColor[1])
-        printf("Ha ganado el jugador de las fichas negras.\n");
+        printf("Ha ganado %s, el jugador de las fichas negras.\n",nombreTurno('N',jugadores));
 }
 
 
 
-void mensajeErrorJugador(char* jugada, char turno){
+void mensajeErrorJugador(char* jugada, char turno, Jugador* jugadores){
 
     char color[10];
 
@@ -657,10 +657,20 @@ void mensajeErrorJugador(char* jugada, char turno){
         strcpy(color,"negras");
 
     if (strcmp(jugada,"\n") == 0)
-        printf("El error fue cometido por el jugador de las fichas %s\n",color);
+        printf("El error fue cometido por %s, el jugador de las fichas %s\n",nombreTurno(turno,jugadores),color);
 
     else
-        printf("El error fue cometido por el jugador de las fichas %s en la jugada %s\n",color,jugadaCopiada);
+        printf("El error fue cometido por %s, el jugador de las fichas %s en la jugada %s\n",nombreTurno(turno,jugadores),color,jugadaCopiada);
+}
+
+
+
+ char* nombreTurno(char turno, Jugador *jugadores){
+
+    if (jugadores[0].colorJugador == turno)
+        return jugadores[0].nombreJugador;
+    
+    return jugadores[1].nombreJugador;
 }
 
 
@@ -689,10 +699,10 @@ void generarArchivo(Tablero* tableroFinal, char turnoFinal){
 
 
 
-void liberarMemoriaJugadores(Jugador* jugador1, Jugador* jugador2){
+void liberarMemoriaJugadores(Jugador* jugadores){
 
-    free(jugador1->nombreJugador);
-    free(jugador2->nombreJugador);
+    free(jugadores[0].nombreJugador);
+    free(jugadores[1].nombreJugador);
 }
 
 

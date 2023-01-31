@@ -24,6 +24,7 @@
     void test_buscarARray();
     void test_fichasVolteadasJugada();
     void test_enRango();
+    void test_nombreTurno();
     
 #endif
 
