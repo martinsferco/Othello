@@ -144,8 +144,8 @@
     int dobleSaltoTurno(Casilla* jugadasRealizadas);
 
     /*
-    existenJugadasPosibles toma el turno actual, el tablero de juego y su tamanio, y 
-    se encarga de recorrer dicho tablero para determinar si existen jugadas posibles.
+    existenJugadasPosibles toma el turno actual, y el tablerod de juego, y determina
+    si existen jugadas posibles con dichas condiciones.
     */
     int existenJugadasPosibles(char turnoActual, Tablero* tableroJuego);
 
@@ -202,8 +202,8 @@
     int buscarArray(char objetivo, char* arrayValores, int tamArray);
 
     /*
-    fichasVolteadaJugada toma la jugada realizada, el turno actual, el tablero de
-    juego y su tamanio. Si luego de analizar todas las direcciones y sentidos, 
+    fichasVolteadaJugada toma la jugada realizada, el turno actual, y el tablero de
+    juego. Si luego de analizar todas las direcciones y sentidos, 
     se encontro que la jugada realiza volteos, pide memoria dinamicamente para 
     almacenar todas las coordenadas de las fichas que fueron volteadas, y almacena
     dicha direccion en el registroVolteadas.
@@ -241,7 +241,7 @@
     void inicializarTablero(Tablero* tableroJuego, int tamTablero);
 
     /*
-    mostrarTablero toma el tablero de juego actual y su tamanio y se encarga
+    mostrarTablero toma el tablero de juego actual y se encarga
     de mostrarlo por consola.
     */
     void mostrarTablero(Tablero* tableroJuego);
@@ -255,9 +255,8 @@
 
     /*
     voltearFichas toma la jugada que se realizo, las fichas volteadas por dicha
-    jugada y cuantas son, el turno actual, el tablero y su tamanio, y se encarga
-    de modificar el tablero en base a la jugada y sus fichas volteadas para dicho
-    turno.
+    jugada, el turno actual y el tablero, y se encarga de modificar el tablero en 
+    base a la jugada y sus fichas volteadas para dicho turno.
     */
     void voltearFichas(Casilla jugada, Volteadas* fichasVolteadas ,char turnoActual, Tablero* tableroJuego);
 

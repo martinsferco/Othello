@@ -69,13 +69,25 @@
 //
 //          - Tablero:       
 //                    La informacion de las fichas jugadas de cada color, la
-//            iremos almacenanando en un dato de tipo char[][], para que podamos
-//            tener una idea de coordenadas en X e Y. Cada una de las 
-//            casillas tendra tres posibles valores:
+//            iremos almacenanando en una estrutura de llamado Tablero, la
+//            cual tiene dos campos. Uno que es de tipo char**, en donde
+//            guardaremos cual es la ficha colocada en cada una de las posiciones:
 //
 //                  - 'X' - No hay ninguna ficha colocada.
 //                  - 'B' - Hay una ficha blanca colocada.
 //                  - 'N' - Hay una ficha negra colocada.
+//
+//            Esta eleccion, nos permite tener una nocion de coordenadas X e Y, ya
+//            que estamos trabajando con la nocion de array bidimensional.
+//            El segundo campo es de tipo int, y almacena la dimension del
+//            tablero.
+//
+//          - Fichas volteadas:
+//                              Para ir almacenando las fichas volteadas por una
+//            jugada, creamos una estructura llamada Volteadas. Su primer campo
+//            es de tipo Casilla* y guardaremos todas las casillas que fueron 
+//            volteadas. El segundo campo es de tipo int y sirve para guardar
+//            la cantidad de fichas que fueron volteadas.
 //
 //          - Casillas:
 //                      Para ir pasando la informacion de las casillas entre 
@@ -104,8 +116,8 @@
 //                  - Se salta el turno cuando habia jugadas posibles.
 //      
 //              - Finalizacion de lectura:
-//                                       Esto indica que se llego al final
-//              del archivo y no se se proporcionaron mas jugadas.
+//                                        Esto indica que se llego al final
+//              del archivo y no se proporcionaron mas jugadas.
 //
 //              - Juego terminado: 
 //
