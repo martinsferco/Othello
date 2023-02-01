@@ -3,3 +3,4 @@ Python/__pycache__
 C/*.out
 C/tests
 C/othello
+/.vscode

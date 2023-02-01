@@ -1,9 +1,9 @@
-// ________________________________________________________________________
+// ___________________________________________________________________________
 // LICENCIATURA EN CIENCIAS DE LA COMPUTACION - R123 Programacion II - 2022
 //
 // Documentacion Trabajo Practico Final - Parte C
 // Alumno: Sferco Martin
-// ________________________________________________________________________
+// ___________________________________________________________________________
 //
 // - ARCHIVOS DE JUGADAS: 
 //                     En cuanto al formato de los archivos de jugadas, una
