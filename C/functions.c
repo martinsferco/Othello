@@ -396,9 +396,13 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, Tablero *tableroJueg
 
   char colorOpuesto = cambiarTurno(turnoActual);
 
-  // Indices de movimiento
+  // Coordenadas de casillas que vamos recorriendo
   int iX;
   int iY;
+
+  // Indices de desplazamiento
+  int dx;
+  int dy;
 
   // Para llevar el registro de las fichas encontradas del otro color
   // en cada una de las direcciones
@@ -415,8 +419,11 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, Tablero *tableroJueg
     // Recorremos cada uno de los sentidos
     for (int s = 0; s < 2; s++) {
 
-      iX = jugada.columna + sentido[s] * direccion[d].x;
-      iY = jugada.fila + sentido[s] * direccion[d].y;
+      dx = sentido[s] * direccion[d].x;
+      dy = sentido[s] * direccion[d].y;
+
+      iX = jugada.columna + dx;
+      iY = jugada.fila + dy;
 
       cantidadFichasColorOpuesto = 0;
 
@@ -427,14 +434,14 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, Tablero *tableroJueg
         cantidadFichasColorOpuesto++;
 
         // Vemos si la siguiente casilla encierra a todas las que hemos encontrado
-        if (tableroJuego->casillas[iX + sentido[s] * direccion[d].x][iY + sentido[s] * direccion[d].y] == turnoActual) {
+        if (tableroJuego->casillas[iX + dx][iY + dy] == turnoActual) {
 
           copiarCasillas(fichasVolteadas, cantidadVolteadas, fichasColorOpuesto, cantidadFichasColorOpuesto);
           cantidadVolteadas += cantidadFichasColorOpuesto;
         }
         // Nos seguimos moviendo en esa direccion
-        iX += sentido[s] * direccion[d].x;
-        iY += sentido[s] * direccion[d].y;
+        iX += dx;
+        iY += dy;
       }
     }
   }
