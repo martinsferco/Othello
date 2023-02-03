@@ -165,15 +165,7 @@ int partidaTerminada(int *cantidadFichasColor, Casilla *jugadasRealizadas, Jugad
 
 int finLectura(char *verificadorLectura) {
 
-  // Vemos si llegamos al final del archivo
-  if (verificadorLectura == NULL) {
-   
-    printf("Se ha llegado al final del archivo de jugadas. No se puede determinar un ganador...\n");
-    return 1;
-
-  }
-
-  return 0;
+  return verificadorLectura == NULL;
 }
 
 
@@ -192,12 +184,12 @@ int jugadaVerifica(char *jugada, char turnoActual, Tablero *tableroJuego, Voltea
     return 1;
   }
 
-  if (!verificarFormato(jugada)) {
+  if (! verificarFormato(jugada)) {
     mensajeErrorJugador(jugada, turnoActual, jugadores);
     return 0;
   }
 
-  if (!verificarRango(jugada, tableroJuego->dimension)) {
+  if (! verificarRango(jugada, tableroJuego->dimension)) {
     printf("ERROR: La jugada se sale de rango.\n");
     mensajeErrorJugador(jugada, turnoActual, jugadores);
     return 0;
@@ -213,7 +205,7 @@ int jugadaVerifica(char *jugada, char turnoActual, Tablero *tableroJuego, Voltea
 
   int cantidadFichasVolteadas = fichasVolteadasJugada(jugadaConvertida, turnoActual, tableroJuego, &(fichasVolteadas->coordenadas));
 
-  if (!cantidadFichasVolteadas) {
+  if (! cantidadFichasVolteadas) {
     printf("ERROR: La jugada no genera cambios en el tablero.\n");
     mensajeErrorJugador(jugada, turnoActual, jugadores);
     return 0;
@@ -428,7 +420,8 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, Tablero *tableroJueg
 
       cantidadFichasColorOpuesto = 0;
 
-      while (enRango(crearCasilla(iX, iY), sentido[s], direccion[d], tableroJuego->dimension) && tableroJuego->casillas[iX][iY] == colorOpuesto) {
+      while (enRango(crearCasilla(iX, iY), sentido[s], direccion[d], tableroJuego->dimension) &&
+             tableroJuego->casillas[iX][iY] == colorOpuesto) {
 
         fichasColorOpuesto[cantidadFichasColorOpuesto] = crearCasilla(iX, iY);
         cantidadFichasColorOpuesto++;

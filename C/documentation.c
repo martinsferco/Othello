@@ -9,13 +9,14 @@
 //                     En cuanto al formato de los archivos de jugadas, una
 //   vez que hayan escrito todas las jugadas que contendra el archivo NO
 //   toquen la tecla enter nuevamente. El programa detectara que se quizo
-//   saltar el turno y la partida terminara debido a un error de jugada. 
+//   saltar el turno y la partida podria terminar debido a un error de jugada. 
 //   Esto afecta a cuando se quiere dejar una partida a medias, ya que la
 //   partida se consideraria terminda por un error, y no se generaria el
 //   archivo para su posterior continuacion en el programa de Python.  
 //   
 //   En resumen, el cursor debe terminar en el mismo renglon en el cual
-//   se escribio la ultima jugada.
+//   se escribio la ultima jugada o linea vacia, en caso de ser un salto de
+//   turno.
 //
 //
 // - EJECUCION DEL PROGRAMA:

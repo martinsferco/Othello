@@ -51,8 +51,7 @@ int main(int argv, char *argc[]) {
   fichasVolteadas.coordenadas = NULL;
 
 
-  while (! partidaTerminada(cantidadFichasColor, jugadasRealizadas, jugadores) &&
-         ! finLectura(verificadorLectura) &&
+  while (! finLectura(verificadorLectura) &&
            jugadaVerifica(jugadaLeida, turnoActual, &tableroJuego, &fichasVolteadas, jugadores)) {
 
     // Convertimos la jugada
@@ -84,8 +83,9 @@ int main(int argv, char *argc[]) {
   mostrarTablero(&tableroJuego);
 
   // Generamos el archivo si la partida no termino y se leyo todo el archivo 
-  if (partidaIncompleta(verificadorLectura, cantidadFichasColor, jugadasRealizadas)) {
-
+  if (finLectura(verificadorLectura) && ! partidaTerminada(cantidadFichasColor,jugadasRealizadas,jugadores)) {
+    
+    printf("La partida a quedado a medias, no se puede determinar un ganador...\n");
     printf("\nAVISO: Generando archivo para continuacion de partida...\n");
     generarArchivo(&tableroJuego, turnoActual);
   
