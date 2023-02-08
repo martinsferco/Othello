@@ -132,7 +132,7 @@ int partidaTerminada(int *cantidadFichasColor, Casilla *jugadasRealizadas, Jugad
 
   // Verificamos si se hicieron dos saltos de turno consecutivos
   if (dobleSaltoTurno(jugadasRealizadas)) {
-    printf("Se han realizado dos saltos de turno de manera consectuvia. La partida ha terminado.\n");
+    printf("Se han realizado dos saltos de turno de manera consecutiva. La partida ha terminado.\n");
     mensajeGanador(cantidadFichasColor, jugadores);
     return 1;
   }
