@@ -115,7 +115,7 @@ def pedirJugadaJugador(colorJugador, fichasJugadas, tamTablero):
     # Si la jugada verifica, la convertimos a la tupla de coordenadas y la retornamos
     jugadaJugador = convertirCoordenadas(jugadaJugador)
     
-    # Devolvemos la fichas jugadas y las posiciones que modifica
+    # Devolvemos la fichas jugadas y las coordenadas de las fichas que voltea
     return jugadaJugador, fichasVolteadasJugada(fichasJugadas, jugadaJugador, colorJugador, tamTablero)
 
 
@@ -257,8 +257,8 @@ def posicionesPermitidas(turnoActual, fichasJugadas, tamTablero):
 
     Dado el turno actual, las fichas que ya se colocaron en el tablero y su tamaño, 
     nos devuelve un diccionarion en donde las claves son las coordenadas de las posiciones
-    permitidas y los valores son un conjunto de tuplas que representan las fichas que fueron 
-    volteadas. 
+    permitidas y los valores son un conjunto de tuplas que representan las fichas que son
+    volteadas si se coloca una ficha en dicha casilla permitida.
     En caso de que no exista una casilla permitida, el diccionario que se devuelve es vacío.
     """
 
@@ -304,7 +304,7 @@ def vecinasLibresFichasOpuestas(turnoActual, fichasJugadas, tamTablero):
 def vecinasLibres(coordenada, fichasJugadas, tamTablero):
 
     """
-    vecinasLibres :: (int,int) dict(str:set((int,int))) int-> set((int,int))
+    vecinasLibres :: (int,int) dict(str:set((int,int))) int -> set((int,int))
 
     Dada una coordenada de ficha, las fichas jugadas en el tablero y el tamaño del mismo,
     nos devuelve un conjunto con todas las casillas adyacantes libres a dicha ficha.

@@ -3,9 +3,10 @@
 int main(int argv, char *argc[]) {
 
   int tamTablero = 8;
+  int maxLecturaBuffer = 100;
 
   // Chequeamos la cantidad de argumentos
-  if (!verificarCantidadArgumentos(argv))
+  if (! verificarCantidadArgumentos(argv))
     return 1;
 
   // Abrimos el archivo con el nombre pasado como argumentos
@@ -21,7 +22,7 @@ int main(int argv, char *argc[]) {
   char colorInicio;
 
   // Leemos la informacion, verificamos que sea correcta, y la almacenamos
-  if (!leerInformacionPreliminar(jugadores, &colorInicio, archivoJuego)) {
+  if (! leerInformacionPreliminar(jugadores, &colorInicio, archivoJuego)) {
     fclose(archivoJuego);
     return 1;
   }
@@ -35,15 +36,16 @@ int main(int argv, char *argc[]) {
   inicializarTablero(&tableroJuego, tamTablero);
 
   // Aqui almacenamos las jugadas que vamos leyendo del archivo
-  char jugadaLeida[100];
+  char jugadaLeida[maxLecturaBuffer];
   Casilla jugadaConvertida;
 
   // Leemos la primer jugada
-  char *verificadorLectura = fgets(jugadaLeida, 100, archivoJuego);
+  char *verificadorLectura = fgets(jugadaLeida, maxLecturaBuffer, archivoJuego);
 
-  // Iremos almacenando las dos ultimas jugadas
+  // Iremos almacenando las dos ultimas jugadas que se realizaron
   Casilla jugadasRealizadas[2] = { crearCasilla(0, 0), crearCasilla(0, 0) };
 
+  // La cantidad de fichas que tiene cada uno de los colores
   int cantidadFichasColor[] = { 2, 2 };
 
   // Iremos guardando las fichas que fueron volteadas
@@ -73,7 +75,7 @@ int main(int argv, char *argc[]) {
     turnoActual = cambiarTurno(turnoActual);
 
     // Leemos la nueva jugada
-    verificadorLectura = fgets(jugadaLeida, 100, archivoJuego);
+    verificadorLectura = fgets(jugadaLeida, maxLecturaBuffer, archivoJuego);
 
   }
 
@@ -82,9 +84,10 @@ int main(int argv, char *argc[]) {
   // Mostramos el tablero final
   mostrarTablero(&tableroJuego);
 
-  // Generamos el archivo si la partida no termino y se leyo todo el archivo 
+  // Vemos si la partida termino o si quedo a medias
   if (finLectura(verificadorLectura) && ! partidaTerminada(cantidadFichasColor,jugadasRealizadas,jugadores)) {
     
+    // Si quedo a medias, generamos el archivo correspondiente
     printf("La partida a quedado a medias, no se puede determinar un ganador...\n");
     printf("\nAVISO: Generando archivo para continuacion de partida...\n");
     generarArchivo(&tableroJuego, turnoActual);

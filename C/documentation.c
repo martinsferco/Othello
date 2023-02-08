@@ -7,7 +7,7 @@
 //
 // - ARCHIVOS DE JUGADAS: 
 //                     En cuanto al formato de los archivos de jugadas, una
-//   vez que hayan escrito todas las jugadas que contendra el archivo NO
+//   vez que se hayan escrito todas las jugadas que contendra el archivo NO
 //   toquen la tecla enter nuevamente. El programa detectara que se quizo
 //   saltar el turno y la partida podria terminar debido a un error de jugada. 
 //   Esto afecta a cuando se quiere dejar una partida a medias, ya que la
@@ -43,7 +43,7 @@
 //
 //  - EJECUCION DE LOS TESTS:
 //                           Para compilar los archivos de tests, primero
-//    debemos entrar a la carpeta C/ que se encuentra en la raiz del del 
+//    debemos entrar a la carpeta C/ que se encuentra en la raiz del 
 //    proyecto. Luego abrimos una terminal dentro de dicha carpeta y 
 //    ejecutamos el siguiente comando:
 //
@@ -55,9 +55,20 @@
 //
 //    Apareceran muchos mensajes por pantalla, pero se debe a que las 
 //    funciones que testeamos imprimen la informacion de las jugadas
-//    erroneas. Aclaro que no son errores en los tests.
+//    erroneas. NO son errores en los tests.
 //
 //  
+//  - DIVISION DE ARCHIVOS:
+//                          Para facilitar la lectura y el trabajo, separamos
+//    la totalidad del programa en diferentes archivos:
+//    
+//           - main.c        Se agrupan todas las funciones realizadas.
+//
+//           - functions.c   Realizamos todas las funciones por separada.
+//
+//           - test.c        Testeos de las funciones de functions.c
+//
+//
 //  - DISENIO DE DATOS Y RESOLUCION:
 //                                  A continuacion, explicaremos un poco el
 //    disenio de datos que hemos utilizado y un poco sobre la resolucion:
@@ -120,12 +131,10 @@
 //                                        Esto indica que se llego al final
 //              del archivo y no se proporcionaron mas jugadas.
 //
-//              - Juego terminado: 
-//
-//                  - Se colocaron todas las fichas.
-//                  - Alguno de los jugadores se quedo sin fichas.
-//                  - Se salto el turno dos veces consecutivas.
-//
+//          En el caso de que se haya completado la partida luego de leer todas
+//          las jugadas y que no hayan tenido errores, se mostrara un mensaje por
+//          pantalla que indicara el ganador. En caso contrario, la partida quedo
+//          a medias.
 //
 //          - Generacion de archivo: 
 //                                  En el caso de que la partida haya

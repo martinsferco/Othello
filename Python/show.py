@@ -39,7 +39,7 @@ def mostrarTablero(fichasJugadas,tamTablero):
 def mensajeFinalJuego(fichasJugadas):
     
     """
-    mensajeFinalJuego :: str dict(str:set((int,int))) str -> None
+    mensajeFinalJuego :: dict(str:set((int,int))) -> None
 
     Dada las condiciones de la última jugada, las fichas jugadas, y el turno
     nos muestra un mensaje adecuado relacionado a la terminación del juego.
@@ -127,7 +127,7 @@ def errorJugada(error):
 def mensajeInicio(nivelDificultad, colorJugador, colorMaquina,turnoActual):
 
     """
-    mensajeInicio :: int str -> None
+    mensajeInicio :: int str str str -> None
 
     Nos muestra un mensaje de inicio antes de comenzar el juego.
     """ 

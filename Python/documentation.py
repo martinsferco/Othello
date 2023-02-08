@@ -32,7 +32,8 @@
 #
 #           $ python3 main.py ../<tuCarpeta>/<nombreArchivo> <colorJugador> <nivelDificultad>
 #
-#   reemplazando <tuCarpeta> por el nombre de la carpeta que hayas incluido.
+#   reemplazando <tuCarpeta> por el nombre de la carpeta que hayas incluido en la raiz
+#   del proyecto.
 #
 #
 # - EJECUCION DE LOS TESTS:
@@ -89,5 +90,4 @@
 #       - Analisis de archivo leido:
 #                                   Como estamos suponiendo que el archivo pasado por linea de 
 #       comandos es un archivo correcto, no verificamos la informacion que posee dentro. Lo 
-#       consideramos correcto ya que fue generado por el programa en C y no fue realizado por
-#       una persona.
+#       consideramos correcto ya que fue generado por el programa en C.

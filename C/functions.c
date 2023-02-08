@@ -356,6 +356,7 @@ Casilla convertirJugada(char *jugada, int tamTablero) {
 char cambiarTurno(char turnoActual) {
 
   if (turnoActual == 'B')
+    
     return 'N';
 
   return 'B';
@@ -446,7 +447,7 @@ int fichasVolteadasJugada(Casilla jugada, char turnoActual, Tablero *tableroJueg
     }
   }
 
-  // Si la jugada genera cambios, guardamos la informacion
+  // Si la jugada genera cambios, guardamos la informacion en el registro de volteadas
   if (cantidadVolteadas)
     almacenarInformacionVolteadas(registroVolteadas, cantidadVolteadas, fichasVolteadas);
 
@@ -481,6 +482,7 @@ int enRango(Casilla casilla, int sentido, VectorDireccion direccion, int tamTabl
 
   else
     enRangoX = 1;
+
 
   if (desplazamientoY != 0) {
 
